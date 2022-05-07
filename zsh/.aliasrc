@@ -1,0 +1,15 @@
+alias nv="nvim"
+alias lg="lazygit"
+alias dots="cd ~/.dotfiles/"
+alias py="python3"
+alias clip='xclip -selection clipboard'
+alias hh="npx hardhat"
+
+alias config-i3="nvim ~/.config/i3/config"
+alias config-polybar="nvim ~/.config/polybar/config.ini"
+alias config-alacritty="nvim ~/.config/alacritty/alacritty.yml"
+alias config-picom="nvim ~/.config/picom/picom.conf"
+alias config-rofi="nvim ~/.config/rofi/config.rasi"
+alias config-nvim="cd ~/.config/nvim"
+
+alias steam="DRI_PRIME=1 steam &"
