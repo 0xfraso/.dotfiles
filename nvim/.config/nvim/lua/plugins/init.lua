@@ -9,6 +9,10 @@ return require('packer').startup(function(use)
   -- debug plugin
   use { 'mfussenegger/nvim-dap' }
 
+  use { 'junegunn/fzf.vim' }
+
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
   -- colorschemes
   use {
     "thedenisnikulin/vim-cyberpunk",
@@ -36,11 +40,9 @@ return require('packer').startup(function(use)
     'nvim-telescope/telescope.nvim',
     requires = {
       {'nvim-lua/plenary.nvim'},
-      { 'nvim-telescope/telescope-project.nvim' },
-      { 'nvim-telescope/telescope-media-files.nvim' }
     },
     cmd = "Telescope",
-    event = "BufWinEnter", 
+    event = "BufWinEnter",
     config = get_config('telescope-config')
   }
 

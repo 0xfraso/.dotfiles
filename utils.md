@@ -55,3 +55,6 @@ set preview_images_method ueberzug
 pip3 install ueberzug
 libx11-dev libxtst-dev python3-docopt python3-xlib python3-pil python3-attr
 ```
+## bat (cat clone with syntax highlighting)
+
+`export MANPAGER="sh -c 'col -bx | bat -l man -p'"`

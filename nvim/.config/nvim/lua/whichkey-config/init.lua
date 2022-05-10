@@ -17,9 +17,8 @@ local toggle_lazygit = function()
   return lazygit:toggle()
 end
 local mappings = {
-  f = {
+  r = {
     name = "Telescope",
-    p = { "<cmd>lua require('telescope').extensions.project.project{ display_type = 'minimal' }<CR>" , "Projects"},
     f = {"<cmd>lua require('telescope.builtin').find_files()<cr>", "Find Files"},
     b = {"<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown({}))<cr>", "Buffers"},
     g = {"<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live Grep"},
@@ -28,6 +27,15 @@ local mappings = {
     c = {"<cmd>lua require('colors').choose_colorscheme()<cr>", "Colorscheme", },
     s = { "<cmd>lua require'telescope'.extensions.luasnip.luasnip()<CR>", "Snippets" },
     d = { "<cmd>lua require('telescope-config.locals').search_dotfiles()<CR>", ".dotfiles" },
+  },
+  f = {
+    name = "fzf",
+    f = {"<cmd>Files<cr>", "Find files"},
+    g = {"<cmd>Rg<cr>", "Grep"},
+    l = {"<cmd>Lines<cr>", "Lines"},
+    b = {"<cmd>Buffers<cr>", "Buffers"},
+    c = {"<cmd>Colors<cr>", "Buffers"},
+    h = {"<cmd>Helptags<cr>", "Buffers"},
   },
   q = {":q<cr>", "Quit"},
   Q = {":wq<cr>", "Save & Quit"},
