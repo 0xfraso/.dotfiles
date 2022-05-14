@@ -34,13 +34,15 @@ vim.o.shiftwidth = 2
 vim.bo.shiftwidth = 2
 vim.o.autoindent = true
 vim.bo.autoindent = true
-vim.o.expandtab = true
-vim.bo.expandtab = true
 vim.cmd[[set noswapfile]]
+
+vim.g.noexpandtab = true
 
 -- fzf options
 vim.cmd[[ let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.9, 'highlight': 'Comment' } } ]]
 vim.cmd[[ let g:fzf_preview_window = 'right:50%' ]]
+
+vim.cmd[[ autocmd Filetype python setlocal ts=4 sw=4 sts=0 expandtab ]]
 
 
 -- highlight yanked text for 200ms using the "Visual" highlight group

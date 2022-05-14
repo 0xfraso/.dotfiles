@@ -181,7 +181,6 @@ for_window [class="^.*"] border pixel 2
 
 # notify 
   bindsym $mod+Shift+w exec --no-startup-id ~/bin/battery-info.sh
-  bindsym $mod+Shift+m exec --no-startup-id ~/bin/battery-mode.sh
 
 # rofi
   bindsym $mod+Control+q exec --no-startup-id ~/.dotfiles/scripts/powermenu.sh

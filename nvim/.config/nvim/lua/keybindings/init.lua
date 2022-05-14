@@ -23,3 +23,7 @@ map('n', '<leader>a', 'gg<S-v>G', {noremap = true, silent = false})
 
 -- delete without yank
 map('n', '<leader>d', '"_d', {noremap = true, silent = false})
+
+-- add blank lines
+map('n', '<leader>j', 'o<ESC>', {noremap = true, silent = false})
+map('n', '<leader>k', 'O<ESC>', {noremap = true, silent = false})
