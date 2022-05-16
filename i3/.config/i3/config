@@ -7,10 +7,10 @@ font pango:Iosevka 14
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-#bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # start a terminal
   bindsym $mod+Return exec --no-startup-id alacritty
@@ -173,14 +173,14 @@ mode "$mode_gaps" {
 
 for_window [class="^.*"] border pixel 2
 
-# krunner (KDE)
-  bindsym $mod+Shift+d exec --no-startup-id krunner
+# battery-mode.sh
+	bindsym $mod+Shift+w exec --no-startup-id ~/.dotfiles/bin/bin/battery-mode.sh
+
+# toggle alacritty opacity
+  bindsym $mod+Control+a exec --no-startup-id ~/.dotfiles/bin/bin/toggle_alacritty_opacity
 
 # polybar (with toggle)
   bindsym $mod+p exec --no-startup-id ~/.config/polybar/toggle.sh
-
-# notify 
-  bindsym $mod+Shift+w exec --no-startup-id ~/bin/battery-info.sh
 
 # rofi
   bindsym $mod+Control+q exec --no-startup-id ~/.dotfiles/scripts/powermenu.sh
@@ -190,30 +190,17 @@ for_window [class="^.*"] border pixel 2
   bindsym $mod+Control+w exec --no-startup-id ~/.dotfiles/scripts/wifi.sh
   bindsym $mod+Control+s exec --no-startup-id ~/.dotfiles/scripts/scrot.sh
   bindsym $mod+Control+p exec --no-startup-id ~/.dotfiles/scripts/monitor.sh
-  bindsym $mod+Control+n exec --no-startup-id rofi -show Themes:~/.dotfiles/scripts/themeswitcher.sh
-  bindsym $mod+Control+m exec --no-startup-id rofi -show Kill:~/.dotfiles/scripts/kill.sh
+  bindsym $mod+Control+t exec --no-startup-id rofi -show Themes:~/.dotfiles/scripts/themeswitcher.sh
+  bindsym $mod+Control+k exec --no-startup-id rofi -show Kill:~/.dotfiles/scripts/kill.sh
 
 # screen brightness controls
 # sudo apt install light
 # sudo chmod +s /usr/bin/light
-  #bindsym XF86MonBrightnessUp exec light -A 5
-  #bindsym XF86MonBrightnessDown exec light -U 5
+  bindsym XF86MonBrightnessUp exec light -A 5
+  bindsym XF86MonBrightnessDown exec light -U 5
 
 #toggle picom 
   bindsym $mod+Control+z exec --no-startup-id ~/.config/picom/toggle.sh
-
-#KDE
-  bindsym XF86AudioRaiseVolume exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "increase_volume"
-  bindsym XF86AudioLowerVolume exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "decrease_volume"
-  bindsym XF86AudioMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mute"
-  bindsym XF86AudioMicMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mic_mute"
-
-# kill existing window that covers everything (KDE Plasma)
-  for_window [title="Desktop — Plasma"] kill; floating enable; border none
-  #for_window [title="Desktop — Plasma"] move container to workspace $ws1; border none
-
-  # remove borders for plasmashell widgets
-  for_window [class="plasmashell"] border none
 
   #smart_gaps on
   smart_borders on
@@ -227,17 +214,14 @@ for_window [class="^.*"] border pixel 2
   for_window [class="discord"] move container to workspace $ws10
 
 # autostart
-  #exec_always --no-startup-id sh ~/.config/polybar/launch.sh
+  exec_always --no-startup-id sh ~/.config/polybar/launch.sh
   exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
-  exec_always --no-startup-id wal -r
+  exec_always --no-startup-id wal -R
   exec --no-startup-id libinput-gestures-setup start
 
 # Scratchpads
   for_window [class="whatsdesk"] move scratchpad; 
   bindsym $mod+minus [class="whatsdesk"] scratchpad show; move position center
-
-# notifications position
-  for_window [window_type="notification"] move position 1550 50; 
   
 set_from_resource $fg foreground
 set_from_resource $bg background

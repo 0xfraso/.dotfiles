@@ -1,6 +1,0 @@
-#!/bin/bash
-
-WINDOW_NAME=$(xprop | grep -w "WM_NAME" | cut -d'"' -f2)
-echo $WINDOW_NAME
-notify-send "hiding whatsapp window.."
-hideIt.sh --name "${WINDOW_NAME}" -H -d $1 -s 20 -p 1 

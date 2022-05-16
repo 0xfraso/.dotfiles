@@ -18,7 +18,7 @@ export FZF_ALT_C_COMMAND="fd -t d --hidden . $HOME"
 
 # file edit with default $EDITOR
 function fe() {
-  IFS=$'\n' files=($(fzf --multi --prompt 'edit file > ' --reverse --preview 'bat --color=always --style=numbers {}'))
+  IFS=$'\n' files=($(fzf --prompt 'edit file > ' --reverse --preview 'bat --color=always --style=numbers {}'))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
