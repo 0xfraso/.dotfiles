@@ -22,6 +22,12 @@ function fe() {
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
+# file edit with default $EDITOR
+function ff() {
+  IFS=$'\n' 
+	find . | fzf
+}
+
 # directory browse with preview
 function fb() {
     if [[ "$#" != 0 ]]; then

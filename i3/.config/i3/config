@@ -2,7 +2,7 @@
   set $mod Mod1
   floating_modifier $mod
 
-font pango:Iosevka 14
+font pango:Iosevka Nerd Font Mono 14
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # Use pactl to adjust volume in PulseAudio.
@@ -20,6 +20,9 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 # start a browser
   bindsym $mod+b exec firefox
+
+# start thunar file manager
+	bindsym $mod+o exec thunar
 
 # kill focused window
   bindsym $mod+q kill
@@ -183,15 +186,16 @@ for_window [class="^.*"] border pixel 2
   bindsym $mod+p exec --no-startup-id ~/.config/polybar/toggle.sh
 
 # rofi
-  bindsym $mod+Control+q exec --no-startup-id ~/.dotfiles/scripts/powermenu.sh
-  bindsym $mod+d exec --no-startup-id ~/.dotfiles/scripts/apps.sh
-  bindsym $mod+Tab exec --no-startup-id rofi -show window
-  bindsym $mod+Control+b exec --no-startup-id ~/.dotfiles/scripts/bluetooth.sh
-  bindsym $mod+Control+w exec --no-startup-id ~/.dotfiles/scripts/wifi.sh
-  bindsym $mod+Control+s exec --no-startup-id ~/.dotfiles/scripts/scrot.sh
-  bindsym $mod+Control+p exec --no-startup-id ~/.dotfiles/scripts/monitor.sh
-  bindsym $mod+Control+t exec --no-startup-id rofi -show Themes:~/.dotfiles/scripts/themeswitcher.sh
-  bindsym $mod+Control+k exec --no-startup-id rofi -show Kill:~/.dotfiles/scripts/kill.sh
+
+	set $ROFISCRIPTS ~/.dotfiles/rofi/.config/rofi/scripts
+  bindsym $mod+Control+q exec --no-startup-id $ROFISCRIPTS/powermenu.sh
+  bindsym $mod+d exec --no-startup-id $ROFISCRIPTS/apps.sh
+  bindsym $mod+Control+b exec --no-startup-id $ROFISCRIPTS/bluetooth.sh
+  bindsym $mod+Control+w exec --no-startup-id $ROFISCRIPTS/wifi.sh
+  bindsym $mod+Control+s exec --no-startup-id $ROFISCRIPTS/scrot.sh
+  bindsym $mod+Control+p exec --no-startup-id $ROFISCRIPTS/monitor.sh
+  bindsym $mod+Control+t exec --no-startup-id rofi -show Themes:$ROFISCRIPTS/themeswitcher.sh
+  bindsym $mod+Control+k exec --no-startup-id rofi -show Kill:$ROFISCRIPTS/kill.sh
 
 # screen brightness controls
 # sudo apt install light
@@ -212,17 +216,22 @@ for_window [class="^.*"] border pixel 2
 # Automove window to workspace
   for_window [class="Spotify"] move container to workspace $ws9
   for_window [class="discord"] move container to workspace $ws10
+  for_window [class="Thunar"] move container to workspace $ws3
 
 # autostart
-  exec_always --no-startup-id sh ~/.config/polybar/launch.sh
+  exec_always --no-startup-id sh ~/.dotfiles/polybar/.config/polybar/launch.sh
   exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
   exec_always --no-startup-id wal -R
   exec --no-startup-id libinput-gestures-setup start
+  exec --no-startup-id galculator
 
 # Scratchpads
   for_window [class="whatsdesk"] move scratchpad; 
   bindsym $mod+minus [class="whatsdesk"] scratchpad show; move position center
   
+  for_window [class="Galculator"] move scratchpad; 
+  bindsym $mod+plus [class="Galculator"] scratchpad show; move position center
+
 set_from_resource $fg foreground
 set_from_resource $bg background
 set_from_resource $fbg color8

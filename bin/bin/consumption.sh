@@ -14,7 +14,7 @@ while [ : ]; do
     $(cat /sys/class/power_supply/BAT1/voltage_now) \
     )) / 1000000000000 }"; echo " W ")"
   clear
-  echo "rate $MSG"
+  echo "$MSG"
   sleep 1
 done
 
