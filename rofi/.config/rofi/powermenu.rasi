@@ -1,0 +1,41 @@
+* {
+    background-color:      Black;
+    border-color:          White;
+    text-color:           White;
+    font:            "Iosevka Nerd Font Mono 14";
+}
+
+window {
+    anchor:     south;
+    location:   south;
+    width:      100%;
+    padding:    10px;
+    children:   [ horibox ];
+}
+
+horibox {
+    orientation: horizontal;
+    children:   [ prompt, entry, listview ];
+}
+
+listview {
+    layout:     horizontal;
+    spacing:    50px;
+    lines:      100;
+}
+entry {
+    expand:     true;
+    width:      10em;
+}
+element {
+    padding: 5px;
+}
+element selected {
+    background-color: White;
+		text-color: Black;
+}
+
+element-text, element-icon {
+  background-color: inherit;
+  text-color: inherit;
+}

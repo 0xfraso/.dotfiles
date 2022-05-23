@@ -1,14 +1,13 @@
-@import "./gruvbox-dark.rasi"
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+
 configuration { 
   modi: "run,drun,window";
-  font: "TerminessTTF Nerd Font Mono 20";
+  font: "Iosevka Nerd Font Mono 18";
   terminal: "alacritty";
   disable-history: true;
   sidebar-mode: true;
   tokenize: true;
   m: "-5";
-  line-margin: 10;
-  line-padding: 10;
   hide-scrollbar: true;
   window-format: "{w} {c}";
   show-icons:         true;
@@ -17,30 +16,3 @@ configuration {
   display-run: "   Run ";
   display-window: " 﩯  Window";
 }
-
-window {
-  padding: 20px;
-  border-radius: 20px;
-  border:3px;
-  columns: 2;
-}
-
-prompt, entry {
-  padding: 6px;
-}
-
-prompt {
-    border-radius: 4px 0 0 4px;
-    margin: 0 0 10px 0;
-}
-
-element {
-  horizontal-align: 1;
-  border-radius: 2px;
-  padding: 4px;
-}
-
-button {
-  padding: 4px 4px;
-}
-
