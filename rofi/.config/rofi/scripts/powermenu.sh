@@ -1,7 +1,5 @@
 #!/bin/bash
 
-rofi_command="rofi -p powermenu -dmenu"
-
 #### Options ###
 power_off="襤 Power off"
 reboot="勒 Reboot"
@@ -10,7 +8,7 @@ log_out="﫼 Logout"
 # Variable passed to rofi
 options="$power_off\n$reboot\n$suspend\n$log_out"
 
-chosen="$(echo -e "$options" | $rofi_command)"
+chosen="$(printf "$options" | rofi -dmenu -theme ~/.cache/wal/powermenu.rasi)"
 case $chosen in
     $power_off)
         systemctl poweroff

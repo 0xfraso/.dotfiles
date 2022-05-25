@@ -22,7 +22,7 @@ function fe() {
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
-# file edit with default $EDITOR
+# find file in cwd
 function ff() {
   IFS=$'\n' 
 	find . | fzf
