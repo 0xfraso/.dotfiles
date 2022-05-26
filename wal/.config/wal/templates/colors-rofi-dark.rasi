@@ -24,14 +24,12 @@
     background: #{background.strip}CC;
     foreground: {foreground};
     border-color: @background;
-    border-radius: 12;
 }}
 
 #window {{
     background-color: @background;
     border: 0;
     padding: 100px 300px;
-    border-radius: 0px;
 		fullscreen: true;
 }}
 
@@ -91,7 +89,6 @@
 #element.selected.normal {{
     background-color: @foreground;
     text-color: @selected-normal-background;
-    border-radius: 12px;
 }}
 
 #element.selected.urgent {{

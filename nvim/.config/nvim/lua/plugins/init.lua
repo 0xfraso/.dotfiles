@@ -5,7 +5,7 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
   use {'lewis6991/impatient.nvim'}
-
+	use { 'tami5/lspsaga.nvim' }
   -- debug plugin
   use { 'mfussenegger/nvim-dap' }
 

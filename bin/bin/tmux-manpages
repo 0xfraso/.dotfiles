@@ -8,5 +8,4 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-#the rest is obvious lol
 man ${selected}

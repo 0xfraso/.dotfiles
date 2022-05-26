@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+WALLPAPERDIR=~/.dotfiles/wallpapers/
+
+selected=`ls "${WALLPAPERDIR}" | fzf -q "$1"`
+
+# if nothing is selected exits
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+wal  -i $WALLPAPERDIR${selected} -a 80 -o ~/.dotfiles/bin/bin/reload_dunst.sh> /dev/null
+nitrogen --set-zoom-fill $WALLPAPERDIR${selected} > /dev/null
