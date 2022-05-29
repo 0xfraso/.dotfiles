@@ -28,7 +28,7 @@
     hide_duplicate_count = yes
     show_indicators = yes
     icon_position = right
-    sticky_history = no
+    sticky_history = yes
     history_length = 20
     browser = qutebrowser
     always_run_script = true
@@ -39,11 +39,12 @@
     mouse_left_click = close_current
     mouse_middle_click = do_action
     mouse_right_click = close_all
+		corner_radius = 10
 
 [shortcuts]
     close = ctrl+space
-    close_all = ctrl+shift+space
-    history = ctrl+grave
+    close_all = ctrl+grave
+    history = ctrl+shift+space
 
 [urgency_low]
     background = "{background}"

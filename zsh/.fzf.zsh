@@ -18,7 +18,7 @@ export FZF_ALT_C_COMMAND="fd -t d --hidden . $HOME"
 
 # file edit with default $EDITOR
 function fe() {
-  IFS=$'\n' files=($(fzf --prompt 'edit file > ' --reverse --preview 'bat --color=always --style=numbers {}'))
+  IFS=$'\n' files=($(fd --hidden . $HOME -t f | fzf --prompt 'edit file > ' --reverse --preview 'bat --color=always --style=numbers {}'))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
@@ -26,6 +26,15 @@ function fe() {
 function ff() {
   IFS=$'\n' 
 	find . | fzf
+}
+
+function ft() {
+	selected=$(find $HOME -type f | fzf);
+	if [[ ${selected} != "" ]]; then 
+		tar xvzf $selected;
+	else
+		echo "please select a file to extract"
+	fi
 }
 
 # directory browse with preview

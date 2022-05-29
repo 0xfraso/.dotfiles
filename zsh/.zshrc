@@ -11,8 +11,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # If you come from bash you might have to change your $PATH.
 export DOTFILES=$HOME/.dotfiles
 export PATH=$HOME/bin:/usr/local/bin:$PATH:$DOTFILES
-export GOPATH=$HOME/go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin 
+export ROFISCRIPTS=$DOTFILES/rofi/.config/rofi/scripts/
 export CONFIG=$HOME/.config
 
 # Path to your oh-my-zsh installation.

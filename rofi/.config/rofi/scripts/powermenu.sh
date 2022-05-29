@@ -8,7 +8,7 @@ log_out="﫼 Logout"
 # Variable passed to rofi
 options="$power_off\n$reboot\n$suspend\n$log_out"
 
-chosen="$(printf "$options" | rofi -dmenu -theme ~/.cache/wal/powermenu.rasi)"
+chosen="$(printf "$options" | rofi -dmenu)"
 case $chosen in
     $power_off)
         systemctl poweroff

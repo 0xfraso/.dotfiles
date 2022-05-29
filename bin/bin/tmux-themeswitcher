@@ -2,7 +2,7 @@
 
 WALLPAPERDIR=~/.dotfiles/wallpapers/
 
-selected=`ls "${WALLPAPERDIR}" | fzf -q "$1"`
+selected=`ls "${WALLPAPERDIR}" | fzf`
 
 # if nothing is selected exits
 if [[ -z $selected ]]; then
