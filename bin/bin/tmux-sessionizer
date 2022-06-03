@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+sources=$(cat ~/.dotfiles/tmux/tmux-session-dirs)
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/ ~/.dotfiles ~/projects ~/uni ~/elaborati -mindepth 1 -maxdepth 1 -type d | fzf)
+	selected=$(find $(sources) -mindepth 1 -maxdepth 2 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then

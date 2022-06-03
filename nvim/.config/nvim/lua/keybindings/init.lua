@@ -12,6 +12,8 @@ map('i', 'kj', '<ESC>', {noremap = true, silent = false})
 
 map('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
 
+map('n', '<C-p>', ':Explore<CR>', {noremap = true, silent = true})
+
 map('v', '<', '<gv', {noremap = true, silent = false})
 map('v', '>', '>gv', {noremap = true, silent = false})
 

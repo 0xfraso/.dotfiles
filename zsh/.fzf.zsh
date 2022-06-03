@@ -28,8 +28,9 @@ function ff() {
 	find . | fzf
 }
 
+# find and extract (.tgz)
 function ft() {
-	selected=$(find $HOME -type f | fzf);
+	selected=$(find $HOME -type f -name "*.tgz" | fzf);
 	if [[ ${selected} != "" ]]; then 
 		tar xvzf $selected;
 	else
@@ -50,25 +51,6 @@ function fb() {
         [[ ${#dir} != 0 ]] || return 0
         builtin cd "$dir" &> /dev/null
     done
-}
-
-# cf - fuzzy cd from anywhere
-# ex: cf word1 word2 ... (even part of a file name)
-# zsh autoload function
-function cf() {
-  local file
-
-  file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
-
-  if [[ -n $file ]]
-  then
-     if [[ -d $file ]]
-     then
-        cd -- $file
-     else
-        cd -- ${file:h}
-     fi
-  fi
 }
 
 # Install packages using yay (change to pacman/AUR helper of your choice)

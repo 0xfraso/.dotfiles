@@ -10,7 +10,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # If you come from bash you might have to change your $PATH.
 export DOTFILES=$HOME/.dotfiles
-export PATH=$HOME/bin:/usr/local/bin:$PATH:$DOTFILES
+export PATH=$HOME/bin:/usr/local/bin:$PATH:$DOTFILES:$HOME/go/bin:$HOME/.cargo/bin
 export ROFISCRIPTS=$DOTFILES/rofi/.config/rofi/scripts/
 export CONFIG=$HOME/.config
 

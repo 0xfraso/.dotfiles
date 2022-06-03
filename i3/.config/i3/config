@@ -24,6 +24,10 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # start thunar file manager
 	bindsym $mod+o exec thunar
 
+# start notetaker
+	bindsym $mod+n exec --no-startup-id alacritty --title notetaker -e ~/.dotfiles/bin/bin/notetaker 
+	for_window [title="notetaker"] floating enable; move position center;
+
 # kill focused window
   bindsym $mod+q kill
 
@@ -200,8 +204,8 @@ for_window [class="^.*"] border pixel 2
 # screen brightness controls
 # sudo apt install light
 # sudo chmod +s /usr/bin/light
-  bindsym XF86MonBrightnessUp exec light -A 5
-  bindsym XF86MonBrightnessDown exec light -U 5
+  bindsym XF86MonBrightnessUp exec light -A 10
+  bindsym XF86MonBrightnessDown exec light -U 10
 
 #toggle picom 
   bindsym $mod+Control+z exec --no-startup-id ~/.config/picom/toggle.sh
@@ -215,6 +219,7 @@ for_window [class="^.*"] border pixel 2
   for_window [class="Thunar"] move container to workspace $ws3
 
 # autostart
+  exec_always --no-startup-id nm-applet
   exec_always --no-startup-id sh ~/.dotfiles/polybar/.config/polybar/toggle.sh
   exec_always --no-startup-id picom --config ~/.config/picom/picom.conf --experimental-backends
   exec_always --no-startup-id wal -R

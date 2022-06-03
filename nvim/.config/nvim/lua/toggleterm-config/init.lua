@@ -1,5 +1,5 @@
 require"toggleterm".setup {
-  size = 20,
+  size = 50,
   open_mapping = [[<c-\>]],
   shade_filetypes = {},
   shade_terminals = true,
@@ -7,4 +7,5 @@ require"toggleterm".setup {
   start_in_insert = true,
   persist_size = true,
   winblend = 3,
+	direction = "vertical",
 }
