@@ -28,6 +28,12 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 	bindsym $mod+n exec --no-startup-id alacritty --title notetaker -e ~/.dotfiles/bin/bin/notetaker 
 	for_window [title="notetaker"] floating enable; move position center;
 
+# tkinter exception
+	for_window [class="Tk"] floating enable;
+
+# mpv exception
+	for_window [class="mpv"] move container to workspace $ws6
+
 # kill focused window
   bindsym $mod+q kill
 

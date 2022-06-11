@@ -8,3 +8,5 @@ alias hh="npx hardhat"
 alias b="bat --color=always --theme=gruvbox-dark"
 
 alias tt='tt -words ~/tt/words/it -theme=gruvbox-dark -showwpm'
+
+alias anime='mpv $(find . -type f | sort | fzf)'

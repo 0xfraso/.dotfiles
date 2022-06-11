@@ -63,8 +63,8 @@ function re() {
     yay -Qq | fzf -q "$1" -m --preview 'yay -Qi {1}' | xargs -ro yay -Rns
 }
 
-# fkill - kill process
-function fkill() {
+# kill process
+function fk() {
   local pid
   pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
