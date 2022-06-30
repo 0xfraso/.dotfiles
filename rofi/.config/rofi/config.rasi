@@ -2,7 +2,7 @@
 
 configuration { 
   modi: "run,drun,window";
-  font: "Iosevka Nerd Font Mono 18";
+  font: "JetBrainsMono Nerd Font Mono 18";
   terminal: "alacritty";
   disable-history: true;
   sidebar-mode: true;
