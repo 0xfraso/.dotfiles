@@ -184,7 +184,7 @@ mode "$mode_gaps" {
 #gaps inner 10
 #gaps outer 10
 
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 4
 
 # battery-mode.sh
 	bindsym $mod+Shift+w exec --no-startup-id ~/.dotfiles/bin/bin/battery-mode.sh

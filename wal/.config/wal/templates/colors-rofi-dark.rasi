@@ -29,8 +29,6 @@
 #window {{
     background-color: @background;
     border: 0;
-    padding: 100px 300px;
-		fullscreen: true;
 }}
 
 #mainbox {{

@@ -9,8 +9,6 @@ return require('packer').startup(function(use)
   -- debug plugin
   use { 'mfussenegger/nvim-dap' }
 
-  use { 'junegunn/fzf.vim' }
-
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- colorschemes
