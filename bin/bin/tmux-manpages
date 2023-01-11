@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+#prints all available manpages and pipes the output to fzf
+selected=$(man -k . | fzf -q "$1" --preview 'man {1}' | cut -d ' ' -f1)
+
+# if nothing is selected exits
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+man ${selected}

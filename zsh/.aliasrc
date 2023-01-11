@@ -1,0 +1,16 @@
+alias nv="nvim"
+alias lg="lazygit"
+alias clip='xclip -selection clipboard'
+alias tm='TERM=xterm-255color tmux'
+alias b="bat --color=always --theme=gruvbox-dark"
+
+# ls replacement
+TREE_IGNORE="cache|log|logs|node_modules|vendor"
+
+alias ls=' exa --icons --group-directories-first'
+alias la=' ls -a'
+alias ll=' ls --git -l'
+alias lt=' ls --tree -D -L 3 -I ${TREE_IGNORE}'
+alias ltt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
+alias lttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
+alias ltttt=' ls --tree -D -L 6 -I ${TREE_IGNORE}'
