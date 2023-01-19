@@ -11,15 +11,15 @@ packer.startup(function(use)
 
     use { -- colorschemes
         'xiyaowong/nvim-transparent', -- Nvim transparent background toggler
+        'raddari/last-color.nvim',
         'tjdevries/colorbuddy.nvim',
         'folke/tokyonight.nvim',
         'sainnhe/gruvbox-material',
         'catppuccin/nvim',
-        'Everblush/everblush.nvim',
         'rose-pine/neovim',
         'Shatur/neovim-ayu',
-        'raddari/last-color.nvim',
         'ellisonleao/gruvbox.nvim',
+        'Tsuzat/NeoSolarized.nvim'
     }
 
     use 'ellisonleao/glow.nvim'

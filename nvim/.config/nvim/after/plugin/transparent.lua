@@ -18,7 +18,7 @@ require("transparent").setup({
         "TelescopeNormal",
         "TelescopeBorder",
         "TelescopePromptBorder",
-        "LspSagaHoverBorder",
+        "SagaBorder",
     },
     exclude = {}, -- table: groups you don't want to clear
 })
