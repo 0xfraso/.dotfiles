@@ -150,8 +150,6 @@ alias ltt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
 alias lttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
 alias ltttt=' ls --tree -D -L 6 -I ${TREE_IGNORE}'
 
-export OPENAI_API_KEY="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"
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
