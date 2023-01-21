@@ -3,6 +3,10 @@ if (not status) then return end
 local lspkind = require 'lspkind'
 
 cmp.setup({
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
     snippet = {
         expand = function(args)
             require('luasnip').lsp_expand(args.body)
@@ -49,6 +53,9 @@ vim.cmd [[
   highlight! default link CmpItemKind CmpItemMenuDefault
 ]]
 
+-- " Use <Tab> and <S-Tab> to navigate through popup menu
+-- inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+-- inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 -- " Use <Tab> and <S-Tab> to navigate through popup menu
 -- inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 -- inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
