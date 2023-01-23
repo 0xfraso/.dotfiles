@@ -43,6 +43,8 @@ else
   echo "tmux plugin manager already installed."
 fi
 
+yay -S gum;
+
 if [[ -f ~/.dotfiles/packages.md ]]; then
   PACKAGES=$(cat packages.md | gum choose --no-limit)
 fi

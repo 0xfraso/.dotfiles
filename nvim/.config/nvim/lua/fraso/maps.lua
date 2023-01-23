@@ -29,7 +29,7 @@ keymap.set('i', 'jk', '<Esc>')
 keymap.set('i', 'kj', '<Esc>')
 
 -- Clear highlighted
-keymap.set("n", '<C-l>', ':noh<Return><C-l>')
+keymap.set("n", '<F2>', ':noh<Return><C-l>')
 
 -- Increment/decrement
 keymap.set("n", '+', '<C-a>')

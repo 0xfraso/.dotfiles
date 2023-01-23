@@ -19,7 +19,6 @@ packer.startup(function(use)
         'rose-pine/neovim',
         'Shatur/neovim-ayu',
         'ellisonleao/gruvbox.nvim',
-        'Tsuzat/NeoSolarized.nvim'
     }
 
     use 'ellisonleao/glow.nvim'
@@ -38,7 +37,7 @@ packer.startup(function(use)
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
     use 'glepnir/lspsaga.nvim' -- LSP UIs
-
+    use 'aserowy/tmux.nvim'
     use 'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
     use 'benfowler/telescope-luasnip.nvim'
