@@ -19,6 +19,7 @@ packer.startup(function(use)
         'rose-pine/neovim',
         'Shatur/neovim-ayu',
         'ellisonleao/gruvbox.nvim',
+        'EdenEast/nightfox.nvim'
     }
 
     use 'ellisonleao/glow.nvim'
@@ -28,6 +29,7 @@ packer.startup(function(use)
     use 'nvim-lua/plenary.nvim' -- Common utilities
     use 'onsails/lspkind-nvim' -- vscode-like pictograms
     use 'hrsh7th/cmp-buffer' -- nvim-cmp source for buffer words
+    use 'hrsh7th/cmp-path' -- nvim-cmp source for buffer words
     use 'hrsh7th/cmp-nvim-lsp' -- nvim-cmp source for neovim's built-in LSP
     use 'hrsh7th/nvim-cmp' -- Completion
     use 'neovim/nvim-lspconfig' -- LSP

@@ -2,10 +2,14 @@ local status, cmp = pcall(require, "cmp")
 if (not status) then return end
 local lspkind = require 'lspkind'
 
+local opts = {
+    winhighlight = "FloatBorder:TelescopeBorder"
+}
+
 cmp.setup({
     window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = cmp.config.window.bordered(opts),
+        documentation = cmp.config.window.bordered(opts),
     },
     snippet = {
         expand = function(args)
@@ -15,7 +19,7 @@ cmp.setup({
     mapping = cmp.mapping.preset.insert({
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-Space>'] = cmp.mapping.complete(_),
         ['<C-e>'] = cmp.mapping.close(),
         ['<CR>'] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
@@ -44,18 +48,27 @@ cmp.setup({
         { name = 'path' },
     }),
     formatting = {
-        format = lspkind.cmp_format({ with_text = true, maxwidth = 50 }),
-    }
+        fields = { "kind", "abbr", "menu" },
+        format = function(entry, vim_item)
+            vim_item.kind = (lspkind.symbol_map[vim_item.kind] or "?") .. " "
+            vim_item.menu = ({
+                nvim_lsp = "LSP",
+                buffer = "Buf",
+                luasnip = "luasnip",
+                nvim_lua = "lua",
+                path = "Path"
+            })[entry.source.name]
+
+            local function trim(text)
+                local max = 40
+                if text and text:len() > max then
+                    text = text:sub(1, max) .. "..."
+                end
+                return text
+            end
+            vim_item.abbr = trim(vim_item.abbr)
+
+            return vim_item
+        end
+    },
 })
-
-vim.g.completeopt = "menu,menuone,noselect,noinsert"
-vim.cmd [[
-  highlight! default link CmpItemKind CmpItemMenuDefault
-]]
-
--- " Use <Tab> and <S-Tab> to navigate through popup menu
--- inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
--- inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
--- " Use <Tab> and <S-Tab> to navigate through popup menu
--- inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
--- inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"

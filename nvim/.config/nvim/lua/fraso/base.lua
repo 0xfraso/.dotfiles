@@ -2,6 +2,8 @@ vim.g.mapleader = ";"
 vim.wo.number = true
 vim.wo.relativenumber = true
 
+vim.g.completeopt = "menu,menuone,noselect,noinsert"
+
 vim.opt.list = true;
 vim.opt.listchars:append "eol:↴"
 -- vim.opt.listchars:append "space: "
