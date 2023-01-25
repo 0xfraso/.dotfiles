@@ -254,15 +254,15 @@ for_window [class="^.*"] border pixel 2
   exec_always --no-startup-id ~/.dotfiles/bin/bin/monitor.sh
   exec --no-startup-id alacritty --class bpytop,bpytop -e bpytop
   exec --no-startup-id nitrogen --restore
-  exec --no-startup-id pavucontrol
+  exec --no-startup-id alacritty --class pulsemixer,pulsemixer -e pulsemixer
   exec --no-startup-id libinput-gestures-setup start
 
 # Scratchpads
   for_window [class="whatsdesk"] move scratchpad; 
   bindsym $mod+minus [class="whatsdesk"] scratchpad show; move position center
 
-  for_window [class="Pavucontrol"] move scratchpad; 
-  bindsym $mod+plus [class="Pavucontrol"] scratchpad show; move position center
+  for_window [class="pulsemixer"] move scratchpad; 
+  bindsym $mod+plus [class="pulsemixer"] scratchpad show; move position center
 
 set_from_resource $fg foreground
 set_from_resource $bg background
