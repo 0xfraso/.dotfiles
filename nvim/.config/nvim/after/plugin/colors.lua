@@ -2,6 +2,7 @@ local set_highlights = function()
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
     vim.api.nvim_set_hl(0, "FloatBorder", { link = "TelescopeBorder" })
     vim.api.nvim_set_hl(0, "SagaBorder", { link = "TelescopeBorder" })
+    vim.api.nvim_set_hl(0, "SagaNormal", { link = "Normal" })
 end
 
 local ColorMyPencils = function(color)
