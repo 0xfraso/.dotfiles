@@ -224,6 +224,7 @@ for_window [class="^.*"] border pixel 2
   bindsym $mod+Control+b exec --no-startup-id $ROFISCRIPTS/bluetooth.sh
   bindsym $mod+Control+w exec --no-startup-id $ROFISCRIPTS/wifi.sh
   bindsym $mod+Control+p exec --no-startup-id $ROFISCRIPTS/monitor.sh
+  bindsym $mod+Control+m exec --no-startup-id $ROFISCRIPTS/sink.sh
   bindsym $mod+Control+s exec --no-startup-id exec flameshot gui
 
 # screen brightness controls
