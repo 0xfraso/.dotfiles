@@ -30,3 +30,7 @@ mpv
 starship
 flameshot
 xdotool
+pulseaudio
+pulseaudio-bluetooth
+pulsemixer
+pavucontrol
