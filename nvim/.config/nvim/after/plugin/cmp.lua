@@ -66,6 +66,7 @@ cmp.setup({
                 end
                 return text
             end
+
             vim_item.abbr = trim(vim_item.abbr)
 
             return vim_item

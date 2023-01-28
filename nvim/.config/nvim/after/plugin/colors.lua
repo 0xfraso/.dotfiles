@@ -1,12 +1,13 @@
 local set_highlights = function()
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
     vim.api.nvim_set_hl(0, "FloatBorder", { link = "TelescopeBorder" })
-    vim.api.nvim_set_hl(0, "SagaBorder", { link = "TelescopeBorder" })
+    vim.api.nvim_set_hl(0, "SagaBorder", { link = "FloatBorder" })
     vim.api.nvim_set_hl(0, "SagaNormal", { link = "Normal" })
 end
 
 local ColorMyPencils = function(color)
     color = color or "gruvbox"
+    vim.cmd.colorscheme(color)
     vim.cmd.colorscheme(color)
     set_highlights()
 end
