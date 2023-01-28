@@ -40,7 +40,7 @@ bindsym $mod+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle &&
 # anti-mouse
 	for_window [class="anti-mouse"] floating enable, resize set 50 50, sticky enable, move position 0 0;
 
-# pavucontrol exception
+# pulsemixer exception
 	for_window [class="pulsemixer"] floating enable; move position center
 
 # Thunar exception
