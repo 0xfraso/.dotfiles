@@ -1,7 +1,7 @@
 # Opacity
 
 window:
-  opacity: 0.9
+  opacity: 1
 
   # Window class (Linux/BSD only):
   class:
@@ -27,32 +27,29 @@ font:
 colors:
   # Default colors
   primary:
-    background: '0x1E1D2F'
-    foreground: '0xD9E0EE'
-
+    background: '0x161616'
+    foreground: '0xf2f4f8'
   # Normal colors
   normal:
-    black: '0x6E6C7E'
-    red: '0xF28FAD'
-    green: '0xABE9B3'
-    yellow: '0xFAE3B0'
-    blue: '0x96CDFB'
-    magenta: '0xF5C2E7'
-    cyan: '0x89DCEB'
-    white: '0xD9E0EE'
-
+    black:   '0x282828'
+    red:     '0xee5396'
+    green:   '0x25be6a'
+    yellow:  '0x08bdba'
+    blue:    '0x78a9ff'
+    magenta: '0xbe95ff'
+    cyan:    '0x33b1ff'
+    white:   '0xdfdfe0'
   # Bright colors
   bright:
-    black: '0x988BA2'
-    red: '0xF28FAD'
-    green: '0xABE9B3'
-    yellow: '0xFAE3B0'
-    blue: '0x96CDFB'
-    magenta: '0xF5C2E7'
-    cyan: '0x89DCEB'
-    white: '0xD9E0EE'
-
+    black:   '0x484848'
+    red:     '0xf16da6'
+    green:   '0x46c880'
+    yellow:  '0x2dc7c4'
+    blue:    '0x8cb6ff'
+    magenta: '0xc8a5ff'
+    cyan:    '0x52bdff'
+    white:   '0xe4e4e5'
   indexed_colors:
-    - { index: 16, color: '0xF8BD96' }
-    - { index: 17, color: '0xF5E0DC' }
-theme: Catppuccin
+    - { index: 16, color: '0x3ddbd9' }
+    - { index: 17, color: '0xff7eb6' }
+theme: Carbonfox
