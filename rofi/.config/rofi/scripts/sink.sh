@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rofi_command="rofi -dmenu -p   -theme ~/.config/rofi/launchers/type-4/style-4.rasi"
+rofi_command="rofi -dmenu -p   -theme ~/.config/rofi/config.rasi"
 
 move_sink_inputs() {
     sink="$1"

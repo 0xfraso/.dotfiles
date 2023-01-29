@@ -215,12 +215,10 @@ for_window [class="^.*"] border pixel 2
 
 # rofi
 
-	set $ROFISCRIPTS ~/.dotfiles/rofi-scripts/.config/rofi-scripts
-	set $ROFICONFIG ~/.config/rofi
+	set $ROFISCRIPTS ~/.dotfiles/rofi/.config/rofi/scripts
 	set $DOTFILES ~/.dotfiles
-  bindsym $mod+Control+q exec --no-startup-id $ROFICONFIG/applets/bin/powermenu.sh
-  bindsym $mod+d exec --no-startup-id $ROFICONFIG/launchers/type-3/launcher.sh
-  bindsym $mod+Shift+d exec --no-startup-id $ROFICONFIG/applets/bin/appasroot.sh
+  bindsym $mod+Control+q exec --no-startup-id $ROFISCRIPTS/powermenu.sh
+  bindsym $mod+d exec --no-startup-id $ROFISCRIPTS/launcher.sh
   bindsym $mod+Control+b exec --no-startup-id $ROFISCRIPTS/bluetooth.sh
   bindsym $mod+Control+w exec --no-startup-id $ROFISCRIPTS/wifi.sh
   bindsym $mod+Control+p exec --no-startup-id $ROFISCRIPTS/monitor.sh
@@ -266,7 +264,7 @@ set_from_resource $fg foreground
 set_from_resource $bg background
 
 set $bg-color 	         #383C4A
-set $bd-color		     #f5c2e7
+set $bd-color		     #89b4fa
 set $inactive-bg-color   #383C4A
 set $inactive-bd-color	 #383C4A
 set $text-color          #f3f4f5

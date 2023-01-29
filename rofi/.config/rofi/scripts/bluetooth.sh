@@ -299,7 +299,7 @@ show_menu() {
 }
 
 # Rofi command to pipe into, can add any options here
-rofi_command="rofi -dmenu -p  -theme ~/.config/rofi/launchers/type-4/style-4.rasi"
+rofi_command="rofi -dmenu -p  -theme ~/.config/rofi/config.rasi"
 
 case "$1" in
     --status)

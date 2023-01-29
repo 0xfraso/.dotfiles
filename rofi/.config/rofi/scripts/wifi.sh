@@ -10,7 +10,7 @@ POSITION=0
 YOFF=0
 XOFF=0
 
-ROFI_COMMAND="rofi -dmenu -theme ~/.config/rofi/launchers/type-4/style-4.rasi"
+ROFI_COMMAND="rofi -dmenu -theme ~/.config/rofi/config.rasi"
 
 if [ -r "$DIR/config" ]; then
 	source "$DIR/config"

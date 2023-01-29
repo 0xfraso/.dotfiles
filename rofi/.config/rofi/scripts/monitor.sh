@@ -9,7 +9,7 @@ o2="external only"
 o3="extend"
 o4="clone"
 
-rofi_command="rofi -theme ~/.config/rofi/launchers/type-4/style-4.rasi -dmenu -p "monitor""
+rofi_command="rofi -theme ~/.config/rofi/config.rasi -dmenu -p "monitor""
 
 options="$o0\n$o1\n$o2\n$o3\n$o4"
 
