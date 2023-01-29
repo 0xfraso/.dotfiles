@@ -266,7 +266,7 @@ set_from_resource $fg foreground
 set_from_resource $bg background
 
 set $bg-color 	         #383C4A
-set $bd-color		     #84927D
+set $bd-color		     #f5c2e7
 set $inactive-bg-color   #383C4A
 set $inactive-bd-color	 #383C4A
 set $text-color          #f3f4f5
