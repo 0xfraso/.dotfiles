@@ -10,7 +10,7 @@ if [[ "$DIR" == "powermenus" ]]; then
 	lock=""
 	suspend=""
 	logout=""
-	ddir="$HOME/.config/rofi/config"
+	ddir="$HOME/.config/rofi"
 else
 
 # For some reason the Icons are mess up I don't know why but to fix it uncomment section 2 and comment section 1 but if the section 1 icons are mess up uncomment section 2 and comment section 1
@@ -47,7 +47,7 @@ else
 #		suspend="鈴Sleep"
 #		logout=" Logout"
 	fi
-	ddir="$HOME/.config/rofi/config"
+	ddir="$HOME/.config/rofi"
 fi
 
 # Ask for confirmation
@@ -56,12 +56,12 @@ rofi -dmenu\
     -i\
     -no-fixed-num-lines\
     -p "Are You Sure? : "\
-    -theme "$ddir/confirm.rasi"
+    -theme "$ddir/config.rasi"
 }
 
 # Display Help
 show_msg() {
-	rofi -theme "$ddir/askpass.rasi" -e "Options : yes / no / y / n"
+	rofi -theme "$ddir/config.rasi" -e "Options : yes / no / y / n"
 }
 
 # Variable passed to rofi
