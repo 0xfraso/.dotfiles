@@ -34,3 +34,6 @@ pulseaudio
 pulseaudio-bluetooth
 pulsemixer
 pavucontrol
+lxappearance
+i3status-rust
+ttf-font-awesome

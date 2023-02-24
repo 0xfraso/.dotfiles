@@ -2,15 +2,18 @@
   set $mod Mod1
   floating_modifier $mod
 
-font pango:Victor Mono 14
+font pango:Iosevka Nerd Font 12
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # anti-mouse rule
 focus_follows_mouse no
 
-#bar {
-#    status_command i3status
-#  }
+ bar {
+    status_command /usr/bin/i3status-rs ~/.i3status.toml
+    #mode hide
+    modifier $mod
+    position top
+ }
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -260,18 +263,18 @@ for_window [class="^.*"] border pixel 2
   for_window [class="whatsdesk"] move scratchpad; 
   bindsym $mod+minus [class="whatsdesk"] scratchpad show; move position center
 
-set_from_resource $fg foreground
-set_from_resource $bg background
-
-set $bg-color 	         #383C4A
-set $bd-color		     #89b4fa
-set $inactive-bg-color   #383C4A
-set $inactive-bd-color	 #383C4A
-set $text-color          #f3f4f5
-set $inactive-text-color #676E7D
-#				            border			background		text	 	 	     indicator	child border 
-client.focused          	$bd-color		$bg-color		$text-color   		 $bd-color	$bd-color  
-client.unfocused        	$bg-color		$bg-color 		$inactive-text-color $bg-color	$bg-color
-client.focused_inactive		$bg-color		$bg-color	 	$inactive-text-color $bg-color	$bg-color
-client.urgent           	$bg-color   	$bg-color		$text-color		     $bg-color	$bg-color
-client.background  					        $bg-color
+#set_from_resource $fg foreground
+#set_from_resource $bg background
+#
+#set $bg-color 	         #383C4A
+#set $bd-color		     #89b4fa
+#set $inactive-bg-color   #383C4A
+#set $inactive-bd-color	 #383C4A
+#set $text-color          #f3f4f5
+#set $inactive-text-color #676E7D
+##				            border			background		text	 	 	     indicator	child border 
+#client.focused          	$bd-color		$bg-color		$text-color   		 $bd-color	$bd-color  
+#client.unfocused        	$bg-color		$bg-color 		$inactive-text-color $bg-color	$bg-color
+#client.focused_inactive		$bg-color		$bg-color	 	$inactive-text-color $bg-color	$bg-color
+#client.urgent           	$bg-color   	$bg-color		$text-color		     $bg-color	$bg-color
+#client.background  					        $bg-color
