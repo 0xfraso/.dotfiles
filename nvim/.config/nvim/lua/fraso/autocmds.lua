@@ -3,6 +3,8 @@ local augroup = api.nvim_create_augroup
 local autocmd = api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
 
+local M = {}
+
 autocmd('TextYankPost', {
     group = yank_group,
     pattern = '*',
@@ -14,14 +16,14 @@ autocmd('TextYankPost', {
     end
 })
 
-api.nvim_create_user_command("Autorun", function()
-    --local current_bufnr = api.nvim_get_current_buf()
-    --local pattern = vim.fn.input 'Pattern: '
+function M.autorun(orientation)
+    orientation = orientation or ""
     local bufnr = api.nvim_create_buf(false, true)
+
     -- enable zsh colors
     api.nvim_buf_set_option(bufnr, "filetype", "zsh")
     local command = vim.split(vim.fn.input 'Command: ', ' ')
-    api.nvim_command('split | b' .. bufnr)
+    api.nvim_command(orientation .. 'split | b' .. bufnr)
     api.nvim_create_autocmd("BufWritePost", {
         group = api.nvim_create_augroup("fraso-automagic", { clear = true }),
         --pattern = pattern,
@@ -40,7 +42,7 @@ api.nvim_create_user_command("Autorun", function()
             })
         end
     })
-end, {})
+end
 
 -- get hightlight under cursor
 api.nvim_create_user_command("HightlightUnderCursor", function()
@@ -48,4 +50,4 @@ api.nvim_create_user_command("HightlightUnderCursor", function()
     print(vim.inspect(result))
 end, {})
 
-vim.keymap.set("n", "<leader>z", '<Cmd>Autorun<CR>')
+return M

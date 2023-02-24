@@ -51,3 +51,6 @@ keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left
 
 keymap.set("n", "<leader>t", '<Cmd>term<CR>')
 keymap.set("t", "<Esc>", [[<C-\><C-n>]])
+
+vim.keymap.set("n", "<leader>zh", '<Cmd>lua require("fraso/autocmds").autorun()<CR>')
+vim.keymap.set("n", "<leader>zv", '<Cmd>lua require("fraso/autocmds").autorun("v")<CR>')
