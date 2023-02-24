@@ -56,8 +56,7 @@ local servers = {
     tailwindcss = {},
     intelephense = {},
     bashls = {},
-
-    sumneko_lua = {
+    lua_ls = {
         Lua = {
             diagnostic = {
                 globals = { "vim" },
