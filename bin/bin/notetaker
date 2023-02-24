@@ -1,15 +1,19 @@
 #!/bin/sh
 
-noteFilename="$HOME/notes/src/note-$(date +%Y-%m-%d).md"
+NOTES_DIR="$HOME/notes"
+
+if [[ -d $NOTES_DIR ]]; then
+    mkdir $NOTES_DIR
+fi
+
+noteFilename="$NOTES_DIR/note-$(date +%Y-%m-%d).md"
 
 if [ ! -f $noteFilename ]; then
   echo "# Notes for $(date +%Y-%m-%d)" > $noteFilename
 fi
 
+#-c "norm Go## $(date +%H:%M)" \
+
 nvim -c "norm Go" \
-  -c "norm Go## $(date +%H:%M)" \
-  -c "norm G2o" \
   -c "norm zz" \
   -c "startinsert" $noteFilename
-
-
