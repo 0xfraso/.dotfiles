@@ -48,3 +48,6 @@ keymap.set("n", '<C-w><up>', '<C-w>+')
 keymap.set("n", '<C-w><down>', '<C-w>-')
 
 keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+keymap.set("n", "<leader>t", '<Cmd>term<CR>')
+keymap.set("t", "<Esc>", [[<C-\><C-n>]])

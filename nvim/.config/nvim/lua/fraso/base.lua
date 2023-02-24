@@ -23,6 +23,7 @@ vim.opt.expandtab = true
 vim.opt.smarttab = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
@@ -49,4 +50,4 @@ vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.mouse = 'a'
 
 -- disable cursor styling
--- vim.opt.guicursor = ''
+vim.opt.guicursor = ''
