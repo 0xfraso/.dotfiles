@@ -19,7 +19,8 @@ packer.startup(function(use)
         'rose-pine/neovim',
         'Shatur/neovim-ayu',
         'ellisonleao/gruvbox.nvim',
-        'EdenEast/nightfox.nvim'
+        'EdenEast/nightfox.nvim',
+        'blazkowolf/gruber-darker.nvim'
     }
 
     use 'epwalsh/obsidian.nvim'

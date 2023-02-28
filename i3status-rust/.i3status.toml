@@ -1,8 +1,8 @@
 icons_format = "{icon}"
 
 [theme]
-theme = "srcery"
-#theme = "plain"
+#theme = "srcery"
+theme = "plain"
 [theme.overrides]
 idle_fg = "#ffffff"
 separator = '|'

@@ -54,3 +54,4 @@ keymap.set("t", "<Esc>", [[<C-\><C-n>]])
 
 vim.keymap.set("n", "<leader>zh", '<Cmd>lua require("fraso/autocmds").autorun()<CR>')
 vim.keymap.set("n", "<leader>zv", '<Cmd>lua require("fraso/autocmds").autorun("v")<CR>')
+vim.keymap.set("n", "<leader>c", '<Cmd>lua require("fraso/compile").compile()<CR>')

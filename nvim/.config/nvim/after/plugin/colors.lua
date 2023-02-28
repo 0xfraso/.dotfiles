@@ -3,6 +3,8 @@ local set_highlights = function()
     vim.api.nvim_set_hl(0, "FloatBorder", { link = "TelescopeBorder" })
     vim.api.nvim_set_hl(0, "SagaBorder", { link = "FloatBorder" })
     vim.api.nvim_set_hl(0, "SagaNormal", { link = "Normal" })
+    vim.api.nvim_set_hl(0, "Whitespace", { link = "LineNr" })
+    vim.api.nvim_set_hl(0, "NonText", { link = "LineNr" })
 end
 
 local ColorMyPencils = function(color)
@@ -41,11 +43,9 @@ local choose_colorscheme = function()
     local colors = vim.fn.getcompletion("", "color")
 
     local opts = {
-
         --finder = finders.new_table {"gruvbox", "nordfox", "nightfox", "monokai", "tokyonight"},
         finder = finders.new_table(colors),
         sorter = sorters.get_generic_fuzzy_sorter({}),
-
         attach_mappings = function(prompt_bufnr, map)
             map("i", "<CR>", enter)
             map("i", "<C-j>", next_color)
@@ -55,7 +55,6 @@ local choose_colorscheme = function()
             map("n", "k", prev_color)
             return true
         end,
-
     }
 
     local colors_picker = pickers.new(dropdown, opts)
@@ -66,8 +65,6 @@ end
 vim.api.nvim_create_user_command("Colorscheme", function()
     choose_colorscheme()
 end, {})
-
-vim.keymap.set("n", "<leader>c", ":Colorscheme<CR>")
 
 local theme = require('last-color').recall()
 

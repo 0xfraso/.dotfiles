@@ -5,9 +5,8 @@ vim.wo.relativenumber = true
 vim.g.completeopt = "menu,menuone,noselect,noinsert"
 
 vim.opt.list = true;
-vim.opt.listchars:append "eol:↴"
+vim.opt.listchars:append "eol:↵,trail:-,nbsp:+"
 -- vim.opt.listchars:append "space: "
-
 vim.o.clipboard = 'unnamedplus'
 
 vim.opt.shell = 'zsh'
