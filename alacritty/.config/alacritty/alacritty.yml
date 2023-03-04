@@ -14,16 +14,17 @@ window:
     y: 10
 font:
   normal:
-    family: JetBrains Mono Nerd Font
+    family: Iosevka Nerd Font
     style: normal
   bold:
-    family: JetBrains Mono Nerd Font
+    family: Iosevka Nerd Font
     style: Bold
   italic:
-    family: JetBrains Mono Nerd Font
+    family: Iosevka Nerd Font
     style: Italic
   size: 15
 
 import:
-  - ~/.config/alacritty/catppuccin_mocha.yml
-  # - ~/.config/alacritty/carbonfox.yml
+  - ~/.config/alacritty/gruber_darker.yml
+  # ~/.config/alacritty/catppuccin_mocha.yml
+  # ~/.config/alacritty/carbonfox.yml
