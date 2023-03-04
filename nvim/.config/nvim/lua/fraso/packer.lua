@@ -13,8 +13,6 @@ packer.startup(function(use)
         'xiyaowong/nvim-transparent', -- Nvim transparent background toggler
         'raddari/last-color.nvim',
         'tjdevries/colorbuddy.nvim',
-        'folke/tokyonight.nvim',
-        'sainnhe/gruvbox-material',
         'catppuccin/nvim',
         'rose-pine/neovim',
         'Shatur/neovim-ayu',
@@ -24,7 +22,6 @@ packer.startup(function(use)
     }
 
     use 'epwalsh/obsidian.nvim'
-    use 'lukas-reineke/indent-blankline.nvim'
     use 'nvim-lualine/lualine.nvim' -- Statusline
     use 'nvim-lua/plenary.nvim' -- Common utilities
     use 'onsails/lspkind-nvim' -- vscode-like pictograms

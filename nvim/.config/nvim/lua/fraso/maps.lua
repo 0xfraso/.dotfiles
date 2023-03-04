@@ -36,7 +36,7 @@ keymap.set("n", '+', '<C-a>')
 keymap.set("n", '-', '<C-x>')
 
 -- Select all
-keymap.set("n", '<C-a>', 'gg<S-v>G')
+keymap.set("n", 'gga', 'gg<S-v>G')
 
 -- Close tab
 keymap.set("n", '<leader>x', ':bdelete<Return>')
@@ -55,3 +55,5 @@ keymap.set("t", "<Esc>", [[<C-\><C-n>]])
 vim.keymap.set("n", "<leader>zh", '<Cmd>lua require("fraso/autocmds").autorun()<CR>')
 vim.keymap.set("n", "<leader>zv", '<Cmd>lua require("fraso/autocmds").autorun("v")<CR>')
 vim.keymap.set("n", "<leader>c", '<Cmd>lua require("fraso/compile").compile()<CR>')
+
+vim.keymap.set("n", "<leader>=", '<Cmd>lua vim.lsp.buf.format()<CR>')

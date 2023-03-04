@@ -9,13 +9,19 @@ local function telescope_buffer_dir()
     return vim.fn.expand('%:p:h')
 end
 
-local dropdown = require('telescope.themes').get_dropdown {
-    previewer = false,
-}
+local current_theme = function(previewer)
+    return require('telescope.themes').get_ivy {
+        previewer = previewer,
+    }
+end
 
 local fb_actions = require 'telescope'.extensions.file_browser.actions
 telescope.setup {
     pickers = {
+        find_files = {
+            no_ignore = false,
+            hidden = true,
+        }
     },
     defaults = {
         prompt_prefix = "   ",
@@ -68,6 +74,7 @@ telescope.setup {
         file_browser = {
             -- disables netrw and use telescope-file-browser in its place
             hijack_netrw = true,
+            theme = "ivy",
             mappings = {
                 -- your custom insert mode mappings
                 ["i"] = {
@@ -75,7 +82,7 @@ telescope.setup {
                 ["n"] = {
                     -- your custom normal mode mappings
                     ["N"] = fb_actions.create,
-                    ["h"] = fb_actions.goto_parent_dir,
+                    ["-"] = fb_actions.goto_parent_dir,
                 },
             },
         },
@@ -87,28 +94,25 @@ telescope.load_extension("luasnip")
 
 vim.keymap.set('n', '<leader>f',
     function()
-        builtin.find_files({
-            no_ignore = false,
-            hidden = true
-        })
+        builtin.find_files(current_theme(true))
     end)
 vim.keymap.set('n', '<leader>r', function()
-    builtin.registers()
+    builtin.registers(current_theme())
 end)
 vim.keymap.set('n', '<leader>g', function()
-    builtin.live_grep()
+    builtin.live_grep(current_theme())
 end)
 vim.keymap.set('n', '<leader>b', function()
-    builtin.buffers(dropdown)
+    builtin.buffers(current_theme())
 end)
 vim.keymap.set('n', '<leader>h', function()
-    builtin.help_tags()
+    builtin.help_tags(current_theme(true))
 end)
 vim.keymap.set('n', '<leader>.', function()
-    builtin.resume()
+    builtin.resume(current_theme())
 end)
 vim.keymap.set('n', '<leader>e', function()
-    builtin.diagnostics(dropdown)
+    builtin.diagnostics(current_theme(false))
 end)
 vim.keymap.set("n", "<leader>d", function()
     telescope.extensions.file_browser.file_browser({
@@ -118,10 +122,9 @@ vim.keymap.set("n", "<leader>d", function()
         hidden = true,
         grouped = true,
         previewer = false,
-        theme = "dropdown",
         initial_mode = "normal",
     })
 end)
 vim.keymap.set('n', '<leader>/', function()
-    builtin.current_buffer_fuzzy_find(dropdown)
+    builtin.current_buffer_fuzzy_find(current_theme(false))
 end)
