@@ -1,7 +1,8 @@
 require('fraso.base')
 require('fraso.autocmds')
 require('fraso.maps')
-require('fraso.packer')
+require('fraso.lazy')
+require('fraso.colors')
 
 local has = function(x)
     return vim.fn.has(x) == 1
