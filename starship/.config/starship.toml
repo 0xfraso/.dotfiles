@@ -35,15 +35,15 @@ format = "[$symbol($version )]($style)"
 symbol = " "
 
 [directory]
-style = "blue"
+style = "yellow"
 read_only = " "
 truncation_length = 4
 truncate_to_repo = false
 
 [character]
-success_symbol = "[❯](purple)"
+success_symbol = "[❯](green)"
 error_symbol = "[❯](red)"
-vicmd_symbol = "[❮](green)"
+vicmd_symbol = "[❮](yellow)"
 
 [git_branch]
 symbol = " "
