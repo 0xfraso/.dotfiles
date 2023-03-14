@@ -1,8 +1,9 @@
 # Modifiers
   set $mod Mod1
   floating_modifier $mod
+  set $term alacritty
 
-font pango:Iosevka Nerd Font 12
+font pango:Iosevka Nerd Font 13
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # anti-mouse rule
@@ -12,7 +13,7 @@ focus_follows_mouse no
     status_command /usr/bin/i3status-rs ~/.i3status.toml
     #mode hide
     modifier $mod
-    position top
+    position bottom
  }
 
 # Use pactl to adjust volume in PulseAudio.
@@ -25,10 +26,10 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 bindsym $mod+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 
 # start a terminal
-  bindsym $mod+Return exec --no-startup-id alacritty
+  bindsym $mod+Return exec --no-startup-id $term
 
 # start ranger
-  bindsym $mod+Control+r exec --no-startup-id alacritty -e "ranger"
+  bindsym $mod+Control+r exec --no-startup-id $term -e "ranger"
 
 # start a browser
   bindsym $mod+b exec brave
@@ -37,7 +38,7 @@ bindsym $mod+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle &&
 	for_window [title="Nitrogen"] floating enable; move position center;
 
 # start notetaker
-	bindsym $mod+n exec --no-startup-id alacritty --title notetaker -e ~/.dotfiles/bin/bin/notetaker 
+	bindsym $mod+n exec --no-startup-id $term --title notetaker -e ~/.dotfiles/bin/bin/notetaker 
 	for_window [title="notetaker"] floating enable, move position center;
 
 # anti-mouse
@@ -227,7 +228,7 @@ for_window [class="^.*"] border pixel 2
   bindsym $mod+Control+p exec --no-startup-id $ROFISCRIPTS/monitor.sh
   bindsym $mod+Control+m exec --no-startup-id $ROFISCRIPTS/sink.sh
   bindsym $mod+Control+s exec --no-startup-id exec flameshot gui
-  bindsym $mod+plus exec --no-startup-id alacritty --class pulsemixer -e pulsemixer
+  bindsym $mod+plus exec --no-startup-id $term --class pulsemixer -e pulsemixer
 
 # screen brightness controls
 # sudo apt install light
@@ -254,9 +255,9 @@ for_window [class="^.*"] border pixel 2
   exec_always --no-startup-id picom --config ~/.config/picom/picom.conf --experimental-backends -f
   exec_always --no-startup-id ~/.dotfiles/bin/bin/xobpipe 150
   exec_always --no-startup-id ~/.dotfiles/bin/bin/monitor.sh
-  exec --no-startup-id alacritty --class bpytop,bpytop -e bpytop
+  exec --no-startup-id $term --class bpytop,bpytop -e bpytop
   exec --no-startup-id nitrogen --restore
-  exec --no-startup-id alacritty --class pulsemixer,pulsemixer -e pulsemixer
+  exec --no-startup-id $term --class pulsemixer,pulsemixer -e pulsemixer
   exec --no-startup-id libinput-gestures-setup start
 
 # Scratchpads
