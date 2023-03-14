@@ -1,9 +1,11 @@
 local set_highlights = function()
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    vim.api.nvim_set_hl(0, "TelescopeBorder", { link = "LineNr" })
     vim.api.nvim_set_hl(0, "FloatBorder", { link = "TelescopeBorder" })
     vim.api.nvim_set_hl(0, "SagaBorder", { link = "FloatBorder" })
     vim.api.nvim_set_hl(0, "SagaNormal", { link = "Normal" })
     vim.api.nvim_set_hl(0, "NonText", { link = "LineNr" })
+    vim.api.nvim_set_hl(0, "WhiteSpace", { link = "LineNr" })
     vim.api.nvim_set_hl(0, "MatchParen", { fg = "#FFFFFF" })
 end
 
@@ -20,7 +22,7 @@ local choose_colorscheme = function()
     local pickers = require "telescope.pickers"
     local finders = require "telescope.finders"
     local sorters = require "telescope.sorters"
-    local dropdown = require "telescope.themes".get_dropdown()
+    local current_theme = require "telescope.themes".get_ivy()
 
     local function enter(prompt_bufnr)
         local selected = actions_state.get_selected_entry()
@@ -46,7 +48,7 @@ local choose_colorscheme = function()
         --finder = finders.new_table {"gruvbox", "nordfox", "nightfox", "monokai", "tokyonight"},
         finder = finders.new_table(colors),
         sorter = sorters.get_generic_fuzzy_sorter({}),
-        attach_mappings = function(prompt_bufnr, map)
+        attach_mappings = function(_, map)
             map("i", "<CR>", enter)
             map("i", "<C-j>", next_color)
             map("i", "<C-k>", prev_color)
@@ -57,7 +59,7 @@ local choose_colorscheme = function()
         end,
     }
 
-    local colors_picker = pickers.new(dropdown, opts)
+    local colors_picker = pickers.new(current_theme, opts)
 
     colors_picker:find()
 end
@@ -69,3 +71,4 @@ end, {})
 local theme = require('last-color').recall()
 
 ColorMyPencils(theme)
+vim.keymap.set("n", "<leader>C", '<Cmd>Colorscheme<CR>')
