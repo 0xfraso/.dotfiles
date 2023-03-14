@@ -3,7 +3,6 @@ return {
     dependencies = {
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
-        'folke/neodev.nvim',
         'glepnir/lspsaga.nvim', -- LSP UIs
         'onsails/lspkind-nvim', -- vscode-like pictograms
     },
@@ -149,8 +148,8 @@ return {
             '', -- TypeParameter
         }
 
-        local status, saga = pcall(require, "lspsaga")
-        if (not status) then return end
+        local status_saga, saga = pcall(require, "lspsaga")
+        if (not status_saga) then return end
 
         saga.setup({
             ui = {
@@ -175,6 +174,7 @@ return {
         vim.keymap.set('n', 'gp', '<Cmd>Lspsaga diagnostic_jump_prev<CR>', opts)
         vim.keymap.set('n', 'H', '<Cmd>Lspsaga hover_doc<CR>', opts)
         vim.keymap.set('n', 'gh', '<Cmd>Lspsaga peek_definition<CR>', opts)
+        vim.keymap.set('n', 'gH', '<Cmd>Lspsaga goto_definition<CR>', opts)
         vim.keymap.set('n', 'gd', '<Cmd>Lspsaga lsp_finder<CR>', opts)
         vim.keymap.set('n', 'gs', '<Cmd>Lspsaga show_buf_diagnostics<CR>', opts)
         vim.keymap.set('n', 'gr', '<Cmd>Lspsaga rename<CR>', opts)
@@ -182,8 +182,8 @@ return {
         vim.keymap.set('n', 'go', '<Cmd>Lspsaga outline<CR>', opts)
 
 
-        local status, lspkind = pcall(require, "lspkind")
-        if (not status) then return end
+        local status_lspkind, lspkind = pcall(require, "lspkind")
+        if (not status_lspkind) then return end
 
         lspkind.init({
             mode = 'symbol',

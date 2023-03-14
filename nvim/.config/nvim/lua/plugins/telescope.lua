@@ -95,29 +95,23 @@ return {
 
         telescope.load_extension("file_browser")
 
-        vim.keymap.set('n', '<leader>f',
+        vim.keymap.set('n', '<leader>ff',
             function()
                 builtin.find_files(current_theme(true))
             end)
-        vim.keymap.set('n', '<leader>r', function()
+        vim.keymap.set('n', '<leader>fr', function()
             builtin.registers(current_theme())
         end)
-        vim.keymap.set('n', '<leader>g', function()
+        vim.keymap.set('n', '<leader>fg', function()
             builtin.live_grep(current_theme())
         end)
-        vim.keymap.set('n', '<leader>b', function()
-            builtin.buffers(current_theme())
-        end)
-        vim.keymap.set('n', '<leader>h', function()
+        vim.keymap.set('n', '<leader>fh', function()
             builtin.help_tags(current_theme(true))
         end)
-        vim.keymap.set('n', '<leader>.', function()
-            builtin.resume(current_theme())
-        end)
-        vim.keymap.set('n', '<leader>e', function()
+        vim.keymap.set('n', '<leader>fe', function()
             builtin.diagnostics(current_theme(false))
         end)
-        vim.keymap.set("n", "<leader>d", function()
+        vim.keymap.set("n", "<leader>fd", function()
             telescope.extensions.file_browser.file_browser({
                 path = "%:p:h",
                 cwd = telescope_buffer_dir(),
