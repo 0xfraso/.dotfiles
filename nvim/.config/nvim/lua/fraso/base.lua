@@ -48,5 +48,5 @@ vim.opt.mouse = 'a'
 -- disable cursor styling
 vim.opt.guicursor = ''
 
-vim.opt.listchars = { eol = "↲" }
-vim.opt.list = true
+vim.o.splitbelow = true
+vim.o.splitright = true
