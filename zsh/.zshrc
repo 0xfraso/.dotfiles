@@ -140,6 +140,8 @@ alias tm='tmux'
 alias b="bat --color=always --theme=gruvbox-dark"
 alias xclip="xclip -selection c"
 
+alias z='zellij'
+
 # ls replacement
 TREE_IGNORE="cache|log|logs|node_modules|vendor"
 
@@ -151,9 +153,9 @@ alias ltt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
 alias lttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
 alias ltttt=' ls --tree -D -L 6 -I ${TREE_IGNORE}'
 
-bindkey -s "^o" "fe\n"
+#bindkey -s "^o" "fe\n"
 bindkey -s "^f" "ff\n"
-bindkey "^[[3;5~" clear-screen
+#bindkey "^[[3;5~" clear-screen
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

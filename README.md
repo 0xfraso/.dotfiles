@@ -1,10 +1,10 @@
 # fraso's .dotfiles
 
-💥 alacritty | 🖥  tmux | ✍️ NeoVim
+💻  i3wm | 💥 alacritty | 🖥  zellij | ✍️  NeoVim
 
 ## Detailed Setup
 
-- Terminal: alacritty + tmux
+- Terminal: alacritty + zellij
 - Shell: zsh
 - Editor: nvim
 - Source control: git 
@@ -13,15 +13,13 @@
 ### NeoVim
 
 Features:
-- Plugin manager: packer
+- Plugin manager: lazy.nvim
 - Statue line: lualine
 - Completions: nvim-cmp
 - LSP
 - Syntax highlighting: treesitter
 - Fuzzy finder: Telescope
-- File tree: nvim-tree
 - Snippets: LuaSnip
-- other goodies...
 
 ---
 
