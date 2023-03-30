@@ -1,5 +1,6 @@
 return
 {
+    {'mg979/vim-visual-multi'},
     { -- colorschemes
         'raddari/last-color.nvim',
         { '~/projects/gruber-darker.nvim', dev = true },
