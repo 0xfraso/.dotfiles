@@ -11,21 +11,6 @@ menu_cmd() {
   rofi -dmenu -i
 }
 
-set_active() {
-  monitor="$1"
-  modes="$(xrandr | tr '\n' ' ' | grep -hoe "$monitor.\+" | grep -hoPe "\d+x\d+ ")"
-  chosen_mode=$(echo -e "Auto\n${modes[@]}\nBack\nExit" | menu_cmd)
-  if [ "$chosen_mode" == "Exit" ] || [ -z "$chosen_mode" ]; then 
-    exit
-  elif [ "$chosen_mode" != "Back" ]; then
-    if [ "$chosen_mode" == "Auto" ]; then
-      xrandr --output "$monitor" --auto
-    else
-      xrandr --output "$monitor" --mode "$chosen_mode"
-    fi
-  fi
-}
-
 set_resolution() {
   monitor="$1"
   modes="$(xrandr | tr '\n' ' ' | grep -hoe "$monitor.\+" | grep -hoPe "\d+x\d+ ")"
