@@ -1,17 +1,10 @@
 return {
     'nvim-telescope/telescope.nvim',
-    dependencies = {
-        'nvim-telescope/telescope-file-browser.nvim',
-    },
     config = function()
         local telescope = require("telescope")
         local actions = require('telescope.actions')
         local actions_layout = require('telescope.actions.layout')
         local builtin = require("telescope.builtin")
-
-        local function telescope_buffer_dir()
-            return vim.fn.expand('%:p:h')
-        end
 
         local current_theme = function(previewer)
             return require('telescope.themes').get_ivy {
@@ -19,7 +12,6 @@ return {
             }
         end
 
-        local fb_actions = require 'telescope'.extensions.file_browser.actions
         telescope.setup({
             pickers = {
                 find_files = {
@@ -74,26 +66,8 @@ return {
                     n = i,
                 },
             },
-            extensions = {
-                file_browser = {
-                    -- disables netrw and use telescope-file-browser in its place
-                    hijack_netrw = true,
-                    theme = "ivy",
-                    mappings = {
-                        -- your custom insert mode mappings
-                        ["i"] = {
-                        },
-                        ["n"] = {
-                            -- your custom normal mode mappings
-                            ["N"] = fb_actions.create,
-                            ["-"] = fb_actions.goto_parent_dir,
-                        },
-                    },
-                },
-            },
+            extensions = {},
         })
-
-        telescope.load_extension("file_browser")
 
         vim.keymap.set('n', '<leader>ff',
             function()
@@ -111,18 +85,7 @@ return {
         vim.keymap.set('n', '<leader>fe', function()
             builtin.diagnostics(current_theme(false))
         end)
-        vim.keymap.set("n", "<leader>fd", function()
-            telescope.extensions.file_browser.file_browser({
-                path = "%:p:h",
-                cwd = telescope_buffer_dir(),
-                respect_gitignore = false,
-                hidden = true,
-                grouped = true,
-                previewer = false,
-                initial_mode = "normal",
-            })
-        end)
-        vim.keymap.set('n', '<leader>\'', function()
+        vim.keymap.set('n', '<leader>fw', function()
             builtin.current_buffer_fuzzy_find(current_theme(true))
         end)
     end
