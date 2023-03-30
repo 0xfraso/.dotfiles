@@ -78,6 +78,12 @@ return {
             },
         }
 
+        local server_filetypes = {
+            tailwindcss = {
+                "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "php"
+            },
+        }
+
         mason_lspconfig.setup {
             ensure_installed = vim.tbl_keys(servers)
         }
@@ -88,6 +94,7 @@ return {
                     capabilities = capabilities,
                     on_attach = on_attach,
                     settings = servers[server_name],
+                    filetypes = server_filetypes[server_name],
                     root_dir = function()
                         return vim.loop.cwd()
                     end
