@@ -1,7 +1,7 @@
 # Opacity
 
 window:
-  opacity: 1
+  opacity: 0.92
 
   # Window class (Linux/BSD only):
   class:
@@ -22,7 +22,7 @@ font:
   italic:
     family: Iosevka Nerd Font
     style: Italic
-  size: 15
+  size: 18
 
 import:
   - ~/.config/alacritty/gruber_darker.yml

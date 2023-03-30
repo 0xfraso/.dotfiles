@@ -5,6 +5,9 @@ icons_format = "{icon}"
 theme = "plain"
 [theme.overrides]
 idle_fg = "#ffffff"
+good_fg = "#00f300"
+info_fg = "#ffff00"
+warning_fg = "#f50000"
 separator = '|'
 separator_fg = '#343942'
 
@@ -25,15 +28,22 @@ cmd = "sh ~/bin/kblayout.sh"
 
 [[block]]
 block = "nvidia_gpu"
-format = " $icon $name $utilization $temperature "
+format = " $name $utilization $temperature"
 
 [[block]]
 block = "temperature"
-format = " $icon $average"
+format = "TEMP: $average"
 
 [[block]]
 block = "cpu"
-format = " $icon $utilization "
+format = "CPU: $utilization"
+
+[[block]]
+block = "memory"
+warning_mem = 70.0
+critical_mem = 90.0
+format = "MEM: $mem_used_percents.eng(w:2)"
+format_alt = "MEM: $mem_avail_percents.eng(w:2)"
 
 [[block]]
 block = "disk_space"
@@ -43,11 +53,7 @@ alert_unit = "GB"
 interval = 20
 warning = 20.0
 alert = 10.0
-format = " $icon SDD: $available.eng(w:2) "
-
-[[block]]
-block = "memory"
-format = " $icon $mem_used_percents.eng(w:2) "
+format = "SDD: $available.eng(w:2)"
 
 [[block]]
 block = "sound"
@@ -59,5 +65,5 @@ cmd = "pavucontrol"
 block = "time"
 interval = 60
 [block.format]
-full = " $icon $timestamp.datetime(f:'%a %Y-%m-%d %R', l:it_IT) "
-short = " $icon $timestamp.datetime(f:%R) "
+full = "$timestamp.datetime(f:'%a %Y-%m-%d %R', l:it_IT)"
+short = "$timestamp.datetime(f:%R)"

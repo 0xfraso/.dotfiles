@@ -17,9 +17,9 @@ $line_break\
 $character"""
 
 [username]
-style_user = "bold green"
+style_user = "bold white"
 style_root = "bold white"
-format = " {$user}($style) "
+format = ' [{$user}]($style) '
 disabled = false
 show_always = true
 
