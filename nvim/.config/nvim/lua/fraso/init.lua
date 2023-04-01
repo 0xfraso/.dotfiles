@@ -2,7 +2,6 @@ require('fraso.base')
 require('fraso.autocmds')
 require('fraso.maps')
 require('fraso.lazy')
-require('fraso.colors')
 
 local has = function(x)
     return vim.fn.has(x) == 1
@@ -16,3 +15,7 @@ end
 if is_win then
     vim.opt.clipboard:prepend { 'unnamed', 'unnamedplus' }
 end
+
+vim.cmd.colorscheme(require("last-color").recall())
+
+require("fraso.highlights").setup()

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR="${HOME}/.screenlayout/default"
+DIR="${HOME}/.screenlayout/default.sh"
 FILENAME=$(basename $DIR)
 
 if [[ -f "${DIR}" ]]; then

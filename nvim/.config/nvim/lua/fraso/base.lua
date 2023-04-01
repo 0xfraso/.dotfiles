@@ -50,3 +50,5 @@ vim.opt.guicursor = ''
 
 vim.o.splitbelow = true
 vim.o.splitright = true
+
+vim.opt.list = true
