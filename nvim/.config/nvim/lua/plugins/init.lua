@@ -23,7 +23,7 @@ return
 
     { 'folke/neodev.nvim', ft = "lua" },
     { 'windwp/nvim-ts-autotag',
-        ft = { "html", "ts", "js", "tsx", "jsx", "xml", "xhtml" },
+        ft = { "html", "typescript", "javascript", "typescriptreact", "javascriptreact", "xml", "xhtml" },
         config = function() require("nvim-ts-autotag").setup() end },
     { 'windwp/nvim-autopairs', config = function()
         require("nvim-autopairs").setup({
