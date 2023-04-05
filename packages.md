@@ -3,7 +3,6 @@ zsh
 lazygit
 thunar
 i3-gaps
-polybar
 dunst
 xob
 fzf

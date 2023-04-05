@@ -13,7 +13,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # If you come from bash you might have to change your $PATH.
 export DOTFILES=$HOME/.dotfiles
-export STOW_FOLDERS="alacritty,i3,nvim,polybar,tmux,zsh,bin,picom,rofi-scripts"
+export STOW_FOLDERS="alacritty,i3,nvim,tmux,zsh,bin,picom,rofi,starship"
 export PATH=$HOME/bin:/usr/local/bin:$PATH:$DOTFILES:$HOME/go/bin:$HOME/.cargo/bin
 export ROFISCRIPTS=$DOTFILES/rofi-scripts/.config/rofi-scripts
 export CONFIG=$HOME/.config

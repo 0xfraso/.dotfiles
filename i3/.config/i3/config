@@ -7,10 +7,11 @@ font pango:Iosevka Nerd Font 13
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # anti-mouse rule
-focus_follows_mouse no
+focus_follows_mouse yes
 
  bar {
     status_command /usr/bin/i3status-rs ~/.i3status.toml
+    #status_command /usr/bin/i3status
     #mode hide
     modifier $mod
     position bottom
@@ -34,30 +35,13 @@ bindsym $mod+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle &&
 # start a browser
   bindsym $mod+b exec brave
 
-# start nitrogen
-	for_window [title="Nitrogen"] floating enable; move position center;
-
-# start notetaker
-	bindsym $mod+n exec --no-startup-id $term --title notetaker -e ~/.dotfiles/bin/bin/notetaker 
-	for_window [title="notetaker"] floating enable, move position center;
-
-# anti-mouse
-	for_window [class="anti-mouse"] floating enable, resize set 50 50, sticky enable, move position 0 0;
-
-# pulsemixer exception
-	for_window [class="pulsemixer"] floating enable; move position center
-
-# Thunar exception
-	for_window [class="Thunar"] floating enable; move position center
-
-# bpytop exception
-	for_window [class="bpytop"] move container to workspace $ws7
-
-# mpv exception
-	for_window [class="mpv"] move container to workspace $ws6
-
 # kill focused window
   bindsym $mod+q kill
+
+# move focused container to other monitor
+  bindsym $mod+o move to output next
+# move ws to other monitor
+  bindsym $mod+Control+o move workspace to output next
 
 # change focus
   bindsym $mod+h focus left
@@ -157,12 +141,6 @@ bindsym $mod+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle &&
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-  # These bindings trigger as soon as you enter the resize mode
-
-  # Pressing left will shrink the window’s width.
-  # Pressing right will grow the window’s width.
-  # Pressing up will shrink the window’s height.
-  # Pressing down will grow the window’s height.
   bindsym h resize shrink width 4 px or 4 ppt
   bindsym j resize grow height 4 px or 4 ppt
   bindsym k resize shrink height 4 px or 4 ppt
@@ -206,21 +184,16 @@ mode "$mode_gaps" {
 #gaps inner 10
 #gaps outer 10
 
-for_window [class="^.*"] border pixel 2
-
 # toggle alacritty opacity
   bindsym $mod+Control+a exec --no-startup-id ~/.dotfiles/bin/bin/toggle_alacritty_opacity
-
-# polybar (with toggle)
-  bindsym $mod+p exec --no-startup-id ~/.config/polybar/toggle.sh
 
 # toggle kb layout (it/us)
   bindsym $mod+Control+k exec --no-startup-id ~/.dotfiles/bin/bin/kblayout.sh
 
-# rofi
+# rofi keybindings
 
-	set $ROFISCRIPTS ~/.dotfiles/rofi/.config/rofi/scripts
-	set $DOTFILES ~/.dotfiles
+  set $ROFISCRIPTS ~/.dotfiles/rofi/.config/rofi/scripts
+  set $DOTFILES ~/.dotfiles
   bindsym $mod+Control+q exec --no-startup-id $ROFISCRIPTS/powermenu.sh
   bindsym $mod+d exec --no-startup-id $ROFISCRIPTS/launcher.sh
   bindsym $mod+Control+b exec --no-startup-id $ROFISCRIPTS/bluetooth.sh
@@ -242,13 +215,20 @@ for_window [class="^.*"] border pixel 2
   #smart_gaps on
   smart_borders on
 
-# Automove window to workspace
+# rules
+  for_window [class="^.*"] border pixel 2
   for_window [class="Spotify"] move container to workspace $ws9
   for_window [class="discord"] move container to workspace $ws10
+  for_window [class="anti-mouse"] floating enable, resize set 50 50, sticky enable, move position 0 0;
+  for_window [class="pulsemixer"] floating enable; move position center
+  for_window [class="Thunar"] floating enable; move position center
+  for_window [class="bpytop"] move container to workspace $ws7
+  for_window [class="mpv"] move container to workspace $ws6
+  for_window [title="Nitrogen"] floating enable; move position center;
+  for_window [title="notetaker"] floating enable, move position center;
+  bindsym $mod+n exec --no-startup-id $term --title notetaker -e ~/.dotfiles/bin/bin/notetaker 
 
 # autostart
-  # exec_always --no-startup-id thunar
-  # exec_always --no-startup-id sh ~/.dotfiles/polybar/.config/polybar/launch.sh
   exec_always --no-startup-id flameshot
   exec_always --no-startup-id nm-applet
   exec_always --no-startup-id blueman-applet
@@ -263,19 +243,3 @@ for_window [class="^.*"] border pixel 2
 # Scratchpads
   for_window [class="whatsdesk"] move scratchpad; 
   bindsym $mod+minus [class="whatsdesk"] scratchpad show; move position center
-
-#set_from_resource $fg foreground
-#set_from_resource $bg background
-#
-#set $bg-color 	         #383C4A
-#set $bd-color		     #89b4fa
-#set $inactive-bg-color   #383C4A
-#set $inactive-bd-color	 #383C4A
-#set $text-color          #f3f4f5
-#set $inactive-text-color #676E7D
-##				            border			background		text	 	 	     indicator	child border 
-#client.focused          	$bd-color		$bg-color		$text-color   		 $bd-color	$bd-color  
-#client.unfocused        	$bg-color		$bg-color 		$inactive-text-color $bg-color	$bg-color
-#client.focused_inactive		$bg-color		$bg-color	 	$inactive-text-color $bg-color	$bg-color
-#client.urgent           	$bg-color   	$bg-color		$text-color		     $bg-color	$bg-color
-#client.background  					        $bg-color
