@@ -57,7 +57,7 @@ gum confirm "Install rofi scripts?" && echo "Installing rofi scripts.." \
 yay -S $PACKAGES
 
 if [[ -z $STOW_FOLDERS ]]; then
-    STOW_FOLDERS=$(echo "alacritty,i3,nvim,polybar,tmux,zsh,bin,picom,rofi-scripts,starship" | gum choose --no-limit)
+    STOW_FOLDERS=$(echo "alacritty,i3,nvim,tmux,zsh,bin,picom,rofi,starship" | gum choose --no-limit)
 fi
 
 if [[ -z $DOTFILES ]]; then
