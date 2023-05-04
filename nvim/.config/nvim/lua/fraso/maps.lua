@@ -7,7 +7,7 @@ keymap.set("n", '<leader>w', ':w<Return>')
 keymap.set("n", '<C-u>', '<C-u>zz')
 keymap.set("n", '<C-d>', '<C-d>zz')
 keymap.set("n", "n", 'nzz')
-keymap.set("n", "n", 'Nzz')
+keymap.set("n", "N", 'Nzz')
 keymap.set("n", "J", "mzJ`z")
 
 -- move highlighted lines and indent
@@ -21,12 +21,8 @@ keymap.set("n", '<leader>o', ':so %<Return>')
 -- Don't yank on x
 keymap.set("n", 'x', '"_x')
 
--- Ctrl delete
-keymap.set('i', '<C-H>', '<C-W>')
-
--- Exit insert mode
-keymap.set('i', 'jk', '<Esc>')
-keymap.set('i', 'kj', '<Esc>')
+-- Alt delete (delete word)
+keymap.set('i', '<M-BS>', '<C-W>')
 
 -- Clear highlighted
 keymap.set("n", '<F2>', ':noh<Return><C-l>')
@@ -34,9 +30,6 @@ keymap.set("n", '<F2>', ':noh<Return><C-l>')
 -- Increment/decrement
 keymap.set("n", '+', '<C-a>')
 keymap.set("n", '-', '<C-x>')
-
--- Select all
-keymap.set("n", 'gga', 'gg<S-v>G')
 
 -- Close tab
 keymap.set("n", '<leader>x', ':bdelete<Return>')
@@ -52,7 +45,7 @@ keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left
 keymap.set("n", "<leader>t", '<Cmd>term<CR>')
 keymap.set("t", "<Esc>", [[<C-\><C-n>]])
 
-vim.keymap.set("n", "<leader>cc", '<Cmd>lua require("fraso/compile").compile()<CR>')
-vim.keymap.set("n", "<leader>c", '<Cmd>lua require("fraso/compile").compile_command()<CR>')
+keymap.set("n", "<leader>cc", '<Cmd>lua require("fraso/compile").compile()<CR>')
+keymap.set("n", "<leader>c", '<Cmd>lua require("fraso/compile").compile_command()<CR>')
 
-vim.keymap.set("n", "<leader>=", '<Cmd>lua vim.lsp.buf.format()<CR>')
+keymap.set("n", "<leader>=", '<Cmd>lua vim.lsp.buf.format()<CR>')

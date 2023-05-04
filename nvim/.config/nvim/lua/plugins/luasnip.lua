@@ -1,16 +1,10 @@
 return {
     {
         'L3MON4D3/LuaSnip',
+        lazy = true,
+        dependencies = {'rafamadriz/friendly-snippets'},
         config = function()
-            return require('luasnip').config.setup()
+            require("luasnip.loaders.from_vscode").lazy_load({})
         end
     },
-    {
-        'rafamadriz/friendly-snippets',
-        config = function()
-            require("luasnip").filetype_extend("javascript", { "javascriptreact" })
-            require("luasnip").filetype_extend("javascript", { "html" })
-            return require("luasnip.loaders.from_vscode").load({ paths = { "~/.local/share/nvim/lazy/friendly-snippets/snippets" } })
-        end
-    }
 }

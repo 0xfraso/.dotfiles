@@ -102,5 +102,7 @@ return
             },
         })
         vim.keymap.set("n", "<leader>fd", '<Cmd>Oil<CR>')
+
+        vim.api.nvim_set_hl(0, "OilDir", { link = "Directory" })
     end
 }

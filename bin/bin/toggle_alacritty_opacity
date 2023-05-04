@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-[[ ! -f ~/.config/alacritty/alacritty.yml ]] \
-    && notify-send "alacritty.yml does not exist" \
+
+FILE="$HOME/.alacritty.local.yml"
+
+[[ ! -f ${FILE} ]] \
+    && notify-send "${FILE} does not exist" \
     && exit 0
 
 opacity=$(awk '$1 == "opacity:" {print $2; exit}'\
-    ~/.config/alacritty/alacritty.yml)
+    ${FILE})
 
 case $opacity in
     1)
@@ -17,4 +20,4 @@ case $opacity in
 esac
 
 sed -i -- "s/opacity: $opacity/opacity: $toggle_opacity/"   \
-        ~/.config/alacritty/alacritty.yml
+        ${FILE}

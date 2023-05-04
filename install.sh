@@ -49,22 +49,10 @@ if [[ -f ~/.dotfiles/packages.md ]]; then
   PACKAGES=$(cat packages.md | gum choose --no-limit)
 fi
 
-# rofi scripts engine
-gum confirm "Install rofi scripts?" && echo "Installing rofi scripts.." \
-  && git clone --depth=1 https://github.com/adi1090x/rofi.git ~/rofi \
-  && $(cd ~/rofi chmod +x setup.sh && ./setup.sh && cd .. && sudo rm -r rofi)
-
 yay -S $PACKAGES
 
-if [[ -z $STOW_FOLDERS ]]; then
-    STOW_FOLDERS=$(echo "alacritty,i3,nvim,tmux,zsh,bin,picom,rofi,starship" | gum choose --no-limit)
-fi
-
-if [[ -z $DOTFILES ]]; then
-    DOTFILES=$HOME/.dotfiles
-fi
-
-STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES
+STOW_FOLDERS=$(ls -D | gum choose --no-limit)
+DOTFILES=$HOME/.dotfiles
 
 for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
 do 

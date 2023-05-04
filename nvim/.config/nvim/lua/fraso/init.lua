@@ -17,5 +17,3 @@ if is_win then
 end
 
 vim.cmd.colorscheme(require("last-color").recall())
-
-require("fraso.highlights").setup()

@@ -2,11 +2,17 @@
   set $mod Mod4
   floating_modifier $mod
   set $term alacritty
+  set $primary DP-0
+  set $secondary DVI-I-1
 
 font pango:Iosevka Nerd Font 13
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
-# anti-mouse rule
+workspace $ws1 output $primary
+workspace $ws2 output $secondary
+
+exec --no-startup-id setxkbmap -option "ctrl:nocaps"
+
 focus_follows_mouse yes
 
  bar {
@@ -192,7 +198,7 @@ mode "$mode_gaps" {
 
 # rofi keybindings
 
-  set $ROFISCRIPTS ~/.dotfiles/rofi/.config/rofi/scripts
+  set $ROFISCRIPTS ~/.config/rofi/scripts
   set $DOTFILES ~/.dotfiles
   bindsym $mod+Control+q exec --no-startup-id $ROFISCRIPTS/powermenu.sh
   bindsym $mod+d exec --no-startup-id $ROFISCRIPTS/launcher.sh
@@ -229,15 +235,13 @@ mode "$mode_gaps" {
   bindsym $mod+n exec --no-startup-id $term --title notetaker -e ~/.dotfiles/bin/bin/notetaker 
 
 # autostart
+  exec_always --no-startup-id ~/.dotfiles/bin/bin/monitor.sh
   exec_always --no-startup-id flameshot
   exec_always --no-startup-id nm-applet
   exec_always --no-startup-id blueman-applet
-  exec_always --no-startup-id picom --config ~/.config/picom/picom.conf --experimental-backends -f
-  exec_always --no-startup-id ~/.dotfiles/bin/bin/xobpipe 150
-  exec_always --no-startup-id ~/.dotfiles/bin/bin/monitor.sh
+  exec_always --no-startup-id picom --config=~/.config/picom/picom.conf
+  exec_always --no-startup-id nitrogen --restore
   exec --no-startup-id $term --class bpytop,bpytop -e bpytop
-  exec --no-startup-id nitrogen --restore
-  exec --no-startup-id $term --class pulsemixer,pulsemixer -e pulsemixer
   exec --no-startup-id libinput-gestures-setup start
 
 # Scratchpads

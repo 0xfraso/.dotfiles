@@ -46,7 +46,7 @@ vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.mouse = 'a'
 
 -- disable cursor styling
-vim.opt.guicursor = ''
+-- vim.opt.guicursor = ''
 
 vim.o.splitbelow = true
 vim.o.splitright = true

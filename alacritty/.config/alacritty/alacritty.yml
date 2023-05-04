@@ -1,8 +1,4 @@
-# Opacity
-
 window:
-  opacity: 0.92
-
   # Window class (Linux/BSD only):
   class:
     # Application instance name
@@ -22,9 +18,19 @@ font:
   italic:
     family: Iosevka Nerd Font
     style: Italic
-  size: 18
 
 import:
-  - ~/.config/alacritty/gruber_darker.yml
-  # ~/.config/alacritty/catppuccin_mocha.yml
-  # ~/.config/alacritty/carbonfox.yml
+  - ~/.alacritty.local.yml
+
+# example config for local file
+#
+#window:
+#  opacity: 0.92
+#
+#font:
+#  size: 22
+#
+#import:
+#  # ~/.config/alacritty/gruber_darker.yml
+#  - ~/.config/alacritty/neosolarized.yml
+#  # ~/.config/alacritty/carbonfox.yml

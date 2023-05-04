@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
 reload_dunst() {
-    pkill dunst
-    dunst \
-	-frame_width 0 &
+    killall -q dunst && notify-send "dunst reloaded!"
 }
 
 reload_dunst

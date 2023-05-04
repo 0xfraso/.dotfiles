@@ -6,12 +6,6 @@ return {
         local actions_layout = require('telescope.actions.layout')
         local builtin = require("telescope.builtin")
 
-        local current_theme = function(previewer)
-            return require('telescope.themes').get_ivy {
-                previewer = previewer,
-            }
-        end
-
         telescope.setup({
             pickers = {
                 find_files = {
@@ -71,22 +65,25 @@ return {
 
         vim.keymap.set('n', '<leader>ff',
             function()
-                builtin.find_files(current_theme(true))
+                builtin.find_files()
             end)
         vim.keymap.set('n', '<leader>fr', function()
-            builtin.registers(current_theme())
+            builtin.registers()
         end)
         vim.keymap.set('n', '<leader>fg', function()
-            builtin.live_grep(current_theme())
+            builtin.live_grep()
         end)
         vim.keymap.set('n', '<leader>fh', function()
-            builtin.help_tags(current_theme(true))
+            builtin.help_tags()
         end)
         vim.keymap.set('n', '<leader>fe', function()
-            builtin.diagnostics(current_theme(false))
+            builtin.diagnostics()
         end)
         vim.keymap.set('n', '<leader>fw', function()
-            builtin.current_buffer_fuzzy_find(current_theme(true))
+            builtin.current_buffer_fuzzy_find()
+        end)
+        vim.keymap.set('n', '<leader>fc', function()
+            builtin.colorscheme()
         end)
     end
 }
