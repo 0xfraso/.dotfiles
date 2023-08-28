@@ -5,9 +5,8 @@ return {
     { 'Shatur/neovim-ayu',        lazy = true },
     { 'ellisonleao/gruvbox.nvim', lazy = true },
     { 'EdenEast/nightfox.nvim',   lazy = true },
-    { 'Mofiqul/adwaita.nvim',     lazy = true },
     {
-        '0xfraso/gruber-darker.nvim',
+        'blazkowolf/gruber-darker.nvim',
         lazy = false,
         opts = {
             bold = true,
