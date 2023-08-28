@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 rofi \
-	-show drun \
+	-show drun -show-icons \
 	-modi run,drun,ssh \
 	-scroll-method 0 \
 	-drun-match-fields all \
