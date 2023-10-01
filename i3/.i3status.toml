@@ -20,6 +20,10 @@ bat_charging = " |^| "
 bat_discharging = " |v| "
 
 [[block]]
+block = "net"
+interval = 2 
+
+[[block]]
 block = "keyboard_layout"
 interval = 10 
 [[block.click]]

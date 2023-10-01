@@ -33,9 +33,9 @@ export VISUAL='nvim'
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="crcandy"
+# ZSH_THEME="crcandy"
 # init starship (config file located at ~/.config/starship.toml)
-#eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -160,3 +160,7 @@ bindkey -s "^f" "ff\n"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

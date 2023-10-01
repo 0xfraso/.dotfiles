@@ -76,11 +76,13 @@ return {
                     },
                 }
             },
+            astro = {},
+            angularls = {},
         }
 
         local server_filetypes = {
             tailwindcss = {
-                "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "php"
+                "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "php", "astro"
             },
         }
 

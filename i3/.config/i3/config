@@ -5,13 +5,11 @@
   set $primary DP-0
   set $secondary DVI-I-1
 
-font pango:Iosevka Nerd Font 13
+font pango:Iosevka Nerd Font 14
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 workspace $ws1 output $primary
 workspace $ws2 output $secondary
-
-exec --no-startup-id setxkbmap -option "ctrl:nocaps"
 
 focus_follows_mouse yes
 
@@ -20,7 +18,7 @@ focus_follows_mouse yes
     #status_command /usr/bin/i3status
     #mode hide
     modifier $mod
-    position bottom
+    position top
  }
 
 # Use pactl to adjust volume in PulseAudio.
@@ -225,14 +223,10 @@ mode "$mode_gaps" {
   for_window [class="^.*"] border pixel 2
   for_window [class="Spotify"] move container to workspace $ws9
   for_window [class="discord"] move container to workspace $ws10
-  for_window [class="anti-mouse"] floating enable, resize set 50 50, sticky enable, move position 0 0;
-  for_window [class="pulsemixer"] floating enable; move position center
   for_window [class="Thunar"] floating enable; move position center
   for_window [class="bpytop"] move container to workspace $ws7
   for_window [class="mpv"] move container to workspace $ws6
   for_window [title="Nitrogen"] floating enable; move position center;
-  for_window [title="notetaker"] floating enable, move position center;
-  bindsym $mod+n exec --no-startup-id $term --title notetaker -e ~/.dotfiles/bin/bin/notetaker 
 
 # autostart
   exec_always --no-startup-id ~/.dotfiles/bin/bin/monitor.sh

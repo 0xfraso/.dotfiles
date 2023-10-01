@@ -108,6 +108,11 @@ return {
                     return vim_item
                 end
             },
+            experimental = {
+                ghost_text = {
+                    hl_group = 'CmpItemKindUnit'
+                },
+            },
         })
     end
 }

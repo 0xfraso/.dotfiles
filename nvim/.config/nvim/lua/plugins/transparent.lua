@@ -22,6 +22,12 @@ return {
                 "TelescopePromptBorder",
                 "SagaBorder",
                 "SagaNormal",
+                "NoiceCmdlinePopupBorder",
+                "NoiceCmdlinePrompt",
+                "NoiceCmdlineIcon",
+                "NoiceCmdlinePopupBorderSearch",
+                "NoiceCmdlinePopupTitle",
+                "NoiceCmdlineIconSearch",
             },
         })
 
