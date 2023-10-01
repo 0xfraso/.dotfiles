@@ -28,6 +28,10 @@ return {
                 "NoiceCmdlinePopupBorderSearch",
                 "NoiceCmdlinePopupTitle",
                 "NoiceCmdlineIconSearch",
+                "GitSignsAdd",
+                "GitSignsDelete",
+                "GitSignsChange",
+                "GitSignsUntracked",
             },
         })
 
