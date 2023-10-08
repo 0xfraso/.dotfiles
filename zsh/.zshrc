@@ -156,11 +156,6 @@ alias ltttt=' ls --tree -D -L 6 -I ${TREE_IGNORE}'
 bindkey -s "^f" "ff\n"
 #bindkey "^[[3;5~" clear-screen
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 [[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
-
-
-# Load Angular CLI autocompletion.
-source <(ng completion script)
+[[ ! -f ~/.wsl.zsh ]] || source ~/.wsl.zsh
+[[ ! -f ~/.profile ]] || source ~/.profile
