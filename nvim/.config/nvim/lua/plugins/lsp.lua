@@ -90,8 +90,23 @@ return {
             ensure_installed = vim.tbl_keys(servers)
         }
 
+        -- jdtls is handled by nvim-jdtls plugin
+        local ignore_servers = { "jdtls" }
+
+        local tableContains = function(table, value)
+            for i = 1, #table do
+                if (table[i] == value) then
+                    return true
+                end
+            end
+            return false
+        end
+
         mason_lspconfig.setup_handlers {
             function(server_name)
+                if tableContains(ignore_servers, server_name) then
+                    return
+                end
                 nvim_lsp[server_name].setup {
                     capabilities = capabilities,
                     on_attach = on_attach,
@@ -106,11 +121,11 @@ return {
 
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
             vim.lsp.diagnostic.on_publish_diagnostics, {
-            underline = true,
-            update_in_insert = false,
-            virtual_text = { spacing = 4, prefix = "●" },
-            severity_sort = true,
-        })
+                underline = true,
+                update_in_insert = false,
+                virtual_text = { spacing = 4, prefix = "●" },
+                severity_sort = true,
+            })
 
         -- Diagnostic symbols in the sign column (gutter)
         local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -175,6 +190,14 @@ return {
                 incoming = ' ',
                 outgoing = ' ',
                 kind = {},
+            },
+            lightbulb = {
+                enable = true,
+                sign = false,
+                debounce = 10,
+                sign_priority = 40,
+                virtual_text = true,
+                enable_in_insert = true,
             },
         })
 
