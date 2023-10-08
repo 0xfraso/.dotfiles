@@ -55,15 +55,7 @@ return {
 
         mason.setup()
 
-        local servers = {
-            clangd = {},
-            gopls = {},
-            pyright = {},
-            rust_analyzer = {},
-            tsserver = {},
-            tailwindcss = {},
-            intelephense = {},
-            bashls = {},
+        local servers_settings = {
             lua_ls = {
                 Lua = {
                     diagnostic = {
@@ -76,18 +68,12 @@ return {
                     },
                 }
             },
-            astro = {},
-            angularls = {},
         }
 
         local server_filetypes = {
             tailwindcss = {
                 "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "php", "astro"
             },
-        }
-
-        mason_lspconfig.setup {
-            ensure_installed = vim.tbl_keys(servers)
         }
 
         -- jdtls is handled by nvim-jdtls plugin
@@ -110,7 +96,7 @@ return {
                 nvim_lsp[server_name].setup {
                     capabilities = capabilities,
                     on_attach = on_attach,
-                    settings = servers[server_name],
+                    settings = servers_settings[server_name],
                     filetypes = server_filetypes[server_name],
                     root_dir = function()
                         return vim.loop.cwd()
