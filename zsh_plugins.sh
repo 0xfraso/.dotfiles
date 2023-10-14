@@ -26,38 +26,3 @@ if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]
 else
   echo "zsh-syntax-highlighting already installed."
 fi
-
-# neovim stuff
-if [[ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]]; then
-  git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-  echo "Installing packer.nvim.."
-else
-  echo "packer.nvim already installed."
-fi
-
-# tmux plugin manager
-if [[ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  echo "Installing tmux plugin manager (tpm).."
-else
-  echo "tmux plugin manager already installed."
-fi
-
-yay -S gum;
-
-if [[ -f ~/.dotfiles/packages.md ]]; then
-  PACKAGES=$(cat packages.md | gum choose --no-limit)
-fi
-
-yay -S $PACKAGES
-
-STOW_FOLDERS=$(ls -D | gum choose --no-limit)
-DOTFILES=$HOME/.dotfiles
-
-for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
-do 
-  echo "stow $folder"
-  stow -D $folder
-  stow $folder
-done
-
