@@ -36,13 +36,17 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 alias nv="nvim"
+alias fugitive="nvim +G"
 alias lg="lazygit"
 alias dots="cd ~/.dotfiles/"
 alias py="python3"
 alias tm='tmux'
 alias b="bat --color=always --theme=gruvbox-dark"
 alias xclip="xclip -selection c"
+
 alias z='zellij'
+alias zr='zellij run --'
+alias zrf='zellij run --floating --'
 
 # ls replacement
 TREE_IGNORE="cache|log|logs|node_modules|vendor"

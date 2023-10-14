@@ -1,10 +1,34 @@
 layout {
-    default_tab_template {
-        // the default zellij tab-bar and status bar plugins
-        children
-        pane size=1 borderless=false {
-            plugin location="zellij:compact-bar"
+    pane split_direction="vertical" {
+        pane
+    }
+    pane size=1 borderless=true {
+        plugin location="file:~/zellij-plugins/zjstatus.wasm" {
+            format_left  "{mode}#[fg=black,bold] {tabs}"
+            format_right "{session} {datetime}"
+            format_space ""
+
+            mode_normal        "#[fg=black,bg=blue,bold] {name} "
+            mode_locked        "#[fg=black,bg=magenta,bold] {name} "
+            mode_resize        "#[fg=black,bg=red,bold] {name} "
+            mode_pane          "#[fg=black,bg=red,bold] {name} "
+            mode_tab           "#[fg=black,bg=red,bold] {name} "
+            mode_scroll        "#[fg=black,bg=red,bold] {name} "
+            mode_enter_search  "#[fg=black,bg=red,bold] {name} "
+            mode_search        "#[fg=black,bg=red,bold] {name} "
+            mode_rename_tab    "#[fg=black,bg=red,bold] {name} "
+            mode_rename_pane   "#[fg=black,bg=red,bold] {name} "
+            mode_session       "#[fg=black,bg=red,bold] {name} "
+            mode_move          "#[fg=black,bg=red,bold] {name} "
+            mode_prompt        "#[fg=black,bg=red,bold] {name} "
+            mode_tmux          "#[fg=black,bg=red,bold] {name} "
+
+            tab_normal   "#[fg=#6C7086] {name} "
+            tab_active   "#[fg=#9399B2,bold,italic] {name} "
+
+            datetime        "#[fg=#6C7086,bold] {format} "
+            datetime_format "%A, %d %b %Y %H:%M"
+            datetime_timezone "Europe/Rome"
         }
     }
-    tab
 }
