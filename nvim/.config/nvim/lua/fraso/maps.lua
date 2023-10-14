@@ -42,10 +42,6 @@ keymap.set("n", '<C-w><down>', '<C-w>-')
 
 keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
-keymap.set("n", "<leader>t", ":ToggleTerm<CR>")
 keymap.set("t", "<Esc>", [[<C-\><C-n>]])
-
-keymap.set("n", "<leader>cc", '<Cmd>lua require("fraso/terminal").exec()<CR>')
-keymap.set("n", "<leader>cr", '<Cmd>lua require("fraso/terminal").prompt_command()<CR>')
 
 keymap.set("n", "<leader>=", '<Cmd>lua vim.lsp.buf.format()<CR>')

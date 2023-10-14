@@ -12,9 +12,11 @@ return {
             },
 
         })
+    end,
 
-        vim.keymap.set("n", "<leader>ll", '<Cmd>:ListcharsToggle<CR>')
-        vim.keymap.set("n", "<leader>lu", '<Cmd>:ListcharsLightenColors<CR>')
-        vim.keymap.set("n", "<leader>ld", '<Cmd>:ListcharsDarkenColors<CR>')
-    end
+    keys = {
+        { "<leader>ll", '<Cmd>:ListcharsToggle<CR>',        desc = "Toggle listchars" },
+        { "<leader>lu", '<Cmd>:ListcharsLightenColors<CR>', desc = "Lighten listchars" },
+        { "<leader>ld", '<Cmd>:ListcharsDarkenColors<CR>',  desc = "Darken listchars" },
+    },
 }

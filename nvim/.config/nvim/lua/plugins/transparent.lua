@@ -34,7 +34,5 @@ return {
                 "GitSignsUntracked",
             },
         })
-
-        vim.keymap.set('n', '<leader>T', ':TransparentToggle<CR>')
     end
 }

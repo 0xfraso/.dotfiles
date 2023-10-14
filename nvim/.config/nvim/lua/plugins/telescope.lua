@@ -4,7 +4,6 @@ return {
         local telescope = require("telescope")
         local actions = require('telescope.actions')
         local actions_layout = require('telescope.actions.layout')
-        local builtin = require("telescope.builtin")
 
         telescope.setup({
             pickers = {
@@ -62,28 +61,14 @@ return {
             },
             extensions = {},
         })
-
-        vim.keymap.set('n', '<leader>ff',
-            function()
-                builtin.find_files()
-            end)
-        vim.keymap.set('n', '<leader>fr', function()
-            builtin.registers()
-        end)
-        vim.keymap.set('n', '<leader>fg', function()
-            builtin.live_grep()
-        end)
-        vim.keymap.set('n', '<leader>fh', function()
-            builtin.help_tags()
-        end)
-        vim.keymap.set('n', '<leader>fe', function()
-            builtin.diagnostics()
-        end)
-        vim.keymap.set('n', '<leader>fw', function()
-            builtin.current_buffer_fuzzy_find()
-        end)
-        vim.keymap.set('n', '<leader>fc', function()
-            builtin.colorscheme()
-        end)
-    end
+    end,
+    keys = {
+        { '<leader>ff', function() require("telescope.builtin").find_files() end, desc = "File Browser" },
+        { '<leader>fr', function() require("telescope.builtin").registers() end, desc = "Registers" },
+        { '<leader>fg', function() require("telescope.builtin").live_grep() end, desc = "Live grep" },
+        { '<leader>fh', function() require("telescope.builtin").help_tags() end, desc = "Help tags" },
+        { '<leader>fe', function() require("telescope.builtin").diagnostics() end, desc = "Diagnostics" },
+        { '<leader>fw', function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Buffer fuzzy find" },
+        { '<leader>fc', function() require("telescope.builtin").colorscheme() end, desc = "Colorschemes" },
+    }
 }

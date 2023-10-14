@@ -187,19 +187,6 @@ return {
             },
         })
 
-        local opts = { noremap = true, silent = true }
-        vim.keymap.set('n', 'gn', '<Cmd>Lspsaga diagnostic_jump_next<CR>', opts)
-        vim.keymap.set('n', 'gp', '<Cmd>Lspsaga diagnostic_jump_prev<CR>', opts)
-        vim.keymap.set('n', 'H', '<Cmd>Lspsaga hover_doc<CR>', opts)
-        vim.keymap.set('n', 'gh', '<Cmd>Lspsaga peek_definition<CR>', opts)
-        vim.keymap.set('n', 'gH', '<Cmd>Lspsaga goto_definition<CR>', opts)
-        vim.keymap.set('n', 'gd', '<Cmd>Lspsaga finder<CR>', opts)
-        vim.keymap.set('n', 'gs', '<Cmd>Lspsaga show_buf_diagnostics<CR>', opts)
-        vim.keymap.set('n', 'gr', '<Cmd>Lspsaga rename<CR>', opts)
-        vim.keymap.set('n', 'ga', '<Cmd>Lspsaga code_action<CR>', opts)
-        vim.keymap.set('n', 'go', '<Cmd>Lspsaga outline<CR>', opts)
-
-
         local status_lspkind, lspkind = pcall(require, "lspkind")
         if (not status_lspkind) then return end
 
@@ -236,5 +223,18 @@ return {
                 TypeParameter = ""
             },
         })
-    end
+    end,
+    keys = {
+        { 'gn', '<Cmd>Lspsaga diagnostic_jump_next<CR>', desc = "Lspsaga" },
+        { 'gp', '<Cmd>Lspsaga diagnostic_jump_prev<CR>', desc = "Lspsaga" },
+        { 'H', '<Cmd>Lspsaga hover_doc<CR>', desc = "Lspsaga" },
+        { 'gh', '<Cmd>Lspsaga peek_definition<CR>', desc = "Lspsaga" },
+        { 'gH', '<Cmd>Lspsaga goto_definition<CR>', desc = "Lspsaga" },
+        { 'gd', '<Cmd>Lspsaga finder<CR>', desc = "Lspsaga" },
+        { 'gs', '<Cmd>Lspsaga show_buf_diagnostics<CR>', desc = "Lspsaga" },
+        { 'gr', '<Cmd>Lspsaga rename<CR>', desc = "Lspsaga" },
+        { 'ga', '<Cmd>Lspsaga code_action<CR>', desc = "Lspsaga" },
+        { 'go', '<Cmd>Lspsaga outline<CR>', desc = "Lspsaga" },
+    }
+
 }
