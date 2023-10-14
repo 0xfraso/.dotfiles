@@ -1,6 +1,3 @@
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
-
 export FZF_DEFAULT_COMMAND="fd --hidden . $HOME"
 # export FZF_DEFAULT_OPTS="--layout=reverse --padding=1 --color=dark"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -26,21 +23,6 @@ function ft() {
 	else
 		echo "please select a file to extract"
 	fi
-}
-
-# directory browse with preview
-function fb() {
-    if [[ "$#" != 0 ]]; then
-        builtin cd "$@";
-        return
-    fi
-    while true; do
-        local lsd=$(echo ".." && ls -p | grep '/$' | sed 's;/$;;')
-        local dir="$(printf '%s\n' "${lsd[@]}" | 
-          fzf --prompt 'file browser > ' --multi --reverse --preview ' __cd_nxt="$(echo {})"; __cd_path="$(echo $(pwd)/${__cd_nxt} | sed "s;//;/;")"; echo $__cd_path; echo; ls -p --color=always "${__cd_path}"; ')"
-        [[ ${#dir} != 0 ]] || return 0
-        builtin cd "$dir" &> /dev/null
-    done
 }
 
 # Install packages using yay (change to pacman/AUR helper of your choice)

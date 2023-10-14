@@ -14,41 +14,46 @@ return {
                 },
                 -- you can enable a preset for easier configuration
                 presets = {
-                    bottom_search = false, -- use a classic bottom cmdline for search
-                    command_palette = true, -- position the cmdline and popupmenu together
+                    bottom_search = true,         -- use a classic bottom cmdline for search
+                    command_palette = true,       -- position the cmdline and popupmenu together
                     long_message_to_split = true, -- long messages will be sent to a split
-                    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                    lsp_doc_border = false, -- add a border to hover docs and signature help
+                    inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+                    lsp_doc_border = true,        -- add a border to hover docs and signature help
                 },
+                views = {
+                    mini = {
+                        backend = "mini",
+                        relative = "editor",
+                        align = "center",
+                        timeout = 3000,
+                        reverse = false,
+                        focusable = true,
+                        position = {
+                            row = -3,
+                            col = "100%",
+                            -- col = 0,
+                        },
+                        size = "auto",
+                        border = {
+                            style = "rounded",
+                            padding = { 0, 0 },
+                        },
+                        zindex = 60,
+                        win_options = {
+                            winblend = 0,
+                            winhighlight = {
+                                Normal = "NormalFloat",
+                                IncSearch = "",
+                                CurSearch = "",
+                                Search = "",
+                            },
+                        },
+                    }
+                }
             })
         end,
         dependencies = {
             "MunifTanjim/nui.nvim",
-            "rcarriga/nvim-notify",
         }
     },
-    {
-        'rcarriga/nvim-notify',
-        config = function()
-            require("notify").setup(
-                {
-                    background_colour = "#000000",
-                    fps = 60,
-                    icons = {
-                        DEBUG = "",
-                        ERROR = "",
-                        INFO = "",
-                        TRACE = "✎",
-                        WARN = ""
-                    },
-                    level = 2,
-                    minimum_width = 50,
-                    render = "compact",
-                    stages = "fade_in_slide_out",
-                    timeout = 3000,
-                    top_down = true
-                }
-            )
-        end
-    }
 }

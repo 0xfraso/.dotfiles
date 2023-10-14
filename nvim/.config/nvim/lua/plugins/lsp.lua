@@ -96,7 +96,7 @@ return {
                 nvim_lsp[server_name].setup {
                     capabilities = capabilities,
                     on_attach = on_attach,
-                    settings = servers_settings[server_name],
+                    settings = servers_settings[server_name] or {},
                     filetypes = server_filetypes[server_name],
                     root_dir = function()
                         return vim.loop.cwd()

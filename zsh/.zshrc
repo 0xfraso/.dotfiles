@@ -5,6 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
 export BROWSER=/usr/bin/brave
 export TERM=xterm-256color
 
@@ -154,6 +156,9 @@ alias ltttt=' ls --tree -D -L 6 -I ${TREE_IGNORE}'
 
 #bindkey -s "^o" "fe\n"
 bindkey -s "^f" "ff\n"
+
+#zsh zsh-autosuggestions
+bindkey "^e" forward-word
 #bindkey "^[[3;5~" clear-screen
 
 [[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh

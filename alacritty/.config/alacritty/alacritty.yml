@@ -10,13 +10,13 @@ window:
     y: 10
 font:
   normal:
-    family: Iosevka Nerd Font
+    family: JetBrainsMono NF
     style: normal
   bold:
-    family: Iosevka Nerd Font
+    family: JetBrainsMono NF
     style: Bold
   italic:
-    family: Iosevka Nerd Font
+    family: JetBrainsMono NF
     style: Italic
 
 import:

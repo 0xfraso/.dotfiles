@@ -1,3 +1,6 @@
+format = """$directory$character"""
+right_format = """$all"""
+
 add_newline = false
 
 [line_break] 
