@@ -29,7 +29,7 @@ return {
                         reverse = false,
                         focusable = true,
                         position = {
-                            row = -3,
+                            row = -2,
                             col = "100%",
                             -- col = 0,
                         },

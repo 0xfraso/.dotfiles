@@ -1,6 +1,7 @@
 return
 {
     'stevearc/oil.nvim',
+    lazy = false,
     config = function()
         require("oil").setup({
             -- Id is automatically added at the beginning, and name at the end
