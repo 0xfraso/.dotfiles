@@ -16,8 +16,10 @@ function ff() {
 }
 
 function fg() {
-  IFS=$'\n' files=($(rg -n -H . | fzf -m --prompt 'edit file > ' --reverse --preview 'bat --color=always --theme=ansi --style=numbers {}'))
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  selection=($(rg --vimgrep -n -H . | fzf --no-multi --prompt 'edit file > ' --reverse --preview 'bat --color=always --theme=ansi --style=numbers $(echo {} | cut -d ":" -f1) --line-range $(echo {} | cut -d ":" -f2):'))
+  if [[ -n "$selection" ]]; then
+    ${EDITOR:-vim} ${selection%%:*} +${${selection%:*}#*:}
+  fi
 }
 
 git config --global alias.ll 'log --graph --format="%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)"'
