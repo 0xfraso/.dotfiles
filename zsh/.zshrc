@@ -41,7 +41,7 @@ alias lg="lazygit"
 alias dots="cd ~/.dotfiles/"
 alias py="python3"
 alias tm='tmux'
-alias b="bat --color=always --theme=gruvbox-dark"
+alias b="bat --color=always --theme=ansi"
 alias xclip="xclip -selection c"
 
 alias z='zellij'
@@ -60,6 +60,8 @@ alias ltttt=' ls --tree -D -L 6 -I ${TREE_IGNORE}'
 
 #zsh zsh-autosuggestions
 bindkey "^f" forward-word
+bindkey "^K" up-line-or-history
+bindkey "^J" down-line-or-history
 
 [[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
 [[ ! -f ~/.wsl.zsh ]] || source ~/.wsl.zsh

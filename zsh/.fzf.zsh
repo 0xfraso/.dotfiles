@@ -5,24 +5,33 @@ export FZF_ALT_C_COMMAND="fd -t d --hidden . $HOME"
 
 # file edit with default $EDITOR
 function fe() {
-  IFS=$'\n' files=($(fd --hidden . $HOME -t f | fzf -m --prompt 'edit file > ' --reverse --preview 'bat --color=always --style=numbers {}'))
+  IFS=$'\n' files=($(fd --hidden . $HOME -t f | fzf -m --prompt 'edit file > ' --reverse --preview 'bat --color=always --theme=ansi --style=numbers {}'))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
 # find file in cwd
 function ff() {
-  IFS=$'\n' files=($(fd --hidden . -t f | fzf -m --prompt 'edit file > ' --reverse --preview 'bat --color=always --style=numbers {}'))
+  IFS=$'\n' files=($(fd --hidden . -t f | fzf -m --prompt 'edit file > ' --reverse --preview 'bat --color=always --theme=ansi --style=numbers {}'))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
-# find and extract (.tgz)
-function ft() {
-	selected=$(find $HOME -type f -name "*.tgz" | fzf);
-	if [[ ${selected} != "" ]]; then 
-		tar xvzf $selected;
-	else
-		echo "please select a file to extract"
-	fi
+function fg() {
+  IFS=$'\n' files=($(rg -n -H . | fzf -m --prompt 'edit file > ' --reverse --preview 'bat --color=always --theme=ansi --style=numbers {}'))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
+git config --global alias.ll 'log --graph --format="%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)"'
+function fgl() {
+    local selection=$(
+      git ll --color=always "$@" | \
+        fzf --no-multi --ansi --no-sort --no-height \
+            --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+                       xargs -I@ sh -c 'git show --color=always @'"
+    )
+    if [[ -n $selection ]]; then
+        local commit=$(echo "$selection" | sed 's/^[* |]*//' | awk '{print $1}' | tr -d '\n')
+        git show $commit
+    fi
 }
 
 # Install packages using yay (change to pacman/AUR helper of your choice)
