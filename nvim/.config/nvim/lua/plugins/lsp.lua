@@ -23,29 +23,10 @@ return {
         local on_attach = function(client, bufnr)
             local formatting_enabled = false
             local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-
             local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
             --Enable completion triggered by <c-x><c-o>
             buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-            -- Mappings.
-            local opts = { noremap = true, silent = true }
-
-            -- See `:help vim.lsp.*` for documentation on any of the below functions
-            -- buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-            --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-            --buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-            --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-
-            -- formatting
-            if client.server_capabilities.documentFormattingProvider and formatting_enabled then
-                vim.api.nvim_create_autocmd("BufWritePre", {
-                    group = vim.api.nvim_create_augroup("Format", { clear = true }),
-                    buffer = bufnr,
-                    callback = function() vim.lsp.buf.format() end
-                })
-            end
         end
 
         -- Set up completion using nvim_cmp with LSP source
@@ -104,6 +85,21 @@ return {
                 }
             end,
         }
+
+        -- must `npm i @angular/language-service typescript` in this path
+        local languageServerPath = vim.fn.stdpath("data") .. "/mason/packages/angular-language-server/"
+        local cmd = { "ngserver", "--stdio", "--tsProbeLocations", languageServerPath, "--ngProbeLocations",
+            languageServerPath }
+
+        require("lspconfig").angularls.setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            cmd = cmd,
+            on_new_config = function(new_config, new_root_dir)
+                new_config.cmd = cmd
+            end,
+        }
+
 
         vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
             vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -227,14 +223,14 @@ return {
     keys = {
         { 'gn', '<Cmd>Lspsaga diagnostic_jump_next<CR>', desc = "Lspsaga" },
         { 'gp', '<Cmd>Lspsaga diagnostic_jump_prev<CR>', desc = "Lspsaga" },
-        { 'H', '<Cmd>Lspsaga hover_doc<CR>', desc = "Lspsaga" },
-        { 'gh', '<Cmd>Lspsaga peek_definition<CR>', desc = "Lspsaga" },
-        { 'gH', '<Cmd>Lspsaga goto_definition<CR>', desc = "Lspsaga" },
-        { 'gd', '<Cmd>Lspsaga finder<CR>', desc = "Lspsaga" },
+        { 'H',  '<Cmd>Lspsaga hover_doc<CR>',            desc = "Lspsaga" },
+        { 'gh', '<Cmd>Lspsaga peek_definition<CR>',      desc = "Lspsaga" },
+        { 'gH', '<Cmd>Lspsaga goto_definition<CR>',      desc = "Lspsaga" },
+        { 'gd', '<Cmd>Lspsaga finder<CR>',               desc = "Lspsaga" },
         { 'gs', '<Cmd>Lspsaga show_buf_diagnostics<CR>', desc = "Lspsaga" },
-        { 'gr', '<Cmd>Lspsaga rename<CR>', desc = "Lspsaga" },
-        { 'ga', '<Cmd>Lspsaga code_action<CR>', desc = "Lspsaga" },
-        { 'go', '<Cmd>Lspsaga outline<CR>', desc = "Lspsaga" },
+        { 'gr', '<Cmd>Lspsaga rename<CR>',               desc = "Lspsaga" },
+        { 'ga', '<Cmd>Lspsaga code_action<CR>',          desc = "Lspsaga" },
+        { 'go', '<Cmd>Lspsaga outline<CR>',              desc = "Lspsaga" },
     }
 
 }
