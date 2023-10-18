@@ -24,7 +24,7 @@ return {
                     mini = {
                         backend = "mini",
                         relative = "editor",
-                        align = "center",
+                        align = "message-right",
                         timeout = 3000,
                         reverse = false,
                         focusable = true,

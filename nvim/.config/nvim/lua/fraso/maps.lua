@@ -45,3 +45,5 @@ keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left
 keymap.set("t", "<Esc>", [[<C-\><C-n>]])
 
 keymap.set("n", "<leader>=", '<Cmd>lua vim.lsp.buf.format()<CR>')
+
+keymap.set("n", "<leader>sw", "<Cmd>set wrap!<CR>")
