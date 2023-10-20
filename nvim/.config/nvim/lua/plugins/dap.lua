@@ -22,28 +22,24 @@ return {
 
             local dap = require("dap")
 
-            dap.adapters["pwa-node"] = {
-                type = "server",
-                host = "localhost",
-                port = "${port}",
-                executable = {
-                    command = "node",
-                    args = {
-                        vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
-                        "${port}" },
-                }
+            dap.adapters.chrome = {
+                type = "executable",
+                command = "node",
+                args = {
+                    vim.fn.stdpath("data") .. "/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js" }
             }
 
             for _, language in ipairs { "javascript", "typescript" } do
                 dap.configurations[language] = {
                     {
-                        type = "pwa-node",
-                        request = "launch",
-                        name = "Launch file",
-                        program = "${file}",
-                        cwd = "${workspaceFolder}",
-                        runtimeExecutable = "node"
-                    },
+                        name = "Debug (Attach) - Remote",
+                        type = "chrome",
+                        request = "attach",
+                        sourceMaps = true,
+                        trace = true,
+                        port = 9222,
+                        webRoot = "${workspaceFolder}"
+                    }
                 }
             end
         end
