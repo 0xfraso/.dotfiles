@@ -3,22 +3,26 @@ export FZF_DEFAULT_COMMAND="fd --hidden . $HOME"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d --hidden . $HOME"
 
+export FZF_DEFAULT_OPTS="--preview-window 'top:57%' --bind=ctrl-y:preview-up,ctrl-e:preview-down,ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down"
+
+BAT_PREVIEW_OPTS="bat --color=always --style=numbers"
+
 # file edit with default $EDITOR
 function fe() {
-  IFS=$'\n' files=($(fd --hidden . $HOME -t f | fzf -m --prompt 'edit file > ' --reverse --preview 'bat --color=always --theme=ansi --style=numbers {}'))
+  IFS=$'\n' files=($(fd --hidden . $HOME -t f | fzf -m --prompt 'edit file > ' --reverse --preview "${BAT_PREVIEW_OPTS} {}"))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
 # find file in cwd
 function ff() {
-  IFS=$'\n' files=($(fd --hidden . -t f | fzf -m --prompt 'edit file > ' --reverse --preview 'bat --color=always --theme=ansi --style=numbers {}'))
+  IFS=$'\n' files=($(fd --hidden . -t f | fzf -m --prompt 'edit file > ' --reverse --preview "${BAT_PREVIEW_OPTS} {}"))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
 function fg() {
-  selection=($(rg --vimgrep -n -H . | fzf --no-multi --prompt 'edit file > ' --reverse --preview 'bat --color=always --theme=ansi --style=numbers $(echo {} | cut -d ":" -f1) --line-range $(echo {} | cut -d ":" -f2):'))
+  selection=($(rg . --line-number --hidden --no-heading --smart-case -g '!.git' -g '!node_modules' "$@" | fzf -d ':' -n 2.. --no-sort --preview "${BAT_PREVIEW_OPTS} --highlight-line {2} {1}"))
   if [[ -n "$selection" ]]; then
-    ${EDITOR:-vim} ${selection%%:*} +${${selection%:*}#*:}
+    ${EDITOR:-vim} "${selection%%:*}" +"${${selection%:*}#*:}"
   fi
 }
 
@@ -26,7 +30,7 @@ git config --global alias.ll 'log --graph --format="%C(yellow)%h%C(red)%d%C(rese
 function fgl() {
     local selection=$(
       git ll --color=always "$@" | \
-        fzf --no-multi --ansi --no-sort --no-height \
+        fzf --no-multi --ansi --no-sort \
             --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
                        xargs -I@ sh -c 'git show --color=always @'"
     )
