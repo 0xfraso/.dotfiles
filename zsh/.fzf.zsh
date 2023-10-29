@@ -3,7 +3,7 @@ export FZF_DEFAULT_COMMAND="fd --hidden . $HOME"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d --hidden . $HOME"
 
-export FZF_DEFAULT_OPTS="--preview-window 'top:57%' --bind=ctrl-y:preview-up,ctrl-e:preview-down,ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down"
+export FZF_DEFAULT_OPTS="--preview-window 'right:57%' --bind=ctrl-y:preview-up,ctrl-e:preview-down,ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down"
 
 BAT_PREVIEW_OPTS="bat --color=always --style=numbers"
 

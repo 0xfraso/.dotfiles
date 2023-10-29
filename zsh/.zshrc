@@ -1,6 +1,5 @@
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-export BROWSER=/usr/bin/brave
 export TERM=xterm-256color
 
 # using bat for manpages

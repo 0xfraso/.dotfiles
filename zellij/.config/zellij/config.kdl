@@ -224,4 +224,4 @@ copy_on_select true
 //
 // theme_dir "/path/to/my/theme_dir"
 
-theme "catppuccin-mocha" 
+theme "catppuccin-mocha"
