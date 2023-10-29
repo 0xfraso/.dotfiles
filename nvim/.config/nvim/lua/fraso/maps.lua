@@ -1,49 +1,51 @@
-local keymap = vim.keymap
+local default_opts = {
+    silent = true,
+    noremap = true
+}
+local keymap = function(mode, lhs, rhs, opts)
+    opts = vim.tbl_deep_extend("force", default_opts, opts or {})
+    vim.keymap.set(mode, lhs, rhs, opts)
+end
 
 -- Save
-keymap.set("n", '<leader>w', ':w<Return>')
+keymap("n", '<leader>w', ':w<Return>')
 
 -- Center cursor on screen after page down-up
-keymap.set("n", '<C-u>', '<C-u>zz')
-keymap.set("n", '<C-d>', '<C-d>zz')
-keymap.set("n", "n", 'nzz')
-keymap.set("n", "N", 'Nzz')
-keymap.set("n", "J", "mzJ`z")
+keymap("n", '<C-u>', '<C-u>zz')
+keymap("n", '<C-d>', '<C-d>zz')
+keymap("n", "n", 'nzz')
+keymap("n", "N", 'Nzz')
+keymap("n", "J", "mzJ`z")
 
 -- move highlighted lines and indent
 
-keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+keymap("v", "J", ":m '>+1<CR>gv=gv")
+keymap("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Source lua file
-keymap.set("n", '<leader>o', ':so %<Return>')
+keymap("n", '<leader>o', ':so %<Return>')
 
 -- Don't yank on x
-keymap.set("n", 'x', '"_x')
+keymap("n", 'x', '"_x')
 
 -- Alt delete (delete word)
-keymap.set('i', '<M-BS>', '<C-W>')
+keymap('i', '<M-BS>', '<C-W>')
 
 -- Clear highlighted
-keymap.set("n", '<F2>', ':noh<Return><C-l>')
+keymap("n", '<F2>', ':noh<Return><C-l>')
 
 -- Increment/decrement
-keymap.set("n", '+', '<C-a>')
-keymap.set("n", '-', '<C-x>')
+keymap("n", '+', '<C-a>')
+keymap("n", '-', '<C-x>')
 
--- Close tab
-keymap.set("n", '<leader>x', ':bdelete<Return>')
+-- Close buffer
+keymap("n", '<leader>x', ':bdelete<Return>')
+keymap("n", 'tn', ':tabNext<CR>')
 
--- Resize window
-keymap.set("n", '<C-w><left>', '<C-w><')
-keymap.set("n", '<C-w><right>', '<C-w>>')
-keymap.set("n", '<C-w><up>', '<C-w>+')
-keymap.set("n", '<C-w><down>', '<C-w>-')
+keymap("n", "gR", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { silent = false })
 
-keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+keymap("t", "<Esc>", [[<C-\><C-n>]])
 
-keymap.set("t", "<Esc>", [[<C-\><C-n>]])
+keymap("n", "<leader>=", '<Cmd>lua vim.lsp.buf.format()<CR>')
 
-keymap.set("n", "<leader>=", '<Cmd>lua vim.lsp.buf.format()<CR>')
-
-keymap.set("n", "<leader>sw", "<Cmd>set wrap!<CR>")
+keymap("n", "<leader>sw", "<Cmd>set wrap!<CR>")

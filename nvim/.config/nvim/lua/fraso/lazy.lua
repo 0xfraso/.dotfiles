@@ -21,4 +21,5 @@ lazy.setup({
     { import = "plugins" },
     { import = "plugins.lsp" },
     { import = "plugins.colorschemes" },
+    { import = "plugins.dap" },
 })

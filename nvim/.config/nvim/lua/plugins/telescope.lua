@@ -1,9 +1,27 @@
 return {
     'nvim-telescope/telescope.nvim',
+    dependencies = {
+        {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            build =
+            "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
+        }
+    },
     config = function()
-        local telescope = require("telescope")
-        local actions = require('telescope.actions')
-        local actions_layout = require('telescope.actions.layout')
+        local telescope, builtin, actions, actions_layout, theme = require("telescope"), require("telescope.builtin"),
+            require('telescope.actions'), require('telescope.actions.layout'), require("telescope.themes")
+
+        require('telescope.pickers.layout_strategies').my_bottom_pane = function(picker, max_columns, max_lines, layout_config)
+            local layout = require('telescope.pickers.layout_strategies').bottom_pane(picker, max_columns, max_lines, layout_config)
+            layout.results.title = ''
+            layout.preview.title = ''
+            return layout
+        end
+
+        local opts = theme.get_ivy({
+            results_title = false,
+            layout_strategy = "my_bottom_pane"
+        })
 
         telescope.setup({
             pickers = {
@@ -20,19 +38,6 @@ return {
                 selection_strategy = "reset",
                 sorting_strategy = "descending",
                 layout_strategy = "horizontal",
-                layout_config = {
-                    horizontal = {
-                        prompt_position = "bottom",
-                        preview_width = 0.55,
-                        results_width = 0.8,
-                    },
-                    vertical = {
-                        mirror = false,
-                    },
-                    width = 0.87,
-                    height = 0.95,
-                    preview_cutoff = 120,
-                },
 
                 file_sorter = require("telescope.sorters").get_fuzzy_file,
                 file_ignore_patterns = { "node_modules" },
@@ -59,16 +64,37 @@ return {
                     n = i,
                 },
             },
-            extensions = {},
+            extensions = {
+                fzf = {
+                    fuzzy = true,                   -- false will only do exact matching
+                    override_generic_sorter = true, -- override the generic sorter
+                    override_file_sorter = true,    -- override the file sorter
+                    case_mode = "smart_case",       -- or "ignore_case" or "respect_case" the default case_mode is "smart_case"
+                }
+            },
         })
+
+        telescope.load_extension("fzf")
+        telescope.load_extension("git_worktree")
+
+        local worktrees = function()
+            telescope.extensions.git_worktree.git_worktrees()
+        end
+
+        vim.keymap.set("n", '<leader>ff', function() builtin.find_files(opts) end)
+        vim.keymap.set("n", '<leader>fb', function() builtin.buffers(opts) end)
+        vim.keymap.set("n", '<leader>fr', function() builtin.resume(opts) end)
+        vim.keymap.set("n", '<leader>fg', function() builtin.grep_string(opts) end)
+        vim.keymap.set("n", '<leader>fh', function() builtin.help_tags(opts) end)
+        vim.keymap.set("n", '<leader>fe', function() builtin.diagnostics(opts) end)
+        vim.keymap.set("n", '<leader>fw', function() builtin.current_buffer_fuzzy_find(opts) end)
+        vim.keymap.set("n", '<leader>fc', function() builtin.highlights(opts) end)
+        vim.keymap.set("n", '<leader>gs', function() builtin.git_status(opts) end)
+
+        vim.keymap.set("n", '<leader>gw', worktrees)
+
+        vim.api.nvim_create_user_command('GitBranches', function() builtin.git_branches(opts) end, {})
+        vim.api.nvim_create_user_command("GitWorktrees", worktrees, {})
+        vim.api.nvim_create_user_command("GitWorktreesCreate", function() telescope.extensions.git_worktree.create_git_worktree() end, {})
     end,
-    keys = {
-        { '<leader>ff', function() require("telescope.builtin").find_files() end, desc = "File Browser" },
-        { '<leader>fr', function() require("telescope.builtin").registers() end, desc = "Registers" },
-        { '<leader>fg', function() require("telescope.builtin").live_grep() end, desc = "Live grep" },
-        { '<leader>fh', function() require("telescope.builtin").help_tags() end, desc = "Help tags" },
-        { '<leader>fe', function() require("telescope.builtin").diagnostics() end, desc = "Diagnostics" },
-        { '<leader>fw', function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Buffer fuzzy find" },
-        { '<leader>fc', function() require("telescope.builtin").colorscheme() end, desc = "Colorschemes" },
-    }
 }

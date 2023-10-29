@@ -14,6 +14,7 @@ return {
         lazy = false,
         keys = {
             { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", desc = "Gitsigns preview hunk" },
+            { "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", desc = "Gitsigns reset hunk" },
         }
     },
 }

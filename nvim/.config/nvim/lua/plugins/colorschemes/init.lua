@@ -11,7 +11,7 @@ return {
         opts = {
             bold = true,
             invert = {
-                visual = true
+                visual = false
             },
         }
     },
