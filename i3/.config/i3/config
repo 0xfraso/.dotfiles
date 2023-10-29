@@ -4,6 +4,7 @@
   set $term alacritty
   set $primary DP-0
   set $secondary DVI-I-1
+  set $browser google-chrome-stable
 
 font pango:Iosevka Nerd Font 14
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -37,7 +38,7 @@ bindsym $mod+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle &&
   bindsym $mod+Control+r exec --no-startup-id $term -e "ranger"
 
 # start a browser
-  bindsym $mod+b exec brave
+  bindsym $mod+b exec --no-startup-id $browser
 
 # kill focused window
   bindsym $mod+q kill
