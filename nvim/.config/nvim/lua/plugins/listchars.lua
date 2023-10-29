@@ -13,7 +13,7 @@ return {
 
         })
     end,
-
+    lazy = false,
     keys = {
         { "<leader>ll", '<Cmd>:ListcharsToggle<CR>',        desc = "Toggle listchars" },
         { "<leader>lu", '<Cmd>:ListcharsLightenColors<CR>', desc = "Lighten listchars" },
