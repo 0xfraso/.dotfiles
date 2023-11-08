@@ -1,5 +1,5 @@
 require('fraso.base')
-require('fraso.autocmds')
+require('fraso.auto')
 require('fraso.maps')
 require('fraso.lazy')
 

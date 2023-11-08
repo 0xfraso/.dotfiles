@@ -24,7 +24,12 @@ return {
                         path = 0            -- 0 = just filename, 1 = relative path, 2 = absolute path
                     } },
                 lualine_b = { 'diff', 'progress' },
-                lualine_c = { 'location' },
+                lualine_c = { 'location',
+                    {
+                        require("noice").api.statusline.mode.get_hl,
+                        cond = require("noice").api.statusline.mode.has,
+                    }
+                },
                 lualine_x = {
                     {
                         function()

@@ -11,17 +11,7 @@ return {
         local telescope, builtin, actions, actions_layout, theme = require("telescope"), require("telescope.builtin"),
             require('telescope.actions'), require('telescope.actions.layout'), require("telescope.themes")
 
-        require('telescope.pickers.layout_strategies').my_bottom_pane = function(picker, max_columns, max_lines, layout_config)
-            local layout = require('telescope.pickers.layout_strategies').bottom_pane(picker, max_columns, max_lines, layout_config)
-            layout.results.title = ''
-            layout.preview.title = ''
-            return layout
-        end
-
-        local opts = theme.get_ivy({
-            results_title = false,
-            layout_strategy = "my_bottom_pane"
-        })
+        local opts = theme.get_ivy({ results_title = false, })
 
         telescope.setup({
             pickers = {
@@ -60,6 +50,7 @@ return {
                         ["<C-J>"] = actions.move_selection_next,
                         ["<C-K>"] = actions.move_selection_previous,
                         ["<C-p>"] = actions_layout.toggle_preview,
+                        ['<C-l>'] = actions.smart_add_to_qflist + actions.open_qflist,
                     },
                     n = i,
                 },
@@ -85,6 +76,7 @@ return {
         vim.keymap.set("n", '<leader>fb', function() builtin.buffers(opts) end)
         vim.keymap.set("n", '<leader>fr', function() builtin.resume(opts) end)
         vim.keymap.set("n", '<leader>fg', function() builtin.grep_string(opts) end)
+        vim.keymap.set("n", '<leader>fG', function() builtin.live_grep(opts) end)
         vim.keymap.set("n", '<leader>fh', function() builtin.help_tags(opts) end)
         vim.keymap.set("n", '<leader>fe', function() builtin.diagnostics(opts) end)
         vim.keymap.set("n", '<leader>fw', function() builtin.current_buffer_fuzzy_find(opts) end)
@@ -92,6 +84,7 @@ return {
         vim.keymap.set("n", '<leader>gs', function() builtin.git_status(opts) end)
 
         vim.keymap.set("n", '<leader>gw', worktrees)
+        vim.keymap.set("n", '<leader>T', ":Telescope ")
 
         vim.api.nvim_create_user_command('GitBranches', function() builtin.git_branches(opts) end, {})
         vim.api.nvim_create_user_command("GitWorktrees", worktrees, {})

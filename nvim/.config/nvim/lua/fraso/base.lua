@@ -54,3 +54,5 @@ vim.o.splitright = true
 vim.opt.list = true
 
 vim.g.editorconfig = false -- remove automatic trim on BufWritePre
+
+vim.cmd("packadd cfilter")
