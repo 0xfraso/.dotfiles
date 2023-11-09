@@ -9,14 +9,16 @@ return {
     {
         'lewis6991/gitsigns.nvim',
         config = function()
-            require("gitsigns").setup()
+            require("gitsigns").setup({
+                current_line_blame = true,
+            })
         end,
         lazy = false,
         keys = {
             { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", desc = "Gitsigns preview hunk" },
             { "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", desc = "Gitsigns reset hunk" },
             { "<leader>gd", "<cmd>Gitsigns diffthis<cr>", desc = "Gitsigns diff current buffer" },
-            { "<leader>gq", "<cmd>Gitsigns setqflist<cr>", desc = "Gitsigns diff current buffer" },
+            { "<leader>gq", "<cmd>Gitsigns setqflist<cr>", desc = "Gitsigns send hunks to qflist" },
         }
     },
 }

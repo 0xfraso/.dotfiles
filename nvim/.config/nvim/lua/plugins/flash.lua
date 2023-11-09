@@ -25,6 +25,6 @@ return {
     cmd = {"Flash"},
     keys = {
         { "<space>f", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-        { "<space>S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+        { "<space>t", mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
     },
 }

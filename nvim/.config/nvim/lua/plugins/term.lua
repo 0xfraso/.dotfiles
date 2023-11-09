@@ -8,7 +8,7 @@ return {
             shade_terminals = false,
             shell = vim.o.shell,
             start_in_insert = true,
-            direction = "float"
+            direction = "vertical"
         })
     end,
     keys = {

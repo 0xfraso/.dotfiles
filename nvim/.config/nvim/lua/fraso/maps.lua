@@ -49,3 +49,9 @@ keymap("t", "<Esc>", [[<C-\><C-n>]])
 keymap("n", "<leader>=", '<Cmd>lua vim.lsp.buf.format()<CR>')
 
 keymap("n", "<leader>sw", "<Cmd>set wrap!<CR>")
+
+-- quickfix mappings
+keymap("n", "<leader>qn", "<Cmd>cnext<CR>")
+keymap("n", "<leader>qp", "<Cmd>cprevious<CR>")
+keymap("n", "<leader>qx", "<Cmd>cclose<CR>")
+keymap("n", "<leader>qo", "<Cmd>copen<CR>")
