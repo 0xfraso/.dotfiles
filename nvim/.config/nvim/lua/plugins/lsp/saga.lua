@@ -6,6 +6,9 @@ return {
         if (not status_saga) then return end
 
         saga.setup({
+            symbol_in_winbar = {
+                enable = false
+            },
             ui = {
                 -- currently only round theme
                 theme = 'round',
