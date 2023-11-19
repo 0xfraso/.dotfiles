@@ -5,14 +5,4 @@ return {
     { 'Shatur/neovim-ayu',        lazy = true },
     { 'ellisonleao/gruvbox.nvim', lazy = true },
     { 'EdenEast/nightfox.nvim',   lazy = true },
-    {
-        'blazkowolf/gruber-darker.nvim',
-        lazy = false,
-        opts = {
-            bold = true,
-            invert = {
-                visual = false
-            },
-        }
-    },
 }
