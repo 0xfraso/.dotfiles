@@ -5,7 +5,6 @@ return {
         'williamboman/mason-lspconfig.nvim',
         'glepnir/lspsaga.nvim', -- LSP UIs
         'onsails/lspkind-nvim', -- vscode-like pictograms
-        { 'folke/neodev.nvim', ft = "lua" },
     },
     config = function()
         local status, nvim_lsp = pcall(require, "lspconfig")
@@ -25,9 +24,11 @@ return {
         -- Use an on_attach function to only map the following keys
         -- after the language server attaches to the current buffer
         local on_attach = function(client, bufnr)
-            local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-            --Enable completion triggered by <c-x><c-o>
-            buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+            vim.keymap.set("n", "<space>l", function()
+                if client.server_capabilities.inlayHintProvider then
+                    vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled())
+                end
+            end)
         end
 
         -- Set up completion using nvim_cmp with LSP source
@@ -36,6 +37,31 @@ return {
         )
 
         local servers_settings = {
+            tsserver = {
+                javascript = {
+                    inlayHints = {
+                        includeInlayEnumMemberValueHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = true,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayVariableTypeHints = false,
+                    },
+                },
+
+                typescript = {
+                    inlayHints = {
+                        includeInlayEnumMemberValueHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = true,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayVariableTypeHints = false,
+                    },
+                },
+            },
             lua_ls = {
                 Lua = {
                     diagnostic = {
@@ -46,6 +72,7 @@ return {
                         library = vim.api.nvim_get_runtime_file("lua", true),
                         checkThirdParty = false
                     },
+                    hint = { enable = true }
                 }
             },
         }
