@@ -55,3 +55,6 @@ keymap("n", "<leader>qn", "<Cmd>cnext<CR>")
 keymap("n", "<leader>qp", "<Cmd>cprevious<CR>")
 keymap("n", "<leader>qx", "<Cmd>cclose<CR>")
 keymap("n", "<leader>qo", "<Cmd>copen<CR>")
+
+keymap("n", "<Del>", '"_x')
+keymap("v", "<Del>", '"_x')

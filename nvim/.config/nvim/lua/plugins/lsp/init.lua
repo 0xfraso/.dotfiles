@@ -1,5 +1,8 @@
 return {
     'neovim/nvim-lspconfig', -- LSP
+    opts = {
+      inlay_hints = { enabled = true },
+    },
     dependencies = {
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
@@ -64,6 +67,9 @@ return {
             },
             lua_ls = {
                 Lua = {
+                    hint = {
+                        enable = true
+                    },
                     diagnostic = {
                         globals = { "vim" },
                     },
