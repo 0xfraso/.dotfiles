@@ -11,8 +11,6 @@ return {
                 --eol = '↴',
             },
         })
-
-        require("nvim-listchars.api").set_listchars_color("#ddd000")
     end,
     lazy = false,
     priority = 0,
