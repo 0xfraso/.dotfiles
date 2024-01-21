@@ -31,9 +31,6 @@ keymap("n", 'x', '"_x')
 -- Alt delete (delete word)
 keymap('i', '<M-BS>', '<C-W>')
 
--- Clear highlighted
-keymap("n", '<F2>', ':noh<Return><C-l>')
-
 -- Increment/decrement
 keymap("n", '+', '<C-a>')
 keymap("n", '-', '<C-x>')

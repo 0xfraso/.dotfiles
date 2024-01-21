@@ -17,7 +17,7 @@ return {
             },
             sections = {
                 lualine_a = {
-                    'mode',
+                    'branch',
                     {
                         'filename',
                         file_status = true, -- displays file status (readonly status, modified status)
@@ -58,7 +58,7 @@ return {
                     'filetype',
                 },
                 lualine_y = {},
-                lualine_z = { 'branch' }
+                lualine_z = { 'mode' }
             },
             inactive_sections = {
                 lualine_a = {},

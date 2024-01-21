@@ -14,7 +14,8 @@ return
                 -- Exclude globs
                 .. " -g !**/.angular/"
                 .. " -g !**/node_modules/"
-                .. " -g !**/src/mocks/"
+                .. " -g !**/mocks/"
+                .. " -g !**/dist/"
                 .. " -g !*metadata*.xml"
             ),
             colors = {

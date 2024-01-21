@@ -6,6 +6,12 @@ return {
         invert = {
             visual = false
         },
+        italic = {
+            strings = false,
+            comments = true,
+            operators = false,
+            folds = true,
+        },
     },
     config = function ()
         vim.api.nvim_set_hl(0, "TreesitterContext", { link = "Visual" })

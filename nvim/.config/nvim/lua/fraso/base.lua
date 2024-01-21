@@ -1,4 +1,4 @@
-vim.g.mapleader = ";"
+vim.g.mapleader = " "
 vim.wo.number = true
 vim.wo.relativenumber = true
 
@@ -21,7 +21,7 @@ vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
 vim.opt.title = true

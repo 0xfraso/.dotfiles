@@ -19,6 +19,8 @@ return {
             { "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", desc = "Gitsigns reset hunk" },
             { "<leader>gd", "<cmd>Gitsigns diffthis<cr>", desc = "Gitsigns diff current buffer" },
             { "<leader>gq", "<cmd>Gitsigns setqflist<cr>", desc = "Gitsigns send hunks to qflist" },
+            { "<leader>gn", "<cmd>Gitsigns next_hunk<cr>", desc = "Gitsigns next hunk" },
+            { "<leader>gp", "<cmd>Gitsigns prev_hunk<cr>", desc = "Gitsigns previous hunk" },
         }
     },
 }

@@ -16,7 +16,7 @@ return {
         local lspkind = require 'lspkind'
 
         local opts = {
-            winhighlight = "FloatBorder:FloatBorder"
+            -- winhighlight = "FloatBorder:FloatBorder"
         }
 
         require("cmp").setup({

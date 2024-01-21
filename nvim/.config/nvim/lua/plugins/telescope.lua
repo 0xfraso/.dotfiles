@@ -87,6 +87,8 @@ return {
         vim.keymap.set("n", '<leader>T', ":Telescope ")
 
         vim.api.nvim_create_user_command('GitBranches', function() builtin.git_branches(opts) end, {})
+        vim.api.nvim_create_user_command('GitBackcommits', function() builtin.git_bcommits(opts) end, {})
+        vim.api.nvim_create_user_command('GitCommits', function() builtin.git_commits(opts) end, {})
         vim.api.nvim_create_user_command("GitWorktrees", worktrees, {})
         vim.api.nvim_create_user_command("GitWorktreesCreate", function() telescope.extensions.git_worktree.create_git_worktree() end, {})
     end,

@@ -1,6 +1,5 @@
 return {
     "folke/flash.nvim",
-    opts = {},
     config = function()
         -- highlights
         local FlashColors = {
@@ -24,7 +23,6 @@ return {
     end,
     cmd = {"Flash"},
     keys = {
-        { "<space>f", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-        { "<space>t", mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+        { "<leader>/", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
     },
 }

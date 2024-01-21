@@ -5,4 +5,5 @@ return {
     { 'Shatur/neovim-ayu',        lazy = true },
     { 'ellisonleao/gruvbox.nvim', lazy = true },
     { 'EdenEast/nightfox.nvim',   lazy = true },
+    { 'aktersnurra/no-clown-fiesta.nvim', lazy = true, },
 }
