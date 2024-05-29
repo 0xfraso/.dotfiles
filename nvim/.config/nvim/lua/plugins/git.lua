@@ -2,9 +2,6 @@ return {
   {
     "tpope/vim-fugitive",
     cmd = "G",
-    keys = {
-      { "<leader>G", "<cmd>G<cr>", desc = "Fugitive" },
-    },
   },
   {
     "lewis6991/gitsigns.nvim",
@@ -21,6 +18,24 @@ return {
       { "<leader>gq", "<cmd>Gitsigns setqflist<cr>", desc = "Gitsigns send hunks to qflist" },
       { "<leader>gn", "<cmd>Gitsigns next_hunk<cr>", desc = "Gitsigns next hunk" },
       { "<leader>gp", "<cmd>Gitsigns prev_hunk<cr>", desc = "Gitsigns previous hunk" },
+    },
+  },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- required
+      "sindrets/diffview.nvim", -- optional - Diff integration
+      "ibhagwan/fzf-lua", -- optional
+    },
+    config = true,
+    keys = {
+      {
+        "<leader>G",
+        function()
+          require("neogit").open({ kind = "split" })
+        end,
+        desc = "Neogit",
+      },
     },
   },
 }

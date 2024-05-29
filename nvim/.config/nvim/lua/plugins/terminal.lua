@@ -1,6 +1,9 @@
 return {
   "0xfraso/command.nvim",
-  opts = {}, -- see section below for configuration options
+  opts = {
+    cache_file = vim.fn.stdpath("cache") .. "/commands",
+    shell_file = os.getenv('HOME') .. "/.zsh_history",
+  }, -- see section below for configuration options
   dependencies = {
     "akinsho/toggleterm.nvim",
     "stevearc/dressing.nvim", -- optional, but recommended

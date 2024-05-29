@@ -88,11 +88,11 @@ return {
           header = vim.split(logo, "\n"),
         -- stylua: ignore
         center = {
-          { action = LazyVim.telescope("files"),                                    desc = " Find file",       icon = " ", key = "f" },
+          { action = "FzfLua files",                                    desc = " Find file",       icon = " ", key = "f" },
           { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
-          { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
-          { action = "Telescope live_grep",                                      desc = " Find text",       icon = " ", key = "g" },
-          { action = [[lua LazyVim.telescope.config_files()()]], desc = " Config",          icon = " ", key = "c" },
+          { action = "FzfLua oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
+          { action = "FzfLua live_grep",                                      desc = " Find text",       icon = " ", key = "g" },
+          { action = "lua require('fzf-lua').files({ cwd = '~/.config/nvim' })", desc = " Config",          icon = " ", key = "c" },
           { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
           { action = "LazyExtras",                                               desc = " Lazy Extras",     icon = " ", key = "x" },
           { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
@@ -146,4 +146,8 @@ return {
       },
     },
   },
+  {
+    "xiyaowong/transparent.nvim",
+    opts = {},
+  }
 }
