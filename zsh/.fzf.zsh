@@ -3,7 +3,7 @@ export FZF_DEFAULT_COMMAND="fd --hidden . $HOME"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d --hidden . $HOME"
 
-export FZF_DEFAULT_OPTS="--preview-window 'right:57%' --bind=ctrl-y:preview-up,ctrl-e:preview-down,ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down"
+export FZF_DEFAULT_OPTS="--height=100% --layout=reverse --info=inline --border --margin=1 --padding=1 --preview-window 'right:57%' --bind=ctrl-y:preview-up,ctrl-e:preview-down,ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down"
 
 BAT_PREVIEW_OPTS="bat --color=always --style=numbers"
 
@@ -53,10 +53,13 @@ function re() {
 # kill process
 function fk() {
   local pid
-  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-
+  pid=$((date; ps -ef) |
+    fzf --bind='ctrl-r:reload(date; ps -ef)' \
+        --header=$'Press CTRL-R to reload\n\n' --header-lines=2 \
+        --preview='echo {}' --preview-window=down,3,wrap \
+        --layout=reverse --height=80% | awk '{print $2}')
   if [ "x$pid" != "x" ]
   then
-    echo $pid | xargs kill -${1:-9}
+    echo $pid | xargs kill -9
   fi
 }

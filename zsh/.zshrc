@@ -1,67 +1,99 @@
+# KEEP AT THE TOP
+if [[ -n "$ZSH_DEBUGRC" ]]; then
+  zmodload zsh/zprof
+fi
+
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
+
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-
 export TERM=xterm-256color
-
-# using bat for manpages
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
-# If you come from bash you might have to change your $PATH.
 export DOTFILES=$HOME/.dotfiles
 export PATH=$HOME/bin:/usr/local/bin:$PATH:$DOTFILES:$HOME/go/bin:$HOME/.cargo/bin:$HOME/.local/bin:
 export ROFISCRIPTS=$DOTFILES/rofi-scripts/.config/rofi-scripts
 export CONFIG=$HOME/.config
-
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-
 export EDITOR='nvim'
 export VISUAL='nvim'
 
 eval "$(starship init zsh)"
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+# Set the directory we want to store zinit and plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
-plugins=(
-        git
-        zsh-autosuggestions
-        zsh-syntax-highlighting
-        fzf
-    )
+# Download Zinit, if it's not there yet
+if [ ! -d "$ZINIT_HOME" ]; then
+   mkdir -p "$(dirname $ZINIT_HOME)"
+   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
 
-source $ZSH/oh-my-zsh.sh
+# Source/Load zinit
+source "${ZINIT_HOME}/zinit.zsh"
 
-alias nv="nvim"
-alias fugitive="nvim +G"
-alias lg="lazygit"
-alias dots="cd ~/.dotfiles/"
-alias py="python3"
-alias tm='tmux'
-alias b="bat --color=always --theme=ansi"
-alias xclip="xclip -selection c"
+# zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-alias z='zellij'
-alias zr='zellij run --'
-alias zrf='zellij run --floating --'
+# Add in zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
 
-# ls replacement
-TREE_IGNORE="cache|log|logs|node_modules|vendor"
-alias ls=' exa --icons --group-directories-first'
-alias la=' ls -a'
-alias ll=' ls --git -l'
-alias lt=' ls --tree -D -L 3 -I ${TREE_IGNORE}'
-alias ltt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
-alias lttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
-alias ltttt=' ls --tree -D -L 6 -I ${TREE_IGNORE}'
+# Add in snippets
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::archlinux
+zinit snippet OMZP::command-not-found
+
+# Load completions
+autoload -Uz compinit && compinit
+
+zinit cdreplay -q
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Keybindings
+bindkey -e
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^[w' kill-region
+
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
+# Shell integration
+eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 
 #zsh zsh-autosuggestions
 bindkey "^f" forward-word
 bindkey "^K" up-line-or-history
 bindkey "^J" down-line-or-history
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
+autoload -z edit-command-line;
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
 
 [[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
 [[ ! -f ~/.wsl.zsh ]] || source ~/.wsl.zsh
+[[ ! -f ~/.alias.zsh ]] || source ~/.alias.zsh
 [[ ! -f ~/.profile ]] || source ~/.profile
