@@ -1,0 +1,21 @@
+import = ["/home/fraso/.alacritty.local.toml"]
+
+[font.bold]
+family = "JetBrainsMono NF"
+style = "Bold"
+
+[font.italic]
+family = "JetBrainsMono NF"
+style = "Italic"
+
+[font.normal]
+family = "JetBrainsMono NF"
+style = "normal"
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.padding]
+x = 10
+y = 10
