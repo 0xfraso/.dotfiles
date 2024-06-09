@@ -29,21 +29,11 @@ return {
           "mtime",
           "icon",
         },
-        float = {
-          -- Padding around the floating window
-          padding = 2,
-          max_width = 60,
-          max_height = 20,
-          border = "rounded",
-          win_options = {
-            winblend = 0,
-          },
-        },
       })
       vim.api.nvim_set_hl(0, "OilDir", { link = "Directory" })
     end,
     keys = {
-      { "<leader>e", "<Cmd>Oil --float<CR>", desc = "Oil" },
+      { "<leader>e", "<Cmd>Oil<CR>", desc = "Oil" },
     },
   },
   {

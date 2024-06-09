@@ -13,7 +13,7 @@ return {
   keys = {
     { "<leader>F",  ":FzfLua<CR>", desc = "FzfLua" },
     { "<leader>ff", ":FzfLua files<CR>", desc = "files" },
-    { "<leader>fb", ":FzfLua buffers<CR>", desc = "buffers" },
+    { "<leader><space>", ":FzfLua buffers<CR>", desc = "buffers" },
     { "<leader>fg", ":FzfLua live_grep<CR>", desc = "live_grep" },
     { "<leader>fw", ":FzfLua grep_cword<CR>", desc = "grep_cword" },
     { "<leader>gs", ":FzfLua git_files<CR>", desc = "git_files" },

@@ -1,14 +1,6 @@
 return {
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    enabled = false,
-  },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    enabled = false
-  },
-  {
-    "echasnovski/mini.indentscope",
-    enabled = false
-  }
+  { "nvim-neo-tree/neo-tree.nvim", enabled = false, },
+  { "lukas-reineke/indent-blankline.nvim", enabled = false },
+  { "echasnovski/mini.indentscope", enabled = false },
+  { "akinsho/bufferline.nvim", enabled = false }
 }
