@@ -1,21 +1,7 @@
+local has_devicons, devicons = pcall(require, "nvim-web-devicons")
 --- @return string
 local location = function()
   return '%l:%2v'
-end
-
---- @return string
-local fileinfo = function()
-  local filetype = vim.bo.filetype
-  if filetype == "" or vim.bo.buftype ~= "" then
-    return ""
-  end
-
-  local has_devicons, devicons = pcall(require, "nvim-web-devicons")
-  if has_devicons then
-    filetype = devicons.get_icon(vim.fn.expand("%:t"), nil, { default = true }) .. " " .. filetype
-  end
-
-  return string.format("%s", filetype)
 end
 
 --- @return string
@@ -56,8 +42,34 @@ local section_filename = function()
   if vim.bo.buftype == 'terminal' then
     return '%t'
   else
-    return "%#Green#%{expand('%:~:h')}/%#StatusLine#%t"
+    return "%#StatusLine#%t"
   end
+end
+
+local section_lsp = function()
+  local icon
+  if has_devicons then
+    icon = devicons.get_icon(vim.fn.expand("%:t"), nil, { default = true })
+  end
+  local msg = 'no lsp'
+  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local clients = vim.lsp.get_active_clients()
+  if next(clients) == nil then
+    return msg
+  end
+  for _, client in ipairs(clients) do
+    local filetypes = client.config.filetypes
+    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+      return icon .. " " .. client.name
+    end
+  end
+  return msg
+end
+
+function status_recording ()
+  local reg = vim.fn.reg_recording()
+  if reg == "" then return "" end -- not recording
+  return "@" .. reg
 end
 
 return {
@@ -75,9 +87,9 @@ return {
         { hl = "StatusLine", strings = { git } },
         "%<", -- Mark general truncate point
         { hl = "StatusLine", strings = { filename } },
-        "%=", -- End left alignment
-        { hl = "StatusLine", strings = { fileinfo() } },
         { hl = "StatusLine", strings = { search, location(), file_percentage() } },
+        "%=", -- End left alignment
+        { hl = "StatusLine", strings = { status_recording(), section_lsp() } },
         { hl = "Cursor", strings = {} },
       })
     end
