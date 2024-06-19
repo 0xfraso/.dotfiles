@@ -1,4 +1,3 @@
-local has_devicons, devicons = pcall(require, "nvim-web-devicons")
 --- @return string
 local location = function()
   return '%l:%2v'
@@ -47,7 +46,8 @@ local section_filename = function()
 end
 
 local section_lsp = function()
-  local icon
+  local has_devicons, devicons = pcall(require, "nvim-web-devicons")
+  local icon = ""
   if has_devicons then
     icon = devicons.get_icon(vim.fn.expand("%:t"), nil, { default = true })
   end
@@ -66,7 +66,7 @@ local section_lsp = function()
   return msg
 end
 
-function status_recording ()
+local status_recording = function ()
   local reg = vim.fn.reg_recording()
   if reg == "" then return "" end -- not recording
   return "@" .. reg

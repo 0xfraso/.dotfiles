@@ -1,131 +1,111 @@
 return {
-  'neovim/nvim-lspconfig', -- LSP
-  opts = {
-    inlay_hints = { enabled = true },
+  {
+    "folke/trouble.nvim",
+    opts = {},
+    cmd = "Trouble",
+    keys = {
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle focus=true<cr>", desc = "Diagnostics (Trouble)", },
+      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)", },
+      { "<leader>cs", "<cmd>Trouble symbols toggle focus=true<cr>", desc = "Symbols (Trouble)", },
+      { "<leader>cl", "<cmd>Trouble lsp toggle focus=true win.position=left<cr>", desc = "LSP Definitions / references / ... (Trouble)", },
+      { "<leader>xL", "<cmd>Trouble loclist toggle focus=true<cr>", desc = "Location List (Trouble)", },
+      { "<leader>xl", "<cmd>Trouble qflist toggle focus=true<cr>", desc = "Quickfix List (Trouble)", },
+    },
   },
-  dependencies = {
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-    'onsails/lspkind-nvim', -- vscode-like pictograms
-  },
-  config = function()
-    local status, nvim_lsp = pcall(require, "lspconfig")
-    if (not status) then return end
-    local status_mason, mason = pcall(require, "mason")
-    if (not status_mason) then return end
-    local status_mason_lspconfig, mason_lspconfig = pcall(require, "mason-lspconfig")
-    if (not status_mason_lspconfig) then return end
-    local status_neodev, neodev = pcall(require, "mason-lspconfig")
-    if (not status_neodev) then return end
+  {
+    'neovim/nvim-lspconfig', -- LSP
+    dependencies = {
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      'onsails/lspkind-nvim', -- vscode-like pictograms
+    },
+    config = function()
+      local status, nvim_lsp = pcall(require, "lspconfig")
+      if (not status) then return end
+      local status_mason, mason = pcall(require, "mason")
+      if (not status_mason) then return end
+      local status_mason_lspconfig, mason_lspconfig = pcall(require, "mason-lspconfig")
+      if (not status_mason_lspconfig) then return end
+      local status_neodev, neodev = pcall(require, "mason-lspconfig")
+      if (not status_neodev) then return end
 
-    neodev.setup()
-    mason.setup()
+      neodev.setup()
+      mason.setup()
 
-    local protocol = require('vim.lsp.protocol')
+      local protocol = require('vim.lsp.protocol')
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-    -- Use an on_attach function to only map the following keys
-    -- after the language server attaches to the current buffer
-    local on_attach = function(client, bufnr)
-      vim.keymap.set("n", "<space>l", function()
-        if client.server_capabilities.inlayHintProvider then
-          vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled())
-        end
-      end)
-    end
-
-    local servers_settings = {
-      tsserver = {
-        javascript = {
-          inlayHints = {
-            includeInlayEnumMemberValueHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayVariableTypeHints = false,
-          },
-        },
-
-        typescript = {
-          inlayHints = {
-            includeInlayEnumMemberValueHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayVariableTypeHints = false,
-          },
-        },
-      },
-      lua_ls = {
-        Lua = {
-          hint = {
-            enable = true
-          },
-          diagnostic = {
-            globals = { "vim" },
-          },
-          workspace = {
-            -- Make the server aware of Neovim runtime files
-            library = vim.api.nvim_get_runtime_file("lua", true),
-            checkThirdParty = false
-          }
-        }
-      },
-    }
-
-    local server_filetypes = {
-      tailwindcss = {
-        "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "php", "astro"
-      },
-    }
-
-    -- jdtls is handled by nvim-jdtls plugin
-    local ignore_servers = { "jdtls" }
-
-    local tableContains = function(table, value)
-      for i = 1, #table do
-        if (table[i] == value) then
-          return true
-        end
+      -- Use an on_attach function to only map the following keys
+      -- after the language server attaches to the current buffer
+      local on_attach = function(client, bufnr)
       end
-      return false
-    end
 
-    mason_lspconfig.setup_handlers {
-      function(server_name)
-        if tableContains(ignore_servers, server_name) then
-          return
-        end
-        nvim_lsp[server_name].setup {
-          capabilities = capabilities,
-          on_attach = on_attach,
-          settings = servers_settings[server_name] or {},
-          filetypes = server_filetypes[server_name],
-          root_dir = function()
-            return vim.loop.cwd()
+      local servers_settings = {
+        tsserver = { },
+        lua_ls = {
+          Lua = {
+            diagnostic = {
+              globals = { "vim" },
+            },
+            workspace = {
+              -- Make the server aware of Neovim runtime files
+              library = vim.api.nvim_get_runtime_file("lua", true),
+              checkThirdParty = false
+            }
+          }
+        },
+      }
+
+      local server_filetypes = {
+        tailwindcss = {
+          "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "php", "astro"
+        },
+      }
+
+      -- jdtls is handled by nvim-jdtls plugin
+      local ignore_servers = { "jdtls" }
+
+      local tableContains = function(table, value)
+        for i = 1, #table do
+          if (table[i] == value) then
+            return true
           end
-        }
-      end,
-    }
+        end
+        return false
+      end
 
-    -- must `npm i @angular/language-service typescript` in this path
-    local languageServerPath = vim.fn.stdpath("data") .. "/mason/packages/angular-language-server/"
-    local cmd = { "ngserver", "--stdio", "--tsProbeLocations", languageServerPath, "--ngProbeLocations",
+      mason_lspconfig.setup_handlers {
+        function(server_name)
+          if tableContains(ignore_servers, server_name) then
+            return
+          end
+          nvim_lsp[server_name].setup {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = servers_settings[server_name] or {},
+            filetypes = server_filetypes[server_name],
+            root_dir = function()
+              return vim.loop.cwd()
+            end
+          }
+        end,
+      }
+
+      -- must `npm i @angular/language-service typescript` in this path
+      local languageServerPath = vim.fn.stdpath("data") .. "/mason/packages/angular-language-server/"
+      local cmd = { "ngserver", "--stdio", "--tsProbeLocations", languageServerPath, "--ngProbeLocations",
       languageServerPath }
 
-    require("lspconfig").angularls.setup {
-      on_attach = on_attach,
-      capabilities = capabilities,
-      cmd = cmd,
-      on_new_config = function(new_config, new_root_dir)
-        new_config.cmd = cmd
-      end,
-    }
+      require("lspconfig").angularls.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        cmd = cmd,
+        on_new_config = function(new_config, new_root_dir)
+          new_config.cmd = cmd
+        end,
+      }
 
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
       vim.lsp.diagnostic.on_publish_diagnostics, {
         underline = true,
         update_in_insert = false,
@@ -133,49 +113,50 @@ return {
         severity_sort = true,
       })
 
-    vim.diagnostic.config({
-      virtual_text = {
-        prefix = '●'
-      },
-      update_in_insert = true,
-      float = {
-        source = "always", -- Or "if_many"
-      },
-    })
+      vim.diagnostic.config({
+        virtual_text = {
+          prefix = '●'
+        },
+        update_in_insert = true,
+        float = {
+          source = "always", -- Or "if_many"
+        },
+      })
 
-    -- Diagnostic symbols in the sign column (gutter)
-    local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-    end
+      -- Diagnostic symbols in the sign column (gutter)
+      local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
 
-    protocol.CompletionItemKind = {
-      "󰉿", --Text
-      "󰆧", --Method
-      "󰊕", --Function
-      "", --Constructor
-      "󰜢", --Field
-      "󰀫", --Variable
-      "󰠱", --Class
-      "", --Interface
-      "", --Module
-      "󰜢", --Property
-      "󰑭", --Unit
-      "󰎠", --Value
-      "", --Enum
-      "󰌋", --Keyword
-      "", --Snippet
-      "󰏘", --Color
-      "󰈙", --File
-      "󰈇", --Reference
-      "󰉋", --Folder
-      "", --EnumMember
-      "󰏿", --Constant
-      "󰙅", --Struct
-      "", --Event
-      "󰆕", --Operator
-      '', -- TypeParameter
-    }
-  end,
+      protocol.CompletionItemKind = {
+        "󰉿", --Text
+        "󰆧", --Method
+        "󰊕", --Function
+        "", --Constructor
+        "󰜢", --Field
+        "󰀫", --Variable
+        "󰠱", --Class
+        "", --Interface
+        "", --Module
+        "󰜢", --Property
+        "󰑭", --Unit
+        "󰎠", --Value
+        "", --Enum
+        "󰌋", --Keyword
+        "", --Snippet
+        "󰏘", --Color
+        "󰈙", --File
+        "󰈇", --Reference
+        "󰉋", --Folder
+        "", --EnumMember
+        "󰏿", --Constant
+        "󰙅", --Struct
+        "", --Event
+        "󰆕", --Operator
+        '', -- TypeParameter
+      }
+    end,
+  }
 }
