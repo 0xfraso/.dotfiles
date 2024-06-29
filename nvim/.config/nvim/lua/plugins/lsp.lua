@@ -4,12 +4,12 @@ return {
     opts = {},
     cmd = "Trouble",
     keys = {
-      { "<leader>xx", "<cmd>Trouble diagnostics toggle focus=true<cr>", desc = "Diagnostics (Trouble)", },
-      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)", },
-      { "<leader>cs", "<cmd>Trouble symbols toggle focus=true<cr>", desc = "Symbols (Trouble)", },
-      { "<leader>cl", "<cmd>Trouble lsp toggle focus=true win.position=left<cr>", desc = "LSP Definitions / references / ... (Trouble)", },
-      { "<leader>xL", "<cmd>Trouble loclist toggle focus=true<cr>", desc = "Location List (Trouble)", },
-      { "<leader>xl", "<cmd>Trouble qflist toggle focus=true<cr>", desc = "Quickfix List (Trouble)", },
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle focus=true filter.buf=0<cr>", desc = "Diagnostics (Trouble)", },
+      { "<leader>xw", "<cmd>Trouble diagnostics toggle focus=true filter.buf=0<cr>", desc = "Diagnostics (Trouble)", },
+      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",            desc = "Buffer Diagnostics (Trouble)", },
+      { "<leader>cs", "<cmd>Trouble symbols toggle focus=true<cr>",                  desc = "Symbols (Trouble)", },
+      { "<leader>xL", "<cmd>Trouble loclist toggle focus=true<cr>",                  desc = "Location List (Trouble)", },
+      { "<leader>xl", "<cmd>Trouble qflist toggle focus=true<cr>",                   desc = "Quickfix List (Trouble)", },
     },
   },
   {
@@ -32,16 +32,48 @@ return {
       neodev.setup()
       mason.setup()
 
-      local protocol = require('vim.lsp.protocol')
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+      local protocol = require('vim.lsp.protocol')
 
       -- Use an on_attach function to only map the following keys
       -- after the language server attaches to the current buffer
       local on_attach = function(client, bufnr)
+        vim.keymap.set("n", "<space>l", function()
+          if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled())
+          end
+        end)
+        local opts_buffer = { noremap = true, silent = true, buffer = bufnr }
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+        -- Mappings: LSP
+        -- See `:help vim.lsp.*` for documentation on any of the below functions
+        vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts_buffer)
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts_buffer)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts_buffer)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts_buffer)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts_buffer)
+        vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, opts_buffer)
+        vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+          opts_buffer)
+        vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts_buffer)
+        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts_buffer)
+        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts_buffer)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts_buffer)
+        vim.keymap.set('n', '<leader>cf', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', opts_buffer)
+        vim.keymap.set('n', '<leader>cu', function()
+          vim.lsp.buf.code_action({
+            apply = true,
+            context = {
+              only = { "source.removeUnused.ts" },
+              diagnostics = {},
+            },
+          })
+        end, opts_buffer)
       end
 
       local servers_settings = {
-        tsserver = { },
+        tsserver = {},
         lua_ls = {
           Lua = {
             diagnostic = {
@@ -94,7 +126,7 @@ return {
       -- must `npm i @angular/language-service typescript` in this path
       local languageServerPath = vim.fn.stdpath("data") .. "/mason/packages/angular-language-server/"
       local cmd = { "ngserver", "--stdio", "--tsProbeLocations", languageServerPath, "--ngProbeLocations",
-      languageServerPath }
+        languageServerPath }
 
       require("lspconfig").angularls.setup {
         on_attach = on_attach,
@@ -106,12 +138,12 @@ return {
       }
 
       vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = true,
-        update_in_insert = false,
-        virtual_text = { spacing = 4, prefix = "●" },
-        severity_sort = true,
-      })
+        vim.lsp.diagnostic.on_publish_diagnostics, {
+          underline = true,
+          update_in_insert = false,
+          virtual_text = { spacing = 4, prefix = "●" },
+          severity_sort = true,
+        })
 
       vim.diagnostic.config({
         virtual_text = {

@@ -8,6 +8,8 @@ local keymap = function(mode, lhs, rhs, opts)
 end
 
 keymap("n", "<leader>bd", ":bd<cr>")
+--%bd = delete all buffers. e# = open the last buffer for editing. bd# delete the [No Name] buffer that gets created
+keymap("n", "<leader>bo", ":%bd|e#|bd#<cr>")
 
 -- Center cursor on screen after page down-up
 keymap("n", '<C-u>', '<C-u>zz')
@@ -24,6 +26,8 @@ keymap("v", "K", ":m '<-2<CR>gv=gv")
 keymap("n", 'x', '"_x')
 
 keymap("n", 'tn', ':tabNext<CR>')
+keymap("n", 'L', ':bnext<CR>')
+keymap("n", 'H', ':bprevious<CR>')
 
 keymap("n", "gR", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { silent = false })
 

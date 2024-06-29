@@ -41,7 +41,7 @@ local section_filename = function()
   if vim.bo.buftype == 'terminal' then
     return '%t'
   else
-    return "%#StatusLine#%t"
+    return "%#StatusLine#%t%r%m"
   end
 end
 
@@ -74,6 +74,7 @@ end
 
 return {
   "echasnovski/mini.statusline",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local active_content = function()
       local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 2000 })

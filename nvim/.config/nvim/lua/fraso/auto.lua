@@ -20,7 +20,7 @@ autocmd("ColorScheme", {
   group = group,
   pattern = "*",
   callback = function()
-    vim.api.nvim_set_hl(0, "NormalFloat", { link = "Float" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { link = "NormalPopup" })
   end,
 })
 

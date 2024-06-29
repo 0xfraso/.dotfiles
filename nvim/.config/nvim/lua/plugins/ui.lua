@@ -45,13 +45,13 @@ return {
           header = vim.split(logo, "\n"),
           -- stylua: ignore
           center = {
-            { action = "FzfLua files",                                    desc = " Find file",       icon = " ", key = "f" },
+            { action = "FzfLua files",                                             desc = " Find file",       icon = " ", key = "f" },
             { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
-            { action = "FzfLua oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
-            { action = "FzfLua live_grep",                                      desc = " Find text",       icon = " ", key = "g" },
+            { action = "FzfLua oldfiles",                                          desc = " Recent files",    icon = " ", key = "r" },
+            { action = "FzfLua live_grep",                                         desc = " Find text",       icon = " ", key = "g" },
             { action = "lua require('fzf-lua').files({ cwd = '~/.config/nvim' })", desc = " Config",          icon = " ", key = "c" },
             { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
-            { action = "LazyExtras",                                               desc = " Lazy Extras",     icon = " ", key = "x" },
+            { action = ":G",                                                      desc = " Fugitive",        icon = " ", key = "g" },
             { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
             { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
           },

@@ -1,7 +1,9 @@
 return {
-  { "raddari/last-color.nvim", lazy = true },
-  { "blazkowolf/gruber-darker.nvim", lazy = true },
+  { "raddari/last-color.nvim",          lazy = true },
+  { "blazkowolf/gruber-darker.nvim",    lazy = true },
   { "aktersnurra/no-clown-fiesta.nvim", lazy = true },
+  { "catppuccin/nvim",                  lazy = true },
+  { "NTBBloodbath/doom-one.nvim",       lazy = true },
   {
     "craftzdog/solarized-osaka.nvim",
     lazy = true,
@@ -27,7 +29,4 @@ return {
       }
     end,
   },
-  {
-    "NTBBloodbath/doom-one.nvim"
-  }
 }
