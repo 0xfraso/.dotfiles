@@ -1,0 +1,73 @@
+icons_format = "{icon}"
+
+[theme]
+#theme = "srcery"
+theme = "plain"
+[theme.overrides]
+idle_fg = "#ffffff"
+good_fg = "#00f300"
+info_fg = "#ffff00"
+warning_fg = "#f50000"
+separator = '|'
+separator_fg = '#343942'
+
+[icons]
+icons = "awesome5"
+[icons.overrides]
+bat = " | | "
+bat_full = " |X| "
+bat_charging = " |^| "
+bat_discharging = " |v| "
+
+[[block]]
+block = "net"
+interval = 2 
+
+[[block]]
+block = "keyboard_layout"
+interval = 10 
+[[block.click]]
+button = "left"
+cmd = "sh ~/bin/kblayout.sh"
+
+[[block]]
+block = "nvidia_gpu"
+format = " $name $utilization $temperature"
+
+[[block]]
+block = "temperature"
+format = "TEMP: $average"
+
+[[block]]
+block = "cpu"
+format = "CPU: $utilization"
+
+[[block]]
+block = "memory"
+warning_mem = 70.0
+critical_mem = 90.0
+format = "MEM: $mem_used_percents.eng(w:2)"
+format_alt = "MEM: $mem_avail_percents.eng(w:2)"
+
+[[block]]
+block = "disk_space"
+path = "/"
+info_type = "available"
+alert_unit = "GB"
+interval = 20
+warning = 20.0
+alert = 10.0
+format = "SDD: $available.eng(w:2)"
+
+[[block]]
+block = "sound"
+[[block.click]]
+button = "left"
+cmd = "pavucontrol"
+
+[[block]]
+block = "time"
+interval = 60
+[block.format]
+full = "$timestamp.datetime(f:'%a %Y-%m-%d %R', l:it_IT)"
+short = "$timestamp.datetime(f:%R)"
