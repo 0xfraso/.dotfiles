@@ -59,5 +59,10 @@ return {
       "MunifTanjim/nui.nvim",
     }
   },
-  { "stevearc/dressing.nvim", lazy = false, opts = {} }
+  { "stevearc/dressing.nvim", lazy = false, opts = {} },
+  {
+    'akinsho/bufferline.nvim',
+    version = '*',
+    dependencies = 'nvim-tree/nvim-web-devicons'
+  }
 }

@@ -377,5 +377,9 @@ return {
     keys = {
       { "<leader>rg", ":lua require('rgflow').open()<cr>", desc = "Rgflow open" }
     }
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    opts = {}
   }
 }
