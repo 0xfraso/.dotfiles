@@ -13,6 +13,13 @@ return {
     },
   },
   {
+    "nvim-java/nvim-java",
+    config = function()
+      require("java").setup()
+    end
+  },
+  -- { "mfussenegger/nvim-jdtls" },
+  {
     'neovim/nvim-lspconfig', -- LSP
     dependencies = {
       'williamboman/mason.nvim',
@@ -95,7 +102,9 @@ return {
       }
 
       -- jdtls is handled by nvim-jdtls plugin
-      local ignore_servers = { "jdtls" }
+      local ignore_servers = {
+        -- "jdtls"
+      }
 
       local tableContains = function(table, value)
         for i = 1, #table do

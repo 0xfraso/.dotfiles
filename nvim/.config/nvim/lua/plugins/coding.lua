@@ -97,7 +97,6 @@ return {
       end, { silent = true })
     end,
   },
-  { "mfussenegger/nvim-jdtls" },
   {
     {
       "folke/trouble.nvim",
