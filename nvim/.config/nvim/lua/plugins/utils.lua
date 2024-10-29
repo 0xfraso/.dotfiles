@@ -1,5 +1,19 @@
 return {
   {
+    "mbbill/undotree",
+    opts = {},
+    keys = {
+      { "<leader>uu", vim.cmd.UndotreeToggle, desc = "open undotree" }
+    }
+  },
+  {
+    "backdround/global-note.nvim",
+    opts = {},
+    keys = {
+      { "<leader>nt", ":lua require('global-note').toggle_note()<cr>", desc = "Global note" }
+    }
+  },
+  {
     "echasnovski/mini.align",
     opts = {}
   },
@@ -21,5 +35,13 @@ return {
         },
       })
     end,
+    {
+      "mistweaverco/kulala.nvim",
+      opts = {},
+      filetype = "http",
+      keys = {
+        { "<leader>r", ":lua require('kulala').run()<CR>", { desc = "Kulala Run" } }
+      }
+    }
   },
 }

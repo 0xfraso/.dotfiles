@@ -1,4 +1,5 @@
 return {
+  { "xiyaowong/transparent.nvim", opts = {} },
   { "raddari/last-color.nvim",          lazy = true },
   {
     "blazkowolf/gruber-darker.nvim",
@@ -20,7 +21,7 @@ return {
       underline = true,
     }
   },
-  { "olimorris/onedarkpro.nvim",        lazy = true }, 
+  { "olimorris/onedarkpro.nvim",        lazy = true },
   { "aktersnurra/no-clown-fiesta.nvim", lazy = true },
   { "catppuccin/nvim",                  lazy = true },
   { "NTBBloodbath/doom-one.nvim",       lazy = true },

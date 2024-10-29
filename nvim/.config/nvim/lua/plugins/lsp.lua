@@ -1,25 +1,5 @@
 return {
   {
-    "folke/trouble.nvim",
-    opts = {},
-    cmd = "Trouble",
-    keys = {
-      { "<leader>xx", "<cmd>Trouble diagnostics toggle focus=true filter.buf=0<cr>", desc = "Diagnostics (Trouble)", },
-      { "<leader>xw", "<cmd>Trouble diagnostics toggle focus=true filter.buf=0<cr>", desc = "Diagnostics (Trouble)", },
-      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",            desc = "Buffer Diagnostics (Trouble)", },
-      { "<leader>cs", "<cmd>Trouble symbols toggle focus=true<cr>",                  desc = "Symbols (Trouble)", },
-      { "<leader>xL", "<cmd>Trouble loclist toggle focus=true<cr>",                  desc = "Location List (Trouble)", },
-      { "<leader>xl", "<cmd>Trouble qflist toggle focus=true<cr>",                   desc = "Quickfix List (Trouble)", },
-    },
-  },
-  {
-    "nvim-java/nvim-java",
-    config = function()
-      require("java").setup()
-    end
-  },
-  -- { "mfussenegger/nvim-jdtls" },
-  {
     'neovim/nvim-lspconfig', -- LSP
     dependencies = {
       'williamboman/mason.nvim',
@@ -80,6 +60,7 @@ return {
       end
 
       local servers_settings = {
+        jdtls = {},
         tsserver = {},
         lua_ls = {
           Lua = {
@@ -100,11 +81,7 @@ return {
           "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "php", "astro"
         },
       }
-
-      -- jdtls is handled by nvim-jdtls plugin
-      local ignore_servers = {
-        -- "jdtls"
-      }
+      local ignore_servers = {}
 
       local tableContains = function(table, value)
         for i = 1, #table do

@@ -28,7 +28,6 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "sindrets/diffview.nvim",
-      "ibhagwan/fzf-lua",
     },
     opts = {
       -- Configure highlight group features
