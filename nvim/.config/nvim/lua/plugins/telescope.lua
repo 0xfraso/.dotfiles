@@ -21,7 +21,7 @@ return {
       { "<leader>gc",      ":Telescope git_commits theme=ivy<CR>",                                              desc = "Commits" },
       { "<leader>gC",      ":Telescope git_bcommits theme=ivy<CR>",                                             desc = "Current file back commits" },
       -- lsp
-      { "<leader>xx",      ":Telescope diagnostics theme=ivy<CR>",                                              desc = "Workspace diagnostics" },
+      { "<leader>xx",      ":Telescope diagnostics theme=ivy previewer=false<CR>",                              desc = "Workspace diagnostics" },
     },
     config = function()
       local actions = require("telescope.actions")
@@ -49,7 +49,7 @@ return {
             selection_caret = " ",
             mappings = {
               i = {
-                ["<Esc>"]      = actions.close,
+                ["<Esc>"] = actions.close,
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
                 ["<C-s>"] = actions.select_horizontal,
