@@ -104,5 +104,46 @@ return {
   {
     "windwp/nvim-ts-autotag",
     opts = {}
+  },
+  {
+    "olimorris/codecompanion.nvim",
+    config = function()
+      local OLLAMA_URL = os.getenv("OLLAMA_URL")
+      if not OLLAMA_URL then
+        OLLAMA_URL = "localhost:11434"
+      end
+
+      vim.notify(vim.print(OLLAMA_URL), vim.log.levels.WARN)
+
+      require("codecompanion").setup({
+        strategies = {
+          chat = {
+            adapter = "ollama",
+          },
+          inline = {
+            adapter = "ollama"
+          },
+        },
+        adapters = {
+          ollama = function()
+            return require("codecompanion.adapters").extend("ollama", {
+              env = {
+                url = OLLAMA_URL,
+              },
+              headers = {
+                ["Content-Type"] = "application/json",
+              },
+              parameters = {
+                sync = true,
+              },
+            })
+          end,
+        },
+      })
+    end,
+    keys = {
+      { "<leader>cl", ":CodeCompanionActions<cr>", desc = "CodeCompanionActions", },
+      { "<leader>cp", ":CodeCompanionChat<cr>",    desc = "CodeCompanionChat", },
+    }
   }
 }
