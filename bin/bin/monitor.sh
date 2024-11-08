@@ -10,7 +10,7 @@ if [[ -f "${DIR}" ]]; then
         chmod +x $DIR
     fi
 
-    "${DIR}"
+    sh ${DIR}
 else 
 	notify-send --urgency=normal -t 3000 "screenlayout file '${DIR}' not found"
     ${HOME}/.dotfiles/rofi/.config/rofi/scripts/monitor.sh
