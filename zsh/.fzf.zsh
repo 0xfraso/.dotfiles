@@ -63,3 +63,10 @@ function fk() {
     echo $pid | xargs kill -9
   fi
 }
+
+function zja() { 
+  local selection=($(zellij ls | sed -e 's/\x1B\[[0-9;]*m//g' | fzf | awk '{print $1}'))
+  if [[ -n $selection ]]; then
+    zellij a ${selection}
+  fi
+}
