@@ -1,9 +1,7 @@
 return {
   { "xiyaowong/transparent.nvim", opts = {} },
-  { "raddari/last-color.nvim",          lazy = true },
   {
     "blazkowolf/gruber-darker.nvim",
-    lazy = true,
     opts = {
       bold = true,
       invert = {
@@ -21,33 +19,27 @@ return {
       underline = true,
     }
   },
-  { "olimorris/onedarkpro.nvim",        lazy = true },
-  { "aktersnurra/no-clown-fiesta.nvim", lazy = true },
-  { "catppuccin/nvim",                  lazy = true },
-  { "NTBBloodbath/doom-one.nvim",       lazy = true },
   {
-    "craftzdog/solarized-osaka.nvim",
-    lazy = true,
-    opts = function()
-      local transparent = true
-      return {
-        transparent = true,
-        on_highlights = function(hi, col)
-          hi.Whitespace = { fg = "#384347" }
-          hi.NonText = { fg = "#384347" }
-        end,
-        styles = {
-          -- Style to be applied to different syntax groups
-          -- Value is any valid attr-list value for `:help nvim_set_hl`
-          comments = { italic = true },
-          keywords = { italic = true },
-          functions = {},
-          variables = {},
-          -- Background styles. Can be "dark", "transparent" or "normal"
-          sidebars = transparent and "transparent" or "dark",
-          floats = transparent and "transparent" or "dark",
-        },
-      }
-    end,
+    "wnkz/monoglow.nvim",
+    opts = {
+      on_colors = function(colors)
+        colors.syntax.boolean = "#ffdd33"
+      end,
+      on_highlights = function(hls, c)
+        hls.NeogitDiffAdd = { fg = c.git.add }
+        hls.NeogitDiffChange = { fg = c.git.change }
+        hls.NeogitDiffDelete = { fg = c.git.delete }
+        hls.NeogitDiffAddHighlight = { bg = "#212121", fg = c.git.add }
+        hls.NeogitDiffChangeHighlight = { bg = "#212121", fg = c.git.change }
+        hls.NeogitDiffDeleteHighlight = { bg = "#212121", fg = c.git.delete }
+      end
+    }
   },
+  "raddari/last-color.nvim",
+  "backdround/melting",
+  "olimorris/onedarkpro.nvim",
+  "aktersnurra/no-clown-fiesta.nvim",
+  "catppuccin/nvim",
+  "NTBBloodbath/doom-one.nvim",
+  "craftzdog/solarized-osaka.nvim",
 }

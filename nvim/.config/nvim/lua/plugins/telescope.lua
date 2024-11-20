@@ -22,6 +22,9 @@ return {
       { "<leader>gC",      ":Telescope git_bcommits theme=ivy<CR>",                                             desc = "Current file back commits" },
       -- lsp
       { "<leader>xx",      ":Telescope diagnostics theme=ivy previewer=false<CR>",                              desc = "Workspace diagnostics" },
+      -- misc
+      { "<leader>fC",      ":Telescope commands theme=ivy<cr>",                                                 desc = "Find commands" },
+      { "<leader>fc",      ":Telescope find_files theme=ivy cwd=~/.config/nvim<cr>",                            desc = "Find config files" },
     },
     config = function()
       local actions = require("telescope.actions")

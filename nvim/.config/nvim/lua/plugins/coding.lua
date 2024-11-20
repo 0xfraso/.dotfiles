@@ -90,11 +90,44 @@ return {
         },
       })
 
+      cmp.setup.filetype({ "sql" }, {
+        sources = {
+          { name = "vim-dadbod-completion" },
+          { name = "buffer" },
+        }
+      })
+
       vim.keymap.set({ "i", "s" }, "<C-k>", function()
         if luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
         end
       end, { silent = true })
+    end,
+  },
+  {
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local conform = require("conform")
+
+      conform.setup({
+        formatters_by_ft = {
+          javascript = { 'prettier' },
+          typescript = { 'prettier' },
+          html = { 'prettier' },
+          json = { 'prettier' }
+        }
+      })
+      vim.keymap.set({ "n", "v" },
+        "<leader>cf",
+        function()
+          require("conform").format({
+            lsp_fallback = true,
+            async = false,
+            timeout_ms = 500
+          })
+        end, { desc = "Format file or range (visual)" }
+      )
     end,
   },
   {
@@ -144,6 +177,23 @@ return {
     keys = {
       { "<leader>cl", ":CodeCompanionActions<cr>", desc = "CodeCompanionActions", },
       { "<leader>cp", ":CodeCompanionChat<cr>",    desc = "CodeCompanionChat", },
+    }
+  },
+  {
+    "tpope/vim-dadbod",
+    dependencies = {
+      "kristijanhusak/vim-dadbod-ui",
+      { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }, -- Optional
+      cmd = {
+        'DBUI',
+        'DBUIToggle',
+        'DBUIAddConnection',
+        'DBUIFindBuffer',
+      },
+      init = function()
+        -- Your DBUI configuration
+        vim.g.db_ui_use_nerd_fonts = 1
+      end,
     }
   }
 }

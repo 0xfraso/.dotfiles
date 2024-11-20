@@ -116,3 +116,10 @@ bindkey "^X^E" edit-command-line
 [[ ! -f ~/.wsl.zsh ]] || source ~/.wsl.zsh
 [[ ! -f ~/.alias.zsh ]] || source ~/.alias.zsh
 [[ ! -f ~/.profile ]] || source ~/.profile
+
+# bun completions
+[ -s "/home/fraso/.bun/_bun" ] && source "/home/fraso/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

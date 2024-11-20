@@ -4,7 +4,7 @@
   set $term alacritty
   set $primary DP-0
   set $secondary DVI-I-1
-  set $browser firefox
+  set $browser google-chrome-stable --remote-debugging-port=9222
 
 font pango:Iosevka Nerd Font 14
 #exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -224,6 +224,7 @@ mode "$mode_gaps" {
   for_window [class="^.*"] border pixel 2
   for_window [class="Spotify"] move container to workspace $ws9
   for_window [class="discord"] move container to workspace $ws10
+  for_window [class="vesktop"] move container to workspace $ws10
   # for_window [class="Thunar"] floating enable; move position center
   for_window [class="bpytop"] move container to workspace $ws7
   for_window [class="mpv"] move container to workspace $ws3
@@ -239,6 +240,7 @@ mode "$mode_gaps" {
   exec_always --no-startup-id nitrogen --restore
   exec --no-startup-id $term --class bpytop,bpytop -e bpytop
   exec --no-startup-id libinput-gestures-setup start
+  exec --no-startup-id dunst
 
 # Scratchpads
   for_window [class="whatsdesk"] move scratchpad; 

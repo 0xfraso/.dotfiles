@@ -26,11 +26,6 @@ return {
       -- Use an on_attach function to only map the following keys
       -- after the language server attaches to the current buffer
       local on_attach = function(client, bufnr)
-        vim.keymap.set("n", "<space>l", function()
-          if client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled())
-          end
-        end)
         local opts_buffer = { noremap = true, silent = true, buffer = bufnr }
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- Mappings: LSP
@@ -47,7 +42,7 @@ return {
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts_buffer)
         vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts_buffer)
         vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts_buffer)
-        vim.keymap.set('n', '<leader>cf', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', opts_buffer)
+        -- vim.keymap.set('n', '<leader>cf', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', opts_buffer)
         vim.keymap.set('n', '<leader>cu', function()
           vim.lsp.buf.code_action({
             apply = true,

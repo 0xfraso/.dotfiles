@@ -24,6 +24,8 @@ vim.opt.softtabstop = 2
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
+vim.opt.inccommand = "split"
+
 vim.opt.title = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
@@ -56,5 +58,8 @@ vim.o.splitright = true
 vim.opt.list = true
 
 vim.g.editorconfig = false -- remove automatic trim on BufWritePre
+
+-- Don't have `o` add a comment
+vim.opt.formatoptions:remove "o"
 
 vim.cmd("packadd cfilter")

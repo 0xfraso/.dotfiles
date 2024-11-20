@@ -44,4 +44,23 @@ return {
       }
     }
   },
+  {
+    "nvzone/timerly",
+    dependencies = {
+      "nvzone/volt",
+    },
+    cmd = "TimerlyToggle",
+    opts = {
+      on_finish = function()
+        os.execute [[notify-send "Timerly: time's up!"]]
+      end,
+    },
+    keys = {
+      { "<leader>tt", ":TimerlyToggle<CR>", { desc = "TimerlyToggle" } }
+    }
+  },
+
+  {
+    "nvzone/typr",
+  }
 }

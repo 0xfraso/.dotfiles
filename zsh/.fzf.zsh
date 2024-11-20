@@ -70,3 +70,10 @@ function zja() {
     zellij a ${selection}
   fi
 }
+
+function de() { 
+  local selection=($(docker container ls | fzf | cut -d ' ' -f1))
+  if [[ -n $selection ]]; then
+    docker exec -it $selection bash
+  fi
+}
