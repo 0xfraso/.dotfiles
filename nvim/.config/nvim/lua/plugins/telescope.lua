@@ -2,7 +2,7 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
-    enabled = true,
+    enabled = false,
     dependencies = {
       {
         "nvim-telescope/telescope-fzf-native.nvim",

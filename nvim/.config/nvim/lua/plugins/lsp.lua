@@ -5,6 +5,7 @@ return {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'onsails/lspkind-nvim', -- vscode-like pictograms
+      'saghen/blink.cmp',
     },
     config = function()
       local status, nvim_lsp = pcall(require, "lspconfig")
@@ -19,7 +20,7 @@ return {
       neodev.setup()
       mason.setup()
 
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
 
       local protocol = require('vim.lsp.protocol')
 
@@ -41,6 +42,7 @@ return {
         vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts_buffer)
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts_buffer)
         vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts_buffer)
+        vim.keymap.set('n', '<leader>xx', vim.diagnostic.setqflist, opts_buffer)
         vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts_buffer)
         -- vim.keymap.set('n', '<leader>cf', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', opts_buffer)
         vim.keymap.set('n', '<leader>cu', function()
@@ -55,7 +57,7 @@ return {
       end
 
       local servers_settings = {
-        jdtls = {},
+        -- jdtls = {},
         tsserver = {},
         lua_ls = {
           Lua = {
