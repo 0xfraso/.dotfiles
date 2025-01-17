@@ -4,18 +4,23 @@ return {
   build = vim.g.lazyvim_blink_main and "cargo build --release",
   opts_extend = {
     "sources.completion.enabled_providers",
-    "sources.compat",
     "sources.default",
   },
   dependencies = {
     "rafamadriz/friendly-snippets",
-    -- add blink.compat to dependencies
     {
       "saghen/blink.compat",
-      optional = true, -- make optional so it's only enabled if any extras need it
+      lazy = true,
       opts = {},
-      version = not vim.g.lazyvim_blink_main and "*",
+      config = function()
+        -- monkeypatch cmp.ConfirmBehavior for Avante
+        require("cmp").ConfirmBehavior = {
+          Insert = "insert",
+          Replace = "replace",
+        }
+      end,
     },
+    'kristijanhusak/vim-dadbod-completion'
   },
   event = "InsertEnter",
 
@@ -49,10 +54,10 @@ return {
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
-          border = border
+          window = { border = border }
         },
         ghost_text = {
-          enabled = vim.g.ai_cmp,
+          enabled = true,
         },
       },
 
@@ -61,10 +66,38 @@ return {
 
       sources = {
         -- adding any nvim-cmp sources here will enable them
-        -- with blink.compat
-        compat = {},
-        default = { "lsp", "path", "snippets", "buffer", "vim-dadbod-completion" },
+        default = {
+          "lsp",
+          "path",
+          "snippets",
+          "buffer",
+          "dadbod",
+          "avante_commands",
+          "avante_mentions",
+          "avante_files",
+        },
         cmdline = {},
+        providers = {
+          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+          avante_commands = {
+            name = "avante_commands",
+            module = "blink.compat.source",
+            score_offset = 90, -- show at a higher priority than lsp
+            opts = {},
+          },
+          avante_files = {
+            name = "avante_files",
+            module = "blink.compat.source",
+            score_offset = 100, -- show at a higher priority than lsp
+            opts = {},
+          },
+          avante_mentions = {
+            name = "avante_mentions",
+            module = "blink.compat.source",
+            score_offset = 1000, -- show at a higher priority than lsp
+            opts = {},
+          }
+        }
       },
 
       keymap = {

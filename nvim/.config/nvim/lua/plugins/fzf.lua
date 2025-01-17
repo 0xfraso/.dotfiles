@@ -839,6 +839,7 @@ return {
     { "<leader>F",       ":FzfLua<CR>",                                                       desc = "Pickers" },
     { "<leader><space>", ":FzfLua buffers<CR>",                                               desc = "Buffers" },
     { "<leader>ff",      ":FzfLua files<CR>",                                                 desc = "Find Files" },
+    { "<leader>fr",      ":FzfLua resume<CR>",                                                desc = "Resume" },
     { "<leader>fc",      function() require('fzf-lua').files({ cwd = '~/.config/nvim' }) end, desc = "Config files" },
     { "<leader>fg",      ":FzfLua live_grep<CR>",                                             desc = "Grep (Root Dir)" },
     { "<leader>gs",      ":FzfLua git_status<CR>",                                            desc = "Status" },

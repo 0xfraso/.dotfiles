@@ -89,6 +89,22 @@ return {
         return false
       end
 
+      local border = {
+        { '┌', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '┐', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+        { '┘', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '└', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+      }
+
+      local handlers = {
+        ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+        ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+      }
+
       mason_lspconfig.setup_handlers {
         function(server_name)
           if tableContains(ignore_servers, server_name) then
@@ -97,6 +113,7 @@ return {
           nvim_lsp[server_name].setup {
             capabilities = capabilities,
             on_attach = on_attach,
+            handlers = handlers,
             settings = servers_settings[server_name] or {},
             filetypes = server_filetypes[server_name],
             root_dir = function()
@@ -113,6 +130,7 @@ return {
 
       require("lspconfig").angularls.setup {
         on_attach = on_attach,
+        handlers = handlers,
         capabilities = capabilities,
         cmd = cmd,
         on_new_config = function(new_config, new_root_dir)

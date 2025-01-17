@@ -1,7 +1,7 @@
 # Modifiers
   set $mod Mod4
   floating_modifier $mod
-  set $term alacritty
+  set $term ghostty
   set $primary DP-0
   set $secondary DVI-I-1
   set $browser google-chrome-stable --remote-debugging-port=9222
@@ -226,7 +226,6 @@ mode "$mode_gaps" {
   for_window [class="discord"] move container to workspace $ws10
   for_window [class="vesktop"] move container to workspace $ws10
   # for_window [class="Thunar"] floating enable; move position center
-  for_window [class="bpytop"] move container to workspace $ws7
   for_window [class="mpv"] move container to workspace $ws3
   for_window [title="Nitrogen"] floating enable; move position center;
   for_window [window_role="pop-up"] floating enable; move position center;
@@ -238,7 +237,6 @@ mode "$mode_gaps" {
   exec_always --no-startup-id blueman-applet
   exec_always --no-startup-id picom --config=~/.config/picom/picom.conf
   exec_always --no-startup-id nitrogen --restore
-  exec --no-startup-id $term --class bpytop,bpytop -e bpytop
   exec --no-startup-id libinput-gestures-setup start
   exec --no-startup-id dunst
 

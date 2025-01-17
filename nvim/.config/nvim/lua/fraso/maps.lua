@@ -25,7 +25,7 @@ keymap("v", "K", ":m '<-2<CR>gv=gv")
 -- Don't yank on x
 keymap("n", 'x', '"_x')
 
-keymap("n", 'tn', ':tabNext<CR>')
+keymap("n", 'tn', ':tabnew<CR>')
 keymap("n", 'L', ':bnext<CR>')
 keymap("n", 'H', ':bprevious<CR>')
 
