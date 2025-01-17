@@ -1,0 +1,8 @@
+keybind = ctrl+shift+z=reload_config
+keybind = ctrl+shift+t=toggle_window_decorations
+
+# Empty values reset the configuration to the default value
+font-family = "Iosevka Nerd Font Mono"
+theme = gruber-darker
+cursor-style = block
+window-decoration = false
