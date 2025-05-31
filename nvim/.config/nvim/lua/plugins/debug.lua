@@ -42,11 +42,7 @@ return {
           },
         },
       },
-    },
-    config = function()
-      require("java").setup({})
-      require('lspconfig').jdtls.setup({})
-    end,
+    }
   },
   {
     "mfussenegger/nvim-dap",
@@ -105,7 +101,7 @@ return {
       { "<leader>dO", ":DapStepOut<cr>",          desc = "Dap Step Out", },
       { "<leader>dx", ":DapContinue<cr>",         desc = "Dap Continue", },
       { "<leader>do", ":DapStepOver<cr>",         desc = "Dap Step Over", },
-      { "<leader>di", ":DapStepOver<cr>",         desc = "Dap Step Over", },
+      { "<leader>di", ":DapStepInto<cr>",         desc = "Dap Step Into", },
       { "<leader>dd", ":DapToggleBreakpoint<cr>", desc = "Dap Toggle Breakpoint", },
       {
         "<leader>da",

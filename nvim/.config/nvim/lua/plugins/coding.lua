@@ -50,7 +50,7 @@ return {
       end,
     },
     keys = {
-      { "<leader>db", ":DBUIToggle<cr>", desc = "CodeCompanionActions", },
+      { "<leader>db", ":DBUIToggle<cr>", desc = "DBUI toggle", },
     }
   },
 }

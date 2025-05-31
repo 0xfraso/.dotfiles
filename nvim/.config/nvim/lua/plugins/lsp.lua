@@ -89,38 +89,55 @@ return {
         return false
       end
 
-      local border = {
-        { '┌', 'FloatBorder' },
-        { '─', 'FloatBorder' },
-        { '┐', 'FloatBorder' },
-        { '│', 'FloatBorder' },
-        { '┘', 'FloatBorder' },
-        { '─', 'FloatBorder' },
-        { '└', 'FloatBorder' },
-        { '│', 'FloatBorder' },
-      }
-
-      local handlers = {
-        ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-        ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-      }
-
-      mason_lspconfig.setup_handlers {
-        function(server_name)
-          if tableContains(ignore_servers, server_name) then
-            return
-          end
-          nvim_lsp[server_name].setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            handlers = handlers,
-            settings = servers_settings[server_name] or {},
-            filetypes = server_filetypes[server_name],
-            root_dir = function()
-              return vim.loop.cwd()
+      mason_lspconfig.setup {
+        handlers = {
+          function(server_name)
+            if tableContains(ignore_servers, server_name) then
+              return
             end
-          }
-        end,
+            local server = servers_settings[server_name] or {}
+            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            server.on_attach = on_attach
+            require('lspconfig')[server_name].setup(server)
+          end,
+          jdtls = function()
+            require('java').setup {}
+            require('lspconfig').jdtls.setup {
+              capabilities = capabilities,
+              on_attach = on_attach,
+              settings = {},
+              root_dir = function()
+                return vim.loop.cwd()
+              end
+            }
+
+            require 'dap'.configurations.java = {
+              {
+                type = 'java',
+                request = 'attach',
+                name = 'Debug (Attach) - Remote',
+                hostName = '127.0.0.1',
+                port = 9000,
+                projectName = function()
+                  local co = coroutine.running()
+                  return coroutine.create(function()
+                    vim.ui.input({
+                      prompt = "Enter module: ",
+                      default = "ac-rest",
+                    }, function(url)
+                      if url == nil or url == "" then
+                        return
+                      else
+                        coroutine.resume(co, url)
+                      end
+                    end)
+                  end)
+                end,
+                mainClass = ''
+              },
+            }
+          end,
+        },
       }
 
       -- must `npm i @angular/language-service typescript` in this path
@@ -130,7 +147,6 @@ return {
 
       require("lspconfig").angularls.setup {
         on_attach = on_attach,
-        handlers = handlers,
         capabilities = capabilities,
         cmd = cmd,
         on_new_config = function(new_config, new_root_dir)
