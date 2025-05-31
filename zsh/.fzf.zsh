@@ -19,7 +19,7 @@ function ff() {
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
-function fg() {
+function fgg() {
   selection=($(rg . --line-number --hidden --no-heading --smart-case -g '!.git' -g '!node_modules' "$@" | fzf -d ':' -n 2.. --no-sort --preview "${BAT_PREVIEW_OPTS} --highlight-line {2} {1}"))
   if [[ -n "$selection" ]]; then
     ${EDITOR:-vim} "${selection%%:*}" +"${${selection%:*}#*:}"
@@ -60,7 +60,7 @@ function fk() {
         --layout=reverse --height=80% | awk '{print $2}')
   if [ "x$pid" != "x" ]
   then
-    echo $pid | xargs kill -9
+    echo $pid | sudo xargs kill -9
   fi
 }
 

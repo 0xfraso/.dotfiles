@@ -14,7 +14,7 @@ return {
         -- "aboveleft vnew   : split left
         -- Only valid when using a float window
         -- (i.e. when 'split' is not defined, default)
-        height     = 0.65, -- window height
+        height     = 1, -- window height
         width      = 1,    -- window width
         row        = 1,    -- window row position (0=top, 1=bottom)
         col        = 0,    -- window col position (0=left, 1=right)
@@ -839,5 +839,8 @@ return {
     { "<leader>gs",      ":FzfLua git_status<CR>",                                            desc = "Status" },
     { "<leader>gc",      ":FzfLua git_commits<CR>",                                           desc = "Commits" },
     { "<leader>gC",      ":FzfLua git_bcommits<CR>",                                          desc = "Current file back commits" },
+    { "<leader>fw",      ":FzfLua grep_cword<CR>",                                            desc = "Grep word under cursor" },
+    { "<leader>fW",      ":FzfLua grep_cWORD<CR>",                                            desc = "Grep WORD under cursor" },
+    { "<leader>fv",      ":FzfLua grep_visual<CR>",                                           desc = "Grep visual selection",    mode = "v" },
   }
 }

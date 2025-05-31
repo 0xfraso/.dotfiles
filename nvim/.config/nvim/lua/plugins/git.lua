@@ -9,7 +9,7 @@ return {
     "lewis6991/gitsigns.nvim",
     config = function()
       require("gitsigns").setup({
-        current_line_blame = true,
+        current_line_blame = false,
       })
     end,
     lazy = false,
@@ -21,6 +21,7 @@ return {
       { "<leader>gq", "<cmd>Gitsigns setqflist<cr>",    desc = "Gitsigns send hunks to qflist" },
       { "<leader>gn", "<cmd>Gitsigns next_hunk<cr>",    desc = "Gitsigns next hunk" },
       { "<leader>gp", "<cmd>Gitsigns prev_hunk<cr>",    desc = "Gitsigns previous hunk" },
+      { "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<cr>",    desc = "Gitsigns toggle line blame" },
     },
   },
   {

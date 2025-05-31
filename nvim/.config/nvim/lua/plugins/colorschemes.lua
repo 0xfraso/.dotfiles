@@ -27,4 +27,5 @@ return {
   "catppuccin/nvim",
   "NTBBloodbath/doom-one.nvim",
   "craftzdog/solarized-osaka.nvim",
+  "projekt0n/github-nvim-theme"
 }

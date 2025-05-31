@@ -23,28 +23,6 @@ end
 
 return {
   {
-    "nvim-java/nvim-java",
-    lazy = false,
-    dependencies = {
-      "nvim-java/lua-async-await",
-      "nvim-java/nvim-java-core",
-      "nvim-java/nvim-java-test",
-      "nvim-java/nvim-java-dap",
-      "MunifTanjim/nui.nvim",
-      "neovim/nvim-lspconfig",
-      "mfussenegger/nvim-dap",
-      {
-        "williamboman/mason.nvim",
-        opts = {
-          registries = {
-            "github:nvim-java/mason-registry",
-            "github:mason-org/mason-registry",
-          },
-        },
-      },
-    }
-  },
-  {
     "mfussenegger/nvim-dap",
     config = function()
       local dap = require("dap")
@@ -96,9 +74,35 @@ return {
           },
         }
       end
+
+      dap.configurations.java = {
+        {
+          type = 'java',
+          request = 'attach',
+          name = 'Debug (Attach) - Remote',
+          hostName = '127.0.0.1',
+          port = 10000,
+          projectName = function()
+            local co = coroutine.running()
+            return coroutine.create(function()
+              vim.ui.input({
+                prompt = "Enter module: ",
+                default = "ac-rest",
+              }, function(url)
+                if url == nil or url == "" then
+                  return
+                else
+                  coroutine.resume(co, url)
+                end
+              end)
+            end)
+          end,
+          mainClass = ''
+        },
+      }
     end,
     keys = {
-      { "<leader>dO", ":DapStepOut<cr>",          desc = "Dap Step Out", },
+      { "<leader>du", ":DapStepOut<cr>",          desc = "Dap Step Out", },
       { "<leader>dx", ":DapContinue<cr>",         desc = "Dap Continue", },
       { "<leader>do", ":DapStepOver<cr>",         desc = "Dap Step Over", },
       { "<leader>di", ":DapStepInto<cr>",         desc = "Dap Step Into", },
@@ -172,19 +176,11 @@ return {
     "rcarriga/nvim-dap-ui",
     config = function()
       local dap, dapui = require("dap"), require("dapui")
-      dap.listeners.before.attach.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.launch.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated.dapui_config = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited.dapui_config = function()
-        dapui.close()
-      end
       dapui.setup({})
+      dap.listeners.before.attach.dapui_config = dapui.open
+      dap.listeners.before.launch.dapui_config = dapui.open
+      dap.listeners.before.event_terminated.dapui_config = dapui.close
+      dap.listeners.before.event_exited.dapui_config = dapui.close
     end,
     dependencies = {
       "mfussenegger/nvim-dap",

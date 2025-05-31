@@ -20,10 +20,12 @@ return {
       highlight = { enable = true },
       indent = { enable = true },
       ensure_installed = {
+        "angular",
         "bash",
         "c",
         "diff",
         "html",
+        "java",
         "javascript",
         "jsdoc",
         "json",
