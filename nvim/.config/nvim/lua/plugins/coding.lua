@@ -7,6 +7,7 @@ return {
 
       conform.setup({
         formatters_by_ft = {
+          xml = {'sonarlint'},
           javascript = { 'prettier' },
           typescript = { 'prettier' },
           html = { 'prettier' },

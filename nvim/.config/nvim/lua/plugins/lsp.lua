@@ -36,6 +36,7 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc, silent = true })
           end
 
+          map('K', function () vim.lsp.buf.hover({ border = 'rounded' }) end, '[K] Hover')
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           map('<leader>ca', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
           map('gr', ":FzfLua lsp_references<CR>", '[G]oto [R]eferences')
@@ -74,10 +75,6 @@ return {
             end, '[T]oggle Inlay [H]ints')
           end
         end,
-      })
-
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
       })
 
       -- Diagnostic Config
@@ -128,6 +125,7 @@ return {
       })
 
       local original_servers_table = {
+        lemminx = {},
         jdtls = {
           settings = {
             java = {

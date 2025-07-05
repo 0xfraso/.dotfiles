@@ -173,25 +173,82 @@ return {
     },
   },
   {
-    "rcarriga/nvim-dap-ui",
-    config = function()
-      local dap, dapui = require("dap"), require("dapui")
-      dapui.setup({})
-      dap.listeners.before.attach.dapui_config = dapui.open
-      dap.listeners.before.launch.dapui_config = dapui.open
-      dap.listeners.before.event_terminated.dapui_config = dapui.close
-      dap.listeners.before.event_exited.dapui_config = dapui.close
-    end,
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio"
+    "igorlfs/nvim-dap-view",
+    ---@module 'dap-view'
+    ---@type dapview.Config
+    opts = {
+      winbar = {
+        show = true,
+        sections = {
+          "repl",
+          "watches",
+          "scopes",
+          "exceptions",
+          "breakpoints",
+          "threads",
+          "console"
+        },
+        -- Must be one of the sections declared above
+        default_section = "repl",
+        headers = {
+          breakpoints = "Breakpoints [B]",
+          scopes = "Scopes [S]",
+          exceptions = "Exceptions [E]",
+          watches = "Watches [W]",
+          threads = "Threads [T]",
+          repl = "REPL [R]",
+          console = "Console [C]",
+        },
+        controls = {
+          enabled = true,
+          position = "left",
+          buttons = {
+            "play",
+            "step_into",
+            "step_over",
+            "step_out",
+            "step_back",
+            "run_last",
+            "terminate",
+            "disconnect",
+          },
+          custom_buttons = {},
+          icons = {
+            pause = "",
+            play = "",
+            step_into = "",
+            step_over = "",
+            step_out = "",
+            step_back = "",
+            run_last = "",
+            terminate = "",
+            disconnect = "",
+          },
+        },
+      },
+      windows = {
+        height = 12,
+        position = "below",
+        terminal = {
+          start_hidden = true,
+        },
+      },
+      help = {
+        border = nil,
+      },
+      -- Controls how to jump when selecting a breakpoint or navigating the stack
+      switchbuf = "usetab,newtab",
     },
     keys = {
-      { "<leader>du", "<cmd>lua require('dapui').toggle()<cr>", desc = "Dap UI toggle", },
+      { "<leader>dp", function() require("dap-view").toggle() end,   desc = "Dap UI toggle", },
+      { "<leader>dw", function() require("dap-view").add_expr() end, desc = "Dap add expr to watchlist", },
     }
   },
   {
     "theHamsta/nvim-dap-virtual-text",
     opts = {},
+    keys = {
+      { "<leader>dv", ":DapVirtualTextRefresh<CR>", desc = "DapVirtualTextRefresh" }
+    }
   }
 }
