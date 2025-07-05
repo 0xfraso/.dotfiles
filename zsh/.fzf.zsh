@@ -28,10 +28,16 @@ function fgg() {
 
 git config --global alias.ll 'log --graph --format="%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)"'
 function fgl() {
+    local file_path="" # Provide filepath to log specific file
+    if [[ -n "$@" && -e "${!#}" ]]; then
+        file_path="${!#}"
+        set -- "${@:1:$(($#-1))}"
+    fi
+
     local selection=$(
-      git ll --color=always "$@" | \
+        git ll --color=always "$@" ${file_path:+-- "$file_path"} | \
         fzf --no-multi --ansi --no-sort \
-            --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+            --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | \
                        xargs -I@ sh -c 'git show --color=always @'"
     )
     if [[ -n $selection ]]; then
