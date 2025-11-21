@@ -80,7 +80,7 @@ function zja() {
 function de() { 
   local selection=($(docker container ls | fzf | cut -d ' ' -f1))
   if [[ -n $selection ]]; then
-    docker exec -it $selection bash
+    docker exec -it $selection sh
   fi
 }
 
