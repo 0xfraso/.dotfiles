@@ -49,8 +49,7 @@ vim.opt.mouse = 'a'
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath("cache")
 
--- disable cursor styling
--- vim.opt.guicursor = ''
+vim.opt.guicursor = "a:block"
 
 vim.o.splitbelow = true
 vim.o.splitright = true
@@ -58,8 +57,5 @@ vim.o.splitright = true
 vim.opt.list = true
 
 vim.g.editorconfig = false -- remove automatic trim on BufWritePre
-
--- Don't have `o` add a comment
-vim.opt.formatoptions:remove "o"
 
 vim.cmd("packadd cfilter")

@@ -26,6 +26,12 @@ return {
     "mfussenegger/nvim-dap",
     config = function()
       local dap = require("dap")
+      if os.getenv("WSL_DISTRO_NAME") then
+          dap.defaults.fallback.external_terminal = {
+            command = 'wezterm.exe',
+            args = {'start', '--cwd', '.', '--'},
+          }
+      end
 
       local dapIcons = {
         Stopped             = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
@@ -81,13 +87,13 @@ return {
           request = 'attach',
           name = 'Debug (Attach) - Remote',
           hostName = '127.0.0.1',
-          port = 10000,
+          port = 5005,
           projectName = function()
             local co = coroutine.running()
             return coroutine.create(function()
               vim.ui.input({
                 prompt = "Enter module: ",
-                default = "ac-rest",
+                default = "",
               }, function(url)
                 if url == nil or url == "" then
                   return

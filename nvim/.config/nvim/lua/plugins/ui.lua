@@ -125,4 +125,11 @@ return {
     }
   },
   { "stevearc/dressing.nvim", lazy = false, opts = {} },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    opts = {
+      -- Style preset for diagnostic messages, options: "modern", "classic", "minimal", "powerline", "ghost", "simple", "nonerdfont", "amongus"
+      preset = "modern",
+    }
+  }
 }

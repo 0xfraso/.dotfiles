@@ -1,7 +1,6 @@
 return {
   {
     "mason-org/mason.nvim",
-    version = "^1.0.0",
     opts = {}
   },
   {
@@ -12,7 +11,29 @@ return {
       "nvim-java/nvim-java-core",
       "nvim-java/nvim-java-test",
       "nvim-java/nvim-java-dap",
+      "nvim-java/nvim-java-refactor"
+    },
+    opts = {
+      jdk = {
+        auto_install = false,
+      },
+      jdtls = {
+        version = "v1.46.1"
+      },
+      spring_boot_tools = { enable = false },
+      java_test = { enable = false }
     }
+  },
+  {
+    "stevearc/aerial.nvim",
+    lazy = true,
+    cmd = { "Outline", "OutlineOpen" },
+    keys = { -- Example mapping to toggle outline
+      { "<leader>uo", "<cmd>AerialToggle<CR>", desc = "Toggle outline" },
+    },
+    opts = {
+      -- Your setup opts here
+    },
   },
   {
     'neovim/nvim-lspconfig',
@@ -43,8 +64,7 @@ return {
           map('gi', ":FzfLua lsp_implementations<CR>", '[G]oto [I]mplementation')
           map('gd', ":FzfLua lsp_definitions<CR>", '[G]oto [D]efinition')
           map('gW', ":FzfLua lsp_live_workspace_symbols<CR>", 'Open Workspace Symbols')
-          map('<leader>xX', ":FzfLua lsp_document_diagnostics<CR>", 'Open document diagnostics')
-          map('<leader>xx', ":FzfLua lsp_workspace_diagnostics<CR>", 'Open workspace diagnostics')
+          map('<leader>xx', ":lua vim.diagnostic.setqflist()<CR>", 'Open diagnostics')
 
           map('<leader>cu', function()
             vim.lsp.buf.code_action({
@@ -96,10 +116,10 @@ return {
           spacing = 2,
           format = function(diagnostic)
             local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
+              [vim.diagnostic.severity.ERROR] = '',
+              [vim.diagnostic.severity.WARN]  = '',
+              [vim.diagnostic.severity.INFO]  = '',
+              [vim.diagnostic.severity.HINT]  = '',
             }
             return diagnostic_message[diagnostic.severity]
           end,
@@ -112,17 +132,6 @@ return {
       local languageServerPath = vim.fn.stdpath("data") .. "/mason/packages/angular-language-server/"
       local cmd = { "ngserver", "--stdio", "--tsProbeLocations", languageServerPath, "--ngProbeLocations",
         languageServerPath }
-
-      require("java").setup({
-        jdk = {
-          auto_install = false,
-        },
-        jdtls = {
-          version = "v1.46.1"
-        },
-        spring_boot_tools = { enable = false },
-        java_test = { enable = false }
-      })
 
       local original_servers_table = {
         lemminx = {},
@@ -147,6 +156,8 @@ return {
           end
         },
         ts_ls = {},
+        gopls = {},
+        cssls = {},
         lua_ls = {
           settings = {
             Lua = {
@@ -172,34 +183,7 @@ return {
 
       for key, value in pairs(original_servers_table) do
         require('lspconfig')[key].setup(value)
-        vim.lsp.enable(key)
       end
-
-      require 'dap'.configurations.java = {
-        {
-          type = 'java',
-          request = 'attach',
-          name = 'Debug (Attach) - Remote',
-          hostName = '127.0.0.1',
-          port = 9000,
-          projectName = function()
-            local co = coroutine.running()
-            return coroutine.create(function()
-              vim.ui.input({
-                prompt = "Enter module: ",
-                default = "ac-rest",
-              }, function(url)
-                if url == nil or url == "" then
-                  return
-                else
-                  coroutine.resume(co, url)
-                end
-              end)
-            end)
-          end,
-          mainClass = ''
-        },
-      }
     end
   }
 }

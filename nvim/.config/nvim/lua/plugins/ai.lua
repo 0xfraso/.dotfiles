@@ -1,77 +1,35 @@
-local OLLAMA_URL = os.getenv("OLLAMA_URL")
-if not OLLAMA_URL then
-  OLLAMA_URL = "localhost:11434"
-end
-
 return {
   {
-    "olimorris/codecompanion.nvim",
+    "NickvanDyke/opencode.nvim",
     dependencies = {
-      "ravitemer/codecompanion-history.nvim"
+      -- Recommended for `ask()` and `select()`.
+      -- Required for `toggle()`.
+      { "folke/snacks.nvim", opts = { input = {}, picker = {} } },
     },
     config = function()
-      require("codecompanion").setup({
-        strategies = {
-          chat = {
-            adapter = "anthropic",
-          },
-          inline = {
-            adapter = "anthropic"
-          },
-        },
-        adapters = {
-          anthropic = function()
-            return require("codecompanion.adapters").extend("anthropic", {
-              schema = {
-                model = {
-                  default = "claude-3-7-sonnet-20250219",
-                },
-              },
-              env = {
-                api_key = "ANTHROPIC_API_KEY",
-              },
-            })
-          end,
-          ollama = function()
-            return require("codecompanion.adapters").extend("ollama", {
-              env = {
-                url = OLLAMA_URL,
-              },
-              headers = {
-                ["Content-Type"] = "application/json",
-              },
-              parameters = {
-                sync = true,
-              },
-            })
-          end,
-        },
-        extensions = {
-          history = {
-            enabled = true,
-            opts = {
-              -- Keymap to open history from chat buffer (default: gh)
-              keymap = "gh",
-              -- Automatically generate titles for new chats
-              auto_generate_title = true,
-              ---On exiting and entering neovim, loads the last chat on opening chat
-              continue_last_chat = false,
-              ---When chat is cleared with `gx` delete the chat from history
-              delete_on_clearing_chat = false,
-              -- Picker interface ("telescope" or "default")
-              picker = "default",
-              ---Enable detailed logging for history extension
-              enable_logging = false,
-              ---Directory path to save the chats
-              dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history",
-            }
-          }
-        }
-      })
+      vim.g.opencode_opts = {
+        -- Your configuration, if any — see `lua/opencode/config.lua`
+      }
+
+      -- Required for `vim.g.opencode_opts.auto_reload`
+      vim.opt.autoread = true
+
+      -- Recommended/example keymaps
+      vim.keymap.set("n", "<leader>oa", function() require("opencode").ask("", { submit = true }) end,
+        { desc = "Ask" })
+      vim.keymap.set("x", "<leader>oa", function() require("opencode").ask("@selection: ", { submit = true }) end,
+        { desc = "Ask about selection" })
+      vim.keymap.set("n", "<leader>ob", function() require("opencode").ask("@buffer: ", { submit = true }) end,
+        { desc = "Ask about buffer" })
+      vim.keymap.set({ "n", "x" }, "<leader>os", function() require("opencode").select() end, { desc = "Select prompt" })
+      vim.keymap.set("n", "<leader>ot", function() require("opencode").toggle() end, { desc = "Toggle embedded" })
+      vim.keymap.set("n", "<leader>oc", function() require("opencode").command() end, { desc = "Select command" })
+      vim.keymap.set("n", "<leader>o<tab>", function() require("opencode").command("agent_cycle") end,
+        { desc = "Cycle selected agent" })
+      vim.keymap.set("n", "<S-C-u>", function() require("opencode").command("messages_half_page_up") end,
+        { desc = "Messages half page up" })
+      vim.keymap.set("n", "<S-C-d>", function() require("opencode").command("messages_half_page_down") end,
+        { desc = "Messages half page down" })
     end,
-    keys = {
-      { "<leader>cl", ":CodeCompanionActions<cr>", desc = "CodeCompanionActions", },
-      { "<leader>cp", ":CodeCompanionChat<cr>",    desc = "CodeCompanionChat", },
-    }
   }
 }

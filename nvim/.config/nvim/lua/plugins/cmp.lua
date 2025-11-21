@@ -73,9 +73,6 @@ return {
           "dadbod",
         },
         providers = {
-          cmdline = {
-            enabled = false
-          },
           buffer = {
             enabled = false
           },
@@ -83,6 +80,9 @@ return {
         }
       },
 
+      cmdline = {
+        enabled = false
+      },
       keymap = {
         preset = "enter",
         ["<C-y>"] = { "select_and_accept" },

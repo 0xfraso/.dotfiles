@@ -26,6 +26,8 @@ keymap("v", "K", ":m '<-2<CR>gv=gv")
 keymap("n", 'x', '"_x')
 
 keymap("n", 'tn', ':tabnew<CR>')
+keymap("n", '<tab>', ':tabnext<CR>')
+keymap("n", '<S-tab>', ':tabprevious<CR>')
 keymap("n", 'L', ':bnext<CR>')
 keymap("n", 'H', ':bprevious<CR>')
 
@@ -33,23 +35,17 @@ keymap("n", "gR", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { sile
 
 keymap("t", "<Esc>", [[<C-\><C-n>]])
 
-keymap("n", "<leader>=", '<Cmd>lua vim.lsp.buf.format()<CR>')
-
-keymap("n", "<leader>sw", "<Cmd>set wrap!<CR>")
-
 -- quickfix mappings
 keymap("n", "<C-j>", "<Cmd>cnext<CR>")
 keymap("n", "<C-k>", "<Cmd>cprevious<CR>")
+
+keymap("n", '<leader>co', ':copen<CR>')
+keymap("n", '<leader>cc', ':cclose<CR>')
 
 keymap("n", "<Del>", '"_x')
 keymap("v", "<Del>", '"_x')
 keymap("n", "<Esc>", ':noh<CR>')
 
--- toggle wrap
-keymap("n", "<leader>uw", function()
-  vim.cmd("set wrap!")
-  local wrap = vim.opt.wrap:get() and "enabled" or "disabled"
-  vim.notify(("Wrap %s"):format(wrap))
-end)
-
-keymap("n", "<leader>so", ":so %<CR>")
+keymap("n", "<leader>xp", function() vim.diagnostic.jump({ count = -1, float = false }) end)
+keymap("n", "<leader>xn", function() vim.diagnostic.jump({ count = 1, float = false }) end)
+keymap("n", "<leader>xf", vim.diagnostic.open_float)
