@@ -83,3 +83,11 @@ function de() {
     docker exec -it $selection bash
   fi
 }
+
+function fgb() {
+  local branch
+  branch=$(git branch --color=never --format='%(refname:short)' | fzf --no-multi)
+  if [[ -n "$branch" ]]; then
+    git checkout "$branch"
+  fi
+}
