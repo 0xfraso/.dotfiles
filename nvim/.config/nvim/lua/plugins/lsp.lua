@@ -18,9 +18,9 @@ return {
         auto_install = false,
       },
       jdtls = {
-        version = "v1.46.1"
+        version = "v1.43.0"
       },
-      spring_boot_tools = { enable = false },
+      spring_boot_tools = { enable = true },
       java_test = { enable = false }
     }
   },
@@ -185,5 +185,9 @@ return {
         require('lspconfig')[key].setup(value)
       end
     end
+  },
+  {
+    "andreshazard/vim-freemarker",
+    config = function() return {} end
   }
 }

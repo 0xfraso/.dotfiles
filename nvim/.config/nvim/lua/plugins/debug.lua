@@ -57,7 +57,7 @@ return {
             request = 'attach',
             name = 'Attach to Node app',
             address = 'localhost',
-            port = 9229,
+            port = 9222,
             cwd = '${workspaceFolder}',
             restart = true,
           },

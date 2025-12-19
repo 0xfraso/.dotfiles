@@ -49,3 +49,5 @@ keymap("n", "<Esc>", ':noh<CR>')
 keymap("n", "<leader>xp", function() vim.diagnostic.jump({ count = -1, float = false }) end)
 keymap("n", "<leader>xn", function() vim.diagnostic.jump({ count = 1, float = false }) end)
 keymap("n", "<leader>xf", vim.diagnostic.open_float)
+
+keymap("n", "<C-w>d", ":windo diffthis<CR>")

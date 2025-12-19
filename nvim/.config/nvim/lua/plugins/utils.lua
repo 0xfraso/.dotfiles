@@ -61,7 +61,5 @@ return {
     }
   },
 
-  {
-    "nvzone/typr",
-  }
+  { "uhs-robert/sshfs.nvim", opts = {} }
 }
