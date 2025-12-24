@@ -5,32 +5,16 @@ local js_based_languages = {
   "javascriptreact",
 }
 
-local pick_url = function()
-  local co = coroutine.running()
-  return coroutine.create(function()
-    vim.ui.input({
-      prompt = "Enter URL: ",
-      default = "http://localhost:4200",
-    }, function(url)
-      if url == nil or url == "" then
-        return
-      else
-        coroutine.resume(co, url)
-      end
-    end)
-  end)
-end
-
 return {
   {
     "mfussenegger/nvim-dap",
     config = function()
       local dap = require("dap")
       if os.getenv("WSL_DISTRO_NAME") then
-          dap.defaults.fallback.external_terminal = {
-            command = 'wezterm.exe',
-            args = {'start', '--cwd', '.', '--'},
-          }
+        dap.defaults.fallback.external_terminal = {
+          command = 'wezterm.exe',
+          args = { 'start', '--cwd', '.', '--' },
+        }
       end
 
       local dapIcons = {
@@ -49,37 +33,70 @@ return {
           { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
         )
       end
-      for _, language in ipairs(js_based_languages) do
-        dap.configurations[language] = {
-          -- Debug nodejs processes (make sure to add --inspect when you run the process)
-          {
-            type = 'pwa-node',
-            request = 'attach',
-            name = 'Attach to Node app',
-            address = 'localhost',
-            port = 9222,
-            cwd = '${workspaceFolder}',
-            restart = true,
-          },
-          -- Debug web applications (client side)
-          {
-            type = "pwa-chrome",
-            request = "launch",
-            name = "Launch & Debug Chrome",
-            url = pick_url,
-            webRoot = vim.fn.getcwd(),
-            protocol = "inspector",
-            sourceMaps = true,
-            userDataDir = false,
-          },
-          -- Divider for the launch.json derived configs
-          {
-            name = "----- ↓ launch.json configs ↓ -----",
-            type = "",
-            request = "launch",
-          },
-        }
+
+      -- =============  GO ==================
+
+      dap.adapters.delve = function(callback, config)
+        if config.mode == 'remote' and config.request == 'attach' then
+          callback({
+            type = 'server',
+            host = config.host or '127.0.0.1',
+            port = config.port or '2345',
+          })
+        else
+          callback({
+            type = 'server',
+            port = '${port}',
+            executable = {
+              command = 'dlv',
+              args = { 'dap', '-l', '127.0.0.1:${port}', '--log', '--log-output=dap' },
+              detached = vim.fn.has("win32") == 0,
+            }
+          })
+        end
       end
+
+      -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
+      dap.configurations.go = {
+        {
+          type = "delve",
+          name = "Attach Remote",
+          mode = "remote",
+          request = "attach",
+          port = 2345,
+          host = "127.0.0.1",
+          logLevel = vim.log.levels.DEBUG,
+          substitutePath = {
+            {
+              from = vim.fn.getcwd(),
+              to = "/app" 
+            }
+          }
+        },
+        {
+          type = "delve",
+          name = "Debug",
+          request = "launch",
+          program = "${file}"
+        },
+        {
+          type = "delve",
+          name = "Debug test", -- configuration for debugging test files
+          request = "launch",
+          mode = "test",
+          program = "${file}"
+        },
+        -- works with go.mod packages and sub packages 
+        {
+          type = "delve",
+          name = "Debug test (go.mod)",
+          request = "launch",
+          mode = "test",
+          program = "./${relativeFileDirname}"
+        } 
+      }
+
+      -- ============= JAVA ==================
 
       local resolve_main_class = function()
         local lsp_utils = require('java-core.utils.lsp')
@@ -151,21 +168,6 @@ return {
       { "<leader>do", ":DapStepOver<cr>",         desc = "Dap Step Over", },
       { "<leader>di", ":DapStepInto<cr>",         desc = "Dap Step Into", },
       { "<leader>dd", ":DapToggleBreakpoint<cr>", desc = "Dap Toggle Breakpoint", },
-      {
-        "<leader>da",
-        function()
-          if vim.fn.filereadable(".vscode/launch.json") then
-            local dap_vscode = require("dap.ext.vscode")
-            dap_vscode.load_launchjs(nil, {
-              ["pwa-node"] = js_based_languages,
-              ["chrome"] = js_based_languages,
-              ["pwa-chrome"] = js_based_languages,
-            })
-          end
-          require("dap").continue()
-        end,
-        desc = "Run with Args",
-      },
     },
   },
   {
