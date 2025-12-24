@@ -124,7 +124,6 @@ return {
       preset = "helix"
     }
   },
-  { "stevearc/dressing.nvim", lazy = false, opts = {} },
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     opts = {

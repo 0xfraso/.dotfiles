@@ -81,6 +81,42 @@ return {
         }
       end
 
+      local resolve_main_class = function()
+        local lsp_utils = require('java-core.utils.lsp')
+
+        local client = lsp_utils.get_jdtls()
+        if not client then
+          error('JDTLS client not found. Make sure JDTLS is running.')
+        end
+
+        local result = nil
+        local done = false
+        local error_msg = nil
+
+        client:request('workspace/executeCommand', {
+          command = 'vscode.java.resolveMainClass',
+          arguments = {},
+        }, function(err, result_)
+            if err then
+              error_msg = err.message or tostring(err)
+            else
+              result = result_
+            end
+            done = true
+          end)
+
+        -- Wait for the response
+        while not done do
+          vim.wait(10)  -- wait 10ms
+        end
+
+        if error_msg then
+          error('Failed to resolve main class: ' .. error_msg)
+        end
+
+        return result
+      end
+
       dap.configurations.java = {
         {
           type = 'java',
@@ -90,17 +126,19 @@ return {
           port = 5005,
           projectName = function()
             local co = coroutine.running()
+            local mains = resolve_main_class()
+            local items = vim.tbl_map(function(m)
+              return string.format('%s', m.projectName)
+            end, mains)
+
             return coroutine.create(function()
-              vim.ui.input({
-                prompt = "Enter module: ",
-                default = "",
-              }, function(url)
-                if url == nil or url == "" then
-                  return
-                else
-                  coroutine.resume(co, url)
-                end
-              end)
+              vim.ui.select(items, {
+                prompt = "Select project name: "
+              }, function(choice, idx)
+                  if choice and idx then
+                    coroutine.resume(co, mains[idx].projectName)
+                  end
+                end)
             end)
           end,
           mainClass = ''
@@ -129,54 +167,6 @@ return {
         desc = "Run with Args",
       },
     },
-    dependencies = {
-      -- Install the vscode-js-debug adapter
-      {
-        "microsoft/vscode-js-debug",
-        -- After install, build it and rename the dist directory to out
-        build = "npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
-        version = "1.*",
-      },
-      {
-        "mxsdev/nvim-dap-vscode-js",
-        config = function()
-          ---@diagnostic disable-next-line: missing-fields
-          require("dap-vscode-js").setup({
-            -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-            -- node_path = "node",
-
-            -- Path to vscode-js-debug installation.
-            debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
-
-            -- Command to use to launch the debug server. Takes precedence over "node_path" and "debugger_path"
-            -- debugger_cmd = { "js-debug-adapter" },
-
-            -- which adapters to register in nvim-dap
-            adapters = {
-              "chrome",
-              "pwa-node",
-              "pwa-chrome",
-              "pwa-msedge",
-              "pwa-extensionHost",
-              "node-terminal",
-            },
-
-            -- Path for file logging
-            -- log_file_path = "(stdpath cache)/dap_vscode_js.log",
-
-            -- Logging level for output to file. Set to false to disable logging.
-            -- log_file_level = false,
-
-            -- Logging level for output to console. Set to false to disable console output.
-            -- log_console_level = vim.log.levels.ERROR,
-          })
-        end,
-      },
-      {
-        "Joakker/lua-json5",
-        build = "./install.sh",
-      },
-    },
   },
   {
     "igorlfs/nvim-dap-view",
@@ -185,26 +175,55 @@ return {
     opts = {
       winbar = {
         show = true,
-        sections = {
-          "repl",
-          "watches",
-          "scopes",
-          "exceptions",
-          "breakpoints",
-          "threads",
-          "console"
-        },
+        -- You can add a "console" section to merge the terminal with the other views
+        sections = { "console", "watches", "scopes", "exceptions", "breakpoints", "threads", "repl" },
         -- Must be one of the sections declared above
-        default_section = "repl",
-        headers = {
-          breakpoints = "Breakpoints [B]",
-          scopes = "Scopes [S]",
-          exceptions = "Exceptions [E]",
-          watches = "Watches [W]",
-          threads = "Threads [T]",
-          repl = "REPL [R]",
-          console = "Console [C]",
+        default_section = "console",
+        -- Configure each section individually
+        base_sections = {
+          breakpoints = {
+            keymap = "B",
+            label = "Breakpoints [B]",
+            short_label = " [B]",
+          },
+          scopes = {
+            keymap = "S",
+            label = "Scopes [S]",
+            short_label = "󰂥 [S]",
+          },
+          exceptions = {
+            keymap = "E",
+            label = "Exceptions [E]",
+            short_label = "󰢃 [E]",
+          },
+          watches = {
+            keymap = "W",
+            label = "Watches [W]",
+            short_label = "󰛐 [W]",
+          },
+          threads = {
+            keymap = "T",
+            label = "Threads [T]",
+            short_label = "󱉯 [T]",
+          },
+          repl = {
+            keymap = "R",
+            label = "REPL [R]",
+            short_label = "󰯃 [R]",
+          },
+          sessions = {
+            keymap = "K", -- I ran out of mnemonics
+            label = "Sessions [K]",
+            short_label = " [K]",
+          },
+          console = {
+            keymap = "C",
+            label = "Console [C]",
+            short_label = "󰆍 [C]",
+          },
         },
+        -- Add your own sections
+        custom_sections = {},
         controls = {
           enabled = true,
           position = "left",
@@ -219,31 +238,55 @@ return {
             "disconnect",
           },
           custom_buttons = {},
-          icons = {
-            pause = "",
-            play = "",
-            step_into = "",
-            step_over = "",
-            step_out = "",
-            step_back = "",
-            run_last = "",
-            terminate = "",
-            disconnect = "",
-          },
         },
       },
       windows = {
-        height = 12,
+        height = 0.25,
         position = "below",
         terminal = {
+          width = 0.5,
+          position = "left",
+          -- List of debug adapters for which the terminal should be ALWAYS hidden
+          hide = {},
+          -- Hide the terminal when starting a new session
           start_hidden = true,
         },
+      },
+      icons = {
+        disabled = "",
+        disconnect = "",
+        enabled = "",
+        filter = "󰈲",
+        negate = " ",
+        pause = "",
+        play = "",
+        run_last = "",
+        step_back = "",
+        step_into = "",
+        step_out = "",
+        step_over = "",
+        terminate = "",
       },
       help = {
         border = nil,
       },
+      render = {
+        -- Optionally a function that takes two `dap.Variable`'s as arguments
+        -- and is forwarded to a `table.sort` when rendering variables in the scopes view
+        sort_variables = nil,
+      },
       -- Controls how to jump when selecting a breakpoint or navigating the stack
-      switchbuf = "usetab,newtab",
+      -- Comma separated list, like the built-in 'switchbuf'. See :help 'switchbuf'
+      -- Only a subset of the options is available: newtab, useopen, usetab and uselast
+      -- Can also be a function that takes the current winnr and the bufnr that will jumped to
+      -- If a function, should return the winnr of the destination window
+      switchbuf = "usetab,uselast",
+      -- Auto open when a session is started and auto close when all sessions finish
+      auto_toggle = false,
+      -- Reopen dapview when switching to a different tab
+      -- Can also be a function to dynamically choose when to follow, by returning a boolean
+      -- If a function, receives the name of the adapter for the current session as an argument
+      follow_tab = false,
     },
     keys = {
       { "<leader>dp", function() require("dap-view").toggle() end,   desc = "Dap UI toggle", },

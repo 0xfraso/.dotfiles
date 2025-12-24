@@ -8,32 +8,20 @@ return {
     lazy = false,
     dependencies = {
       "nvim-java/lua-async-await",
-      "nvim-java/nvim-java-core",
-      "nvim-java/nvim-java-test",
-      "nvim-java/nvim-java-dap",
-      "nvim-java/nvim-java-refactor"
     },
-    opts = {
-      jdk = {
-        auto_install = false,
-      },
-      jdtls = {
-        version = "v1.43.0"
-      },
-      spring_boot_tools = { enable = true },
-      java_test = { enable = false }
-    }
-  },
-  {
-    "stevearc/aerial.nvim",
-    lazy = true,
-    cmd = { "Outline", "OutlineOpen" },
-    keys = { -- Example mapping to toggle outline
-      { "<leader>uo", "<cmd>AerialToggle<CR>", desc = "Toggle outline" },
-    },
-    opts = {
-      -- Your setup opts here
-    },
+    config = function ()
+      require("java").setup({
+        jdk = {
+          auto_install = true,
+        },
+        jdtls = {
+          version = "1.54.0"
+        },
+        spring_boot_tools = { enable = true },
+        java_test = { enable = false }
+      })
+      vim.lsp.enable('jdtls')
+    end
   },
   {
     'neovim/nvim-lspconfig',
@@ -135,25 +123,11 @@ return {
 
       local original_servers_table = {
         lemminx = {},
-        jdtls = {
-          settings = {
-            java = {
-              configuration = {
-                runtimes = { {
-                  name = "JavaSE-21",
-                  path = "/usr/lib/jvm/java-21-openjdk-amd64"
-                } }
-              }
-            }
-          },
-          root_dir = vim.loop.cwd,
-          capabilities = capabilities
-        },
         angularls = {
           cmd = cmd,
           on_new_config = function(new_config)
             new_config.cmd = cmd
-          end
+          end,
         },
         ts_ls = {},
         gopls = {},
@@ -161,24 +135,13 @@ return {
         lua_ls = {
           settings = {
             Lua = {
-              runtime = {
-                version = 'LuaJIT'
-              },
-              diagnostics = {
-                globals = {
-                  'vim',
-                  'require'
-                }
-              },
-              workspace = {
-                library = vim.api.nvim_get_runtime_file("", true)
-              },
-              telemetry = {
-                enable = false
-              }
-            }
-          }
-        }
+              runtime = { version = "LuaJIT" },
+              diagnostics = { globals = { "vim", "require" } },
+              workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+              telemetry = { enable = false },
+            },
+          },
+        },
       }
 
       for key, value in pairs(original_servers_table) do

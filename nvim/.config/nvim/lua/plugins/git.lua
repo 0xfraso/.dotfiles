@@ -1,11 +1,5 @@
 return {
   {
-    "tpope/vim-fugitive",
-    keys = {
-      { "<leader>gG", "<cmd>G<cr>", desc = "Fugitive" },
-    }
-  },
-  {
     "lewis6991/gitsigns.nvim",
     config = function()
       require("gitsigns").setup({
