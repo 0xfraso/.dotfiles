@@ -10,6 +10,17 @@ return {
     input = { enabled = true },
     picker = {
       enabled = true,
+      layouts = {
+        ivy = {
+          layout = {
+            height = 0.8,
+          }
+        }
+      },
+      layout = {
+        preset = "ivy",
+        hidden = { "preview" }
+      },
       actions = {
         files = {
           enter = { "edit", mode = { "n", "i" } },
