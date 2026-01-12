@@ -28,15 +28,15 @@ local remove_bg = {
 
 local override_hls = {
   NormalFloat =              { link = "NormalPopup" },
-  GitSignsCurrentLineBlame = { fg = toHex(getHl("Normal")["fg"]) },
   StatusLine =               { link = "Normal" },
   StatusLineLspWarn =        { link = "DiagnosticWarn" },
   StatusLineLspError =       { link = "DiagnosticError" },
   StatusLineLspInfo =        { link = "DiagnosticInfo" },
   StatusLineBorder =         { fg = toHex(getHl("Cursor")["bg"]) },
-  Cursor =                   { bg = "#ffdd33" },
-  iCursor =                  { bg = "#5f87af" },
-  rCursor =                  { bg = "#d70000" },
+  Directory =                { link = "Constant" },
+  GruberDarkerDarkNiagara =  { link = "GruberDarkerQuartz" },
+  GruberDarkerDarkestNiagara={ link = "GruberDarkerQuartz" },
+  SnacksPickerDir =          { link = "Directory" },
 }
 
 autocmd("ColorScheme", {

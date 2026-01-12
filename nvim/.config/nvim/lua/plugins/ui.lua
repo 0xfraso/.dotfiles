@@ -56,22 +56,6 @@ return {
         return msg
       end
 
-      local get_timerly_status = function()
-        local status, state = pcall(require, "timerly.state")
-        if not status then
-          return "timerly not available"
-        end
-        if state.progress == 0 then
-          return ""
-        end
-
-        local total = math.max(0, state.total_secs + 1) -- Add 1 to sync with timer display
-        local mins = math.floor(total / 60)
-        local secs = total % 60
-
-        return string.format("%s %02d:%02d", state.mode:gsub("^%l", string.upper), mins, secs)
-      end
-
       require('lualine').setup {
         options = {
           icons_enabled = true,
@@ -97,7 +81,6 @@ return {
           lualine_b = { 'branch', 'diff', 'diagnostics' },
           lualine_c = { 'filename' },
           lualine_x = { section_lsp },
-          lualine_y = { get_timerly_status },
           lualine_z = { 'location' }
         },
         inactive_sections = {

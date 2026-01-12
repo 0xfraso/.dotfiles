@@ -5,6 +5,9 @@ return {
       cache_file = vim.fn.stdpath("cache") .. "/commands",
       shell_file = os.getenv("HOME") .. "/.zsh_history",
     }, -- see section below for configuration options
+    dependencies = {
+      "akinsho/toggleterm.nvim"
+    },
     keys = {
       { "<leader>tl", ":CommandSelect<CR>",             desc = "Select command" },
       { "<leader>tr", ":CommandSelectShellHistory<CR>", desc = "Select command" },

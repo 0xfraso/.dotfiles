@@ -9,7 +9,19 @@ return {
     dependencies = {
       "nvim-java/lua-async-await",
     },
-    config = function ()
+    config = function()
+      -- Temporary fix: suppress nvim-lspconfig deprecation warnings
+      local orig_notify = vim.notify
+      vim.notify = function(msg, level, opts)
+        if type(msg) == "string" and msg:match("is deprecated, use vim.lsp.config") then
+          return
+        end
+        if type(msg) == "string" and msg:match("nvim%-java/lua/java%.lua:43") then
+          return
+        end
+
+        return orig_notify(msg, level, opts)
+      end
       require("java").setup({
         jdk = {
           auto_install = true,
@@ -37,6 +49,15 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
+      -- Temporary fix: suppress nvim-lspconfig deprecation warnings
+      local orig_deprecate = vim.deprecate
+      vim.deprecate = function(...)
+        local args = {...}
+        if args[1] and args[1]:match("require%('lspconfig'%)") then
+          return
+        end
+        return orig_deprecate(...)
+      end
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
         callback = function(event)
@@ -45,13 +66,12 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc, silent = true })
           end
 
-          map('K', function () vim.lsp.buf.hover({ border = 'rounded' }) end, '[K] Hover')
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-          map('<leader>ca', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
-          map('gr', ":FzfLua lsp_references<CR>", '[G]oto [R]eferences')
-          map('gi', ":FzfLua lsp_implementations<CR>", '[G]oto [I]mplementation')
-          map('gd', ":FzfLua lsp_definitions<CR>", '[G]oto [D]efinition')
-          map('gW', ":FzfLua lsp_live_workspace_symbols<CR>", 'Open Workspace Symbols')
+          map('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, '[K] Hover')
+          map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('g.', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
+          map('gr', vim.lsp.buf.references, '[G]oto [R]eferences')
+          map('gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+          map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
           map('<leader>xx', ":lua vim.diagnostic.setqflist()<CR>", 'Open diagnostics')
 
           map('<leader>cu', function()

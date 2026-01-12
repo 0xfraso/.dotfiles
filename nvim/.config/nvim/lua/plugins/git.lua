@@ -1,11 +1,9 @@
 return {
   {
     "lewis6991/gitsigns.nvim",
-    config = function()
-      require("gitsigns").setup({
-        current_line_blame = false,
-      })
-    end,
+    opts ={
+      current_line_blame = true,
+    },
     lazy = false,
     keys = {
       { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", desc = "Gitsigns preview hunk" },

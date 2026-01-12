@@ -273,11 +273,28 @@ web_client {
 //   - false (Default)
 // 
 simplified_ui true
+
+themes {
+    gruber-darker {
+        fg         228 228 239   // #e4e4ef light fg
+        bg         24  24  24    // #181818 dark bg
+        black      0   0   0     // #000000
+        red        204 51  34    // #cc3322
+        green      68  170 34    // #44aa22
+        yellow     204 170 51    // #ccaa33
+        blue       34  136 255   // #2288ff
+        magenta    204 102 170   // #cc66aa
+        cyan       102 204 170   // #66ccaa
+        white      255 255 255   // #ffffff
+        orange     204 170 51    // #ccaa33 (for accents/borders)
+        quartz     144 170 158
+    }
+}
  
 // Choose the theme that is specified in the themes section.
 // Default: default
 // 
-theme "catppuccin-mocha"
+theme "gruber-darker"
  
 // Choose the base input mode of zellij.
 // Default: normal

@@ -7,7 +7,7 @@ return {
 
       conform.setup({
         formatters_by_ft = {
-          xml = {'sonarlint'},
+          xml = { 'sonarlint' },
           javascript = { 'prettier' },
           typescript = { 'prettier' },
           html = { 'prettier' },
@@ -27,8 +27,28 @@ return {
     end,
   },
   {
-    "mg979/vim-visual-multi",
-    event = "BufEnter"
+    "brenton-leighton/multiple-cursors.nvim",
+    version = "*", -- Use the latest tagged version
+    opts = {},     -- This causes the plugin setup function to be called
+    keys = {
+      { "<C-j>",         "<Cmd>MultipleCursorsAddDown<CR>",          mode = { "n", "x" },      desc = "Add cursor and move down" },
+      { "<C-k>",         "<Cmd>MultipleCursorsAddUp<CR>",            mode = { "n", "x" },      desc = "Add cursor and move up" },
+
+      { "<C-Up>",        "<Cmd>MultipleCursorsAddUp<CR>",            mode = { "n", "i", "x" }, desc = "Add cursor and move up" },
+      { "<C-Down>",      "<Cmd>MultipleCursorsAddDown<CR>",          mode = { "n", "i", "x" }, desc = "Add cursor and move down" },
+
+      { "<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>",   mode = { "n", "i" },      desc = "Add or remove cursor" },
+
+      { "<Leader>m",     "<Cmd>MultipleCursorsAddVisualArea<CR>",    mode = { "x" },           desc = "Add cursors to the lines of the visual area" },
+
+      { "<Leader>a",     "<Cmd>MultipleCursorsAddMatches<CR>",       mode = { "n", "x" },      desc = "Add cursors to cword" },
+      { "<Leader>A",     "<Cmd>MultipleCursorsAddMatchesV<CR>",      mode = { "n", "x" },      desc = "Add cursors to cword in previous area" },
+
+      { "<Leader>d",     "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", mode = { "n", "x" },      desc = "Add cursor and jump to next cword" },
+      { "<Leader>D",     "<Cmd>MultipleCursorsJumpNextMatch<CR>",    mode = { "n", "x" },      desc = "Jump to next cword" },
+
+      { "<Leader>l",     "<Cmd>MultipleCursorsLock<CR>",             mode = { "n", "x" },      desc = "Lock virtual cursors" },
+    },
   },
   {
     "windwp/nvim-ts-autotag",
@@ -59,7 +79,15 @@ return {
     ft = "qf",
     ---@module "quicker"
     ---@type quicker.SetupOptions
-    opts = {},
+    opts = {
+      max_filename_width = function()
+        return math.floor(math.min(30, vim.o.columns / 2))
+      end,
+      -- How far the header should extend to the right
+      header_length = function(type, start_col)
+        return vim.o.columns - start_col
+      end,
+    },
     keys = {
       {
         ">",
@@ -74,6 +102,28 @@ return {
           require("quicker").collapse()
         end,
         desc = "Collapse quickfix context",
+      },
+      {
+        "f",
+        function()
+          vim.ui.input({ prompt = "Filter pattern: " }, function(pattern)
+            if pattern and pattern ~= "" then
+              vim.cmd("Cfilter " .. pattern)
+            end
+          end)
+        end,
+        desc = "Filter quickfix entries",
+      },
+      {
+        "F",
+        function()
+          vim.ui.input({ prompt = "Filter pattern (inverted): " }, function(pattern)
+            if pattern and pattern ~= "" then
+              vim.cmd("Cfilter! " .. pattern)
+            end
+          end)
+        end,
+        desc = "Filter quickfix entries (inverted)",
       },
     },
   }
