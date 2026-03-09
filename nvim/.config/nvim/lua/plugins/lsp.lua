@@ -10,18 +10,6 @@ return {
       "nvim-java/lua-async-await",
     },
     config = function()
-      -- Temporary fix: suppress nvim-lspconfig deprecation warnings
-      local orig_notify = vim.notify
-      vim.notify = function(msg, level, opts)
-        if type(msg) == "string" and msg:match("is deprecated, use vim.lsp.config") then
-          return
-        end
-        if type(msg) == "string" and msg:match("nvim%-java/lua/java%.lua:43") then
-          return
-        end
-
-        return orig_notify(msg, level, opts)
-      end
       require("java").setup({
         jdk = {
           auto_install = true,
@@ -52,7 +40,7 @@ return {
       -- Temporary fix: suppress nvim-lspconfig deprecation warnings
       local orig_deprecate = vim.deprecate
       vim.deprecate = function(...)
-        local args = {...}
+        local args = { ... }
         if args[1] and args[1]:match("require%('lspconfig'%)") then
           return
         end
@@ -74,13 +62,14 @@ return {
           map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
           map('<leader>xx', ":lua vim.diagnostic.setqflist()<CR>", 'Open diagnostics')
 
-          map('<leader>cu', function()
-            vim.lsp.buf.code_action({
-              apply = true,
+          map('<leader>ru', function()
+            vim.lsp.buf.code_action({ 
               context = {
-                only = { "source.removeUnused.ts" },
-                diagnostics = {},
-              },
+                only = {
+                  "source.organizeImports" 
+                }
+              }, 
+              apply = true 
             })
           end, "Clear unused imports")
 
@@ -142,6 +131,8 @@ return {
         languageServerPath }
 
       local original_servers_table = {
+        prismals = {},
+        tailwindcss = {},
         lemminx = {},
         angularls = {
           cmd = cmd,

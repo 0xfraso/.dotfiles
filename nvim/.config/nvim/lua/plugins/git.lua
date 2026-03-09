@@ -38,7 +38,8 @@ return {
       integrations = {
         telescope = nil,
         diffview = nil,
-        fzf_lua = true,
+        fzf_lua = nil,
+        snacks = true,
       },
     },
     keys = {

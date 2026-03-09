@@ -112,6 +112,11 @@ autoload -z edit-command-line;
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
+# change directory hook
+chpwd() { 
+  exa --icons --group-directories-first 2>/dev/null || ls
+}
+
 [[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
 [[ ! -f ~/.wsl.zsh ]] || source ~/.wsl.zsh
 [[ ! -f ~/.alias.zsh ]] || source ~/.alias.zsh
@@ -123,3 +128,9 @@ bindkey "^X^E" edit-command-line
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH=$PATH:$HOME/.local/bin
+
+# opencode
+export PATH=/home/fraso/.opencode/bin:$PATH
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

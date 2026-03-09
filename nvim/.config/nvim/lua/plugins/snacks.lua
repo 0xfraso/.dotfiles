@@ -49,11 +49,10 @@ return {
     statuscolumn = { enabled = true },
     words = { enabled = false },
     terminal = { enabled = true },
-    toggle = { enabled = true }
+    toggle = { enabled = true },
+    scratch = { enabled = false }
   },
   keys = {
-    { "<leader>.",       function() Snacks.scratch() end,                                          desc = "Toggle Scratch Buffer" },
-    { "<leader>S",       function() Snacks.scratch.select() end,                                   desc = "Select Scratch Buffer" },
     { "<leader>n",       function() Snacks.notifier.show_history() end,                            desc = "Notification History" },
     { "<leader>bd",      function() Snacks.bufdelete() end,                                        desc = "Delete Buffer" },
     { "<leader>cR",      function() Snacks.rename.rename_file() end,                               desc = "Rename File" },

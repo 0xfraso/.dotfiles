@@ -12,7 +12,7 @@ return {
     opts = {},
     filetype = "http",
     keys = {
-      { "<leader>kr", ":lua require('kulala').run()<CR>", { desc = "Kulala Run" } },
+      { "<leader>kr", ":lua require('kulala').run()<CR>",  { desc = "Kulala Run" } },
       { "<leader>kc", ":lua require('kulala').copy()<CR>", { desc = "Kulala Copy as curl" } }
     }
   },

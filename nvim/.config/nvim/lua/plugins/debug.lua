@@ -167,8 +167,48 @@ return {
       { "<leader>dx", ":DapContinue<cr>",         desc = "Dap Continue", },
       { "<leader>do", ":DapStepOver<cr>",         desc = "Dap Step Over", },
       { "<leader>di", ":DapStepInto<cr>",         desc = "Dap Step Into", },
-      { "<leader>dd", ":DapToggleBreakpoint<cr>", desc = "Dap Toggle Breakpoint", },
+      { "<leader>dd", ":DapToggleBreakpoint<cr>", desc = "Dap Toggle Breakpoint" },
+      { "<leader>dj", ":JavaProfile<cr>",         desc = "Java Profiles UI" },
+      {
+        "<leader>da",
+        function()
+          if vim.fn.filereadable(".vscode/launch.json") then
+            local dap_vscode = require("dap.ext.vscode")
+            dap_vscode.load_launchjs(nil, {
+              ["pwa-node"] = js_based_languages,
+              ["chrome"] = js_based_languages,
+              ["pwa-chrome"] = js_based_languages,
+            })
+          end
+          require("dap").continue()
+        end,
+        desc = "Run with Args",
+      },
     },
+    dependencies = {
+      {
+        "microsoft/vscode-js-debug",
+        build = "npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
+        version = "1.*",
+      },
+      {
+        "mxsdev/nvim-dap-vscode-js",
+        config = function()
+          ---@diagnostic disable-next-line: missing-fields
+          require("dap-vscode-js").setup({
+            debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
+            adapters = {
+              "chrome",
+              "pwa-node",
+              "pwa-chrome",
+              "pwa-msedge",
+              "pwa-extensionHost",
+              "node-terminal",
+            },
+          })
+        end,
+      },
+    }
   },
   {
     "igorlfs/nvim-dap-view",

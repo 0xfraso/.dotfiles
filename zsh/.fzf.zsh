@@ -91,3 +91,11 @@ function fgb() {
     git checkout "$branch"
   fi
 }
+
+function gwo() {
+  local workdir
+  workdir=$(git worktree list | fzf | cut -d ' ' -f1)
+  if [[ -n "$workdir" ]]; then
+    cd "$workdir"
+  fi
+}
