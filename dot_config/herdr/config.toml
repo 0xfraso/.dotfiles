@@ -1,0 +1,16 @@
+onboarding = false
+[ui]
+agent_panel_sort = "spaces"
+
+[theme]
+name = "dracula"
+auto_switch = false
+
+[keys]
+previous_workspace = ["ctrl+alt+up", "ctrl+alt+k"]
+next_workspace = ["ctrl+alt+down", "ctrl+alt+j"]
+previous_tab = ["ctrl+alt+left", "ctrl+alt+h"]
+next_tab = ["ctrl+alt+right", "ctrl+alt+l"]
+
+[ui.toast]
+delivery = "system"

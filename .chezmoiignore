@@ -1,0 +1,12 @@
+# Repo files that are not dotfiles
+README.md
+
+{{- if eq .chezmoi.os "darwin" }}
+# Linux-only: X11 desktop configs
+.config/i3
+.config/rofi
+.i3status.conf
+.i3status.toml
+# Linux desktop helper scripts
+scripts
+{{- end }}

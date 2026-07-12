@@ -1,0 +1,7 @@
+{{- /* Per-machine values, prompted once on `chezmoi init`. */ -}}
+{{- $primary := promptStringOnce . "monitors.primary" "Primary monitor (xrandr output, e.g. DP-0)" "DP-0" -}}
+{{- $secondary := promptStringOnce . "monitors.secondary" "Secondary monitor (e.g. DVI-I-1; blank if none)" "" -}}
+
+[data.monitors]
+primary = {{ $primary | quote }}
+secondary = {{ $secondary | quote }}
