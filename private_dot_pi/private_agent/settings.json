@@ -1,0 +1,22 @@
+{
+  "lastChangelogVersion": "0.80.6",
+  "theme": "gruber-darker",
+  "defaultProvider": "zai",
+  "defaultModel": "glm-5.2",
+  "defaultThinkingLevel": "high",
+  "hideThinkingBlock": false,
+  "showHardwareCursor": true,
+  "editorPaddingX": 1,
+  "packages": [
+    "git:github.com/nicobailon/pi-web-access",
+    "git:github.com/nicobailon/pi-subagents",
+    "git:github.com/MasuRii/pi-rtk-optimizer",
+    "git:github.com/nicobailon/pi-mcp-adapter",
+    "git:github.com/juhas96/graphify-pi",
+    "git:github.com/DietrichGebert/ponytail"
+  ],
+  "quietStartup": true,
+  "skills": [
+    "~/.pi/agent/extensions/headroom/skills"
+  ]
+}
