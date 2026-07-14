@@ -1,18 +1,32 @@
 #!/bin/bash
+set -e
+
 {{ if eq .chezmoi.os "darwin" -}}
-set -e
-# Skip if core tools are already present.
-command -v nvim >/dev/null 2>&1 && command -v starship >/dev/null 2>&1 && exit 0
-brew install neovim starship zellij fzf ripgrep
-brew install --cask wezterm ghostty
+# --- macOS: core CLI + editor tools ---
+if ! command -v nvim >/dev/null 2>&1 || ! command -v starship >/dev/null 2>&1; then
+  brew install neovim starship zellij fzf ripgrep
+  brew install --cask wezterm ghostty
+fi
+command -v node >/dev/null 2>&1 || brew install node
 {{- else if eq .chezmoi.os "linux" -}}
-set -e
-command -v nvim >/dev/null 2>&1 && command -v starship >/dev/null 2>&1 && exit 0
-if command -v pacman >/dev/null 2>&1; then
-  sudo pacman -S --needed --noconfirm neovim starship zellij fzf ripgrep ttf-jetbrains-mono-nerd
-  echo "NOTE: wezterm & ghostty are in the AUR (paru/yay)"
-elif command -v apt >/dev/null 2>&1; then
-  sudo apt update && sudo apt install -y neovim fzf ripgrep curl
-  echo "NOTE: install starship/zellij/wezterm/ghostty via their official installers"
+# --- Linux: core CLI + editor tools ---
+if ! command -v nvim >/dev/null 2>&1 || ! command -v starship >/dev/null 2>&1; then
+  if command -v pacman >/dev/null 2>&1; then
+    sudo pacman -S --needed --noconfirm neovim starship zellij fzf ripgrep ttf-jetbrains-mono-nerd nodejs npm
+    echo "NOTE: wezterm & ghostty are in the AUR (paru/yay)"
+  elif command -v apt >/dev/null 2>&1; then
+    sudo apt update && sudo apt install -y neovim fzf ripgrep curl nodejs npm
+    echo "NOTE: install starship/zellij/wezterm/ghostty via their official installers"
+  fi
 fi
 {{- end }}
+
+# --- uv (for uvx-based MCP servers, e.g. blender-mcp) — cross-platform ---
+command -v uvx >/dev/null 2>&1 || curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# --- pi (coding agent), installed via bun ---
+if ! command -v pi >/dev/null 2>&1; then
+  command -v bun >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash
+  export PATH="$HOME/.bun/bin:$PATH"
+  bun install -g @earendil-works/pi-coding-agent
+fi

@@ -1,0 +1,7 @@
+{
+  "name": "pi-extensions",
+  "private": true,
+  "dependencies": {
+    "@ryan_nookpi/pi-extension-headroom": "^0.1.2"
+  }
+}

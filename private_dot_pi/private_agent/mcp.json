@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "directTools": true
+    },
+    "ng-forge": {
+      "command": "npx",
+      "args": ["-y", "@ng-forge/dynamic-form-mcp"],
+      "directTools": true
+    },
+    "blender": {
+      "command": "uvx",
+      "args": ["blender-mcp"]
+    }
+  }
+}

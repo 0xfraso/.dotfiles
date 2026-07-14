@@ -1,6 +1,23 @@
 # Repo files that are not dotfiles
 README.md
 
+# pi runtime state / caches / secrets / regenerable — never track
+# (git packages + installed skills are re-materialized by pi itself)
+.pi/agent/git
+.pi/agent/sessions
+.pi/agent/npm/node_modules
+.pi/agent/headroom
+.pi/agent/run-history.jsonl
+.pi/agent/mcp-cache.json
+.pi/agent/mcp-npx-cache.json
+.pi/agent/auth.json
+.pi/agent/trust.json
+.pi/.pi
+.pi/agent/.pi
+.pi/web-search.json
+# secrets
+.profile
+
 {{- if eq .chezmoi.os "darwin" }}
 # Linux-only: X11 desktop configs
 .config/i3
