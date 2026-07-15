@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  build = "cargo build --release",
+  build = function() require('blink.cmp').build():pwait() end,
   opts_extend = {
     "sources.completion.enabled_providers",
     "sources.default",
