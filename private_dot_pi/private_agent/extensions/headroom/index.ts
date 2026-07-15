@@ -376,6 +376,7 @@ export default function headroom(pi: ExtensionAPI) {
     starting = true; refresh(ctx);
     try {
       const child = spawn(config.command, config.proxyArgs, { detached: true, stdio: "ignore", env: { ...process.env, HEADROOM_TELEMETRY: "off" } });
+      child.on("error", (err) => { stats.lastError = err instanceof Error ? err.message : String(err); }); // missing binary emits async error → crash without this
       child.unref();
       for (const ms of [300, 500, 800, 1200, 2000]) {
         await sleep(ms);
