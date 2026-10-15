@@ -1,5 +1,5 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { execSync, spawn, type ChildProcess } from "node:child_process";
+import { execSync, spawn, spawnSync, type ChildProcess } from "node:child_process";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -26,6 +26,11 @@ type Settings = {
   python?: string;
   memoryDbPath?: string;
   userId?: string;
+  /** Price of a prompt-cache-read token relative to fresh input (0..1).
+   *  Compressed-away tokens are mostly stable history that would otherwise be
+   *  cache reads, so raw savings overstate real value by ~1/ratio.
+   *  Measured 0.186 on zai GLM ($0.26/M cacheRead vs $1.40/M input); 0.2 default. */
+  cacheReadPriceRatio?: number;
 };
 
 type Config = Required<Settings>;
@@ -94,8 +99,65 @@ async def main():
                                 "category": md.get("category", "fact")})
                 print(json.dumps({"ok": True, "hits": out if want_all else out[-100:]}), flush=True)
             elif op == "delete":
-                ok = await mem.delete(req["id"])
-                print(json.dumps({"ok": True, "deleted": bool(ok), "id": req["id"]}), flush=True)
+                ids = []
+                if isinstance(req.get("id"), list):
+                    ids.extend(str(x) for x in req["id"] if x)
+                elif req.get("id"):
+                    ids.append(str(req["id"]))
+                if req.get("ids"):
+                    ids.extend(str(x) for x in req["ids"] if x)
+                project = req.get("project")
+                had_project = project is not None and str(project).strip() != ""
+                if had_project:
+                    project = str(project).strip()
+                    if project == "user":
+                        with mem._store._get_conn() as conn:
+                            rows = conn.execute("SELECT id FROM memories WHERE agent_id IS NULL").fetchall()
+                    else:
+                        with mem._store._get_conn() as conn:
+                            rows = conn.execute("SELECT id FROM memories WHERE agent_id = ?", (os.path.expanduser(project),)).fetchall()
+                    ids.extend(r[0] for r in rows)
+                ids = list(dict.fromkeys(ids))
+                if not ids and not had_project:
+                    print(json.dumps({"ok": False, "error": "nothing to delete: provide id, ids, or project"}), flush=True)
+                else:
+                    deleted, missing = 0, []
+                    for i in ids:
+                        if await mem.delete(i):
+                            deleted += 1
+                        else:
+                            missing.append(i)
+                    out = {"ok": True, "deleted": deleted, "requested": len(ids)}
+                    if missing:
+                        out["not_found"] = missing
+                    print(json.dumps(out), flush=True)
+            elif op == "repath" and req.get("id"):
+                # single-memory rescope: {"op":"repath","id":<uuid>,"new":"user"|"/abs/path"}
+                mid = str(req["id"])
+                raw_new = str(req.get("new", "user")).strip()
+                to_user = raw_new == "user"
+                new = None if to_user else os.path.expanduser(raw_new)
+                if to_user or (new and os.path.isabs(new)):
+                    with mem._store._get_conn() as conn:
+                        if to_user:
+                            cur = conn.execute(
+                                "UPDATE memories SET agent_id = NULL, "
+                                "metadata = json_set(json_set(metadata, '$.scope', 'user'), '$.cwd', '') WHERE id = ?",
+                                (mid,))
+                        else:
+                            cur = conn.execute(
+                                "UPDATE memories SET agent_id = ?, "
+                                "metadata = json_set(json_set(metadata, '$.scope', 'project'), '$.cwd', ?) WHERE id = ?",
+                                (new, new, mid))
+                        conn.commit()
+                        n = cur.rowcount
+                    cache = getattr(mem, "_cache", None)
+                    if cache is not None:
+                        await cache.clear()
+                    print(json.dumps({"ok": True, "moved": n, "single": True, "id": mid,
+                                      "label": "%s -> %s" % (mid, raw_new)}), flush=True)
+                else:
+                    print(json.dumps({"ok": False, "error": "new must be 'user' or an absolute path"}), flush=True)
             elif op == "repath":
                 # ponytail: reuses the store's own sqlite conn + reaches into _store/_cache privates;
                 # headroom has no public repath/agent_id update. vector/text indexes key on memory_id,
@@ -169,7 +231,7 @@ export default function headroom(pi: ExtensionAPI) {
     else if (!proxyOnline) line = paint("dim", `○ Headroom idle`) + mem;
     else if (stats.last) {
       const pct = Math.round((1 - stats.last.compressionRatio) * 100);
-      line = paint("success", "✓") + paint("dim", ` Headroom -${pct}% (${stats.tokensSaved.toLocaleString()} saved)`) + mem;
+      line = paint("success", "✓") + paint("dim", ` Headroom -${pct}%`) + mem;
     } else line = paint("success", "✓") + paint("dim", ` Headroom`) + mem;
     ctx.ui.setStatus(STATUS, line);
   };
@@ -281,16 +343,33 @@ export default function headroom(pi: ExtensionAPI) {
         return;
       }
       if (cmd === "forget") {
-        const id = rest.join(" ").trim();
-        if (!id) { ctx.ui.notify("Usage: /headroom forget <id>", "warning"); return; }
-        try { const r = await mem({ op: "delete", id, cwd: ctx.cwd }); ctx.ui.notify(r?.ok && r?.deleted ? `Forgot: ${id}` : `Not found: ${id}`, r?.ok ? "info" : "warning"); }
-        catch (e) { ctx.ui.notify(`Memory unavailable: ${e instanceof Error ? e.message : String(e)}`, "warning"); }
+        const parts = rest.filter(Boolean);
+        const isUuid = (s: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
+        const usage = "Usage: /headroom forget <id> [id...] | --project <path|user>";
+        try {
+          if (parts[0] === "--project" && parts[1]) {
+            const r = await mem({ op: "delete", project: parts[1], cwd: ctx.cwd });
+            ctx.ui.notify(r?.ok ? `Deleted ${r.deleted} memories (project ${parts[1]})` : `Delete failed: ${r?.error}`, r?.ok ? "info" : "warning");
+          } else if (parts.length && parts.every(isUuid)) {
+            const r = await mem({ op: "delete", id: parts, cwd: ctx.cwd });
+            const nf = Array.isArray(r?.not_found) && r.not_found.length ? ` (not found: ${r.not_found.join(", ")})` : "";
+            ctx.ui.notify(r?.ok ? `Deleted ${r.deleted}/${r.requested}.${nf}` : `Delete failed: ${r?.error}`, r?.ok ? "info" : "warning");
+          } else if (parts.length === 1 && (parts[0] === "user" || parts[0].startsWith("/") || parts[0].startsWith("~"))) {
+            const r = await mem({ op: "delete", project: parts[0], cwd: ctx.cwd });
+            ctx.ui.notify(r?.ok ? `Deleted ${r.deleted} memories (project ${parts[0]})` : `Delete failed: ${r?.error}`, r?.ok ? "info" : "warning");
+          } else {
+            ctx.ui.notify(usage, "warning");
+          }
+        } catch (e) {
+          ctx.ui.notify(`Memory unavailable: ${e instanceof Error ? e.message : String(e)}`, "warning");
+        }
         return;
       }
       if (cmd === "repath") {
         const [oldP, newP] = rest;
-        if (!oldP || !newP) { ctx.ui.notify("Usage: /headroom repath <old-path> <new-path|user>", "warning"); return; }
-        try { const r = await mem({ op: "repath", old: oldP, new: newP, cwd: ctx.cwd }); if (!r?.ok) { ctx.ui.notify(`Repath failed: ${r?.error}`, "warning"); return; } ctx.ui.notify(`Repathed ${r.moved} memor${r.moved === 1 ? "y" : "ies"}: ${r.label}`, "info"); }
+        if (!oldP || !newP) { ctx.ui.notify("Usage: /headroom repath <old-path|memory-id> <new-path|user>", "warning"); return; }
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(oldP);
+        try { const r = await mem({ op: "repath", ...(isUuid ? { id: oldP } : { old: oldP }), new: newP, cwd: ctx.cwd }); if (!r?.ok) { ctx.ui.notify(`Repath failed: ${r?.error}`, "warning"); return; } ctx.ui.notify(`Repathed ${r.moved} memor${r.moved === 1 ? "y" : "ies"}: ${r.label}`, "info"); }
         catch (e) { ctx.ui.notify(`Memory unavailable: ${e instanceof Error ? e.message : String(e)}`, "warning"); }
         return;
       }
@@ -301,9 +380,17 @@ export default function headroom(pi: ExtensionAPI) {
   pi.registerTool({
     name: "headroom_memory_save",
     label: "Save Memory",
-    description: "Persist a durable user/project fact for future Pi sessions via Headroom's HierarchicalMemory (ONNX embeddings).",
-    promptSnippet: "Save durable user/project facts to persistent memory",
-    promptGuidelines: ["Use headroom_memory_save only when the user asks to remember something or a durable project/user fact, decision, or convention is established."],
+    description: "Persist a durable fact for future Pi sessions via Headroom's HierarchicalMemory. HIGH BAR: store ONLY facts that exist nowhere in the repo — never status, progress, or decisions already documented in docs/ADRs/issues/code.",
+    promptSnippet: "Save ONLY durable facts that exist nowhere else in the repo — never status/progress or duplicated decisions",
+    promptGuidelines: [
+      "HIGH BAR — before saving, ask: 'Can this be re-derived from git log, the issue tracker, docs/adr, or the code itself in under a minute?' If yes, do NOT save; that is where it belongs.",
+      "NEVER store status or progress: commit SHAs, cherry-pick order, 'X shipped/closed', test counts, 'main pushed/local', roadmap position, or what is on the frontier. git log + the issue tracker already hold all of this.",
+      "NEVER store a decision that already has a canonical home — an ADR, docs/*.md, CONTEXT.md, AGENTS.md, code comments, or a GitHub issue body. A memory is not a second copy of documentation.",
+      "KEEP what qualifies: cross-cutting principles and conventions, hard-won API quirks or gotchas, operational learnings, and explicit user preferences — knowledge that lives in someone's head and would be lost otherwise.",
+      "COMPACT and SELF-CONTAINED: one fact per save, a few sentences max, no implementation transcripts or commit dumps. If a verbose event has one durable nugget, extract just the nugget.",
+      "SEARCH FIRST: run headroom_memory_search before saving; if a similar or superseding fact exists, delete it then save the replacement — never append a near-duplicate.",
+      "WORKTREES/CLONES: project scope keys on cwd. Linked git worktrees are auto-resolved to their main repo. If cwd is a SEPARATE CLONE of a repo you keep elsewhere (e.g. task clones like ~/proj.some-task), durable project facts belong under the canonical checkout: save, then run `/headroom repath <cwd> <canonical-path>` — or use scope=user for genuinely cross-project facts.",
+    ],
     parameters: {
       type: "object",
       properties: {
@@ -328,8 +415,8 @@ export default function headroom(pi: ExtensionAPI) {
     name: "headroom_memory_search",
     label: "Search Memory",
     description: "Semantic search over persistent Headroom memory (user + current project scopes).",
-    promptSnippet: "Search persistent memory before re-discovering known project/user facts",
-    promptGuidelines: ["Use headroom_memory_search before expensive rediscovery when prior project/user knowledge may answer the question."],
+    promptSnippet: "Search persistent memory before re-discovering known project/user facts, and before saving to avoid duplicates",
+    promptGuidelines: ["Use headroom_memory_search before expensive rediscovery when prior project/user knowledge may answer the question, and before every save to avoid storing a duplicate of an existing or superseding fact."],
     parameters: {
       type: "object",
       properties: { query: { type: "string" }, topK: { type: "number", default: 5 } },
@@ -349,19 +436,28 @@ export default function headroom(pi: ExtensionAPI) {
   pi.registerTool({
     name: "headroom_memory_delete",
     label: "Delete Memory",
-    description: "Delete a persistent Headroom memory by its ID. Use to remove obsolete, superseded, or wrong facts the user asks to forget.",
-    promptSnippet: "Delete obsolete/wrong persistent memories by ID when asked or when confirmed stale",
-    promptGuidelines: ["Use headroom_memory_delete only when the user explicitly asks to forget/remove a memory, or a memory is confirmed stale/contradictory and the new authoritative one is already saved. Confirm the ID first via headroom_memory_search/list; never delete speculatively."],
+    description: "Delete persistent Headroom memories. Accepts a single ID, an ARRAY of IDs, or a project path/'user' to delete ALL memories in that scope (e.g. wiping a POC or disposable project) without searching for IDs first. To rescope instead of deleting, use /headroom repath <id|path> user|<path>.",
+    promptSnippet: "Delete obsolete/wrong persistent memories by ID(s) or by project scope when asked",
+    promptGuidelines: ["Use headroom_memory_delete only when the user explicitly asks to forget/remove memories, or a memory is confirmed stale/contradictory and the new authoritative one is already saved. Confirm IDs/scopes first via headroom_memory_search/list; never delete speculatively.", "BATCH: id accepts an array of IDs. PROJECT WIPE: project accepts a project path (all its memories) or 'user' (all user-scope memories) — use when retiring/deleting a POC or disposable project. To move memories instead of deleting (e.g. project graduating to user scope), use /headroom repath <project-path> user, or /headroom repath <memory-id> user for a single memory."],
     parameters: {
       type: "object",
-      properties: { id: { type: "string", description: "Memory ID to delete (from search/list)" } },
-      required: ["id"],
+      properties: {
+        id: { description: "Memory ID or array of memory IDs (from search/list)", anyOf: [{ type: "string" }, { type: "array", items: { type: "string" } }] },
+        project: { type: "string", description: "Project path to delete ALL its memories, or 'user' for all user-scope memories. Alternative to id." },
+      },
     },
     async execute(_id, p, _signal, _update, ctx) {
       try {
-        const r = await mem({ op: "delete", id: p.id, cwd: ctx.cwd });
+        let req: any;
+        if (p.project && String(p.project).trim()) req = { op: "delete", project: String(p.project).trim() };
+        else if (typeof p.id === "string" && p.id.trim()) req = { op: "delete", id: p.id.trim() };
+        else if (Array.isArray(p.id) && p.id.length) req = { op: "delete", id: p.id };
+        else return { content: [{ type: "text", text: "Provide id (string or array) or project (path or 'user')." }], details: { ok: false } };
+        const r = await mem({ ...req, cwd: ctx.cwd });
         if (!r?.ok) return { content: [{ type: "text", text: `Delete failed: ${r?.error}` }], details: { ok: false } };
-        return { content: [{ type: "text", text: r.deleted ? `Deleted: ${p.id}` : `Not found (no row matched): ${p.id}` }], details: { ok: true, deleted: r.deleted, id: p.id } };
+        const nf = Array.isArray(r.not_found) && r.not_found.length ? ` (not found: ${r.not_found.join(", ")})` : "";
+        const scope = req.project ? `project '${req.project}'` : `${r.requested} id(s)`;
+        return { content: [{ type: "text", text: `Deleted ${r.deleted} of ${scope}.${nf}` }], details: { ok: true, deleted: r.deleted, requested: r.requested, not_found: r.not_found ?? [] } };
       } catch (e) {
         return { content: [{ type: "text", text: `Memory unavailable: ${e instanceof Error ? e.message : String(e)}` }], details: { ok: false } };
       }
@@ -432,6 +528,7 @@ export default function headroom(pi: ExtensionAPI) {
   function mem(req: any): Promise<any> {
     const run = async () => {
       if (!(await startWorker())) throw new Error(workerErr || "headroom memory worker unavailable");
+      if (typeof req.cwd === "string" && req.cwd) req = { ...req, cwd: canonicalProjectDir(req.cwd) };
       return new Promise<any>((resolve) => {
         pending = resolve;
         proc?.stdin?.write(JSON.stringify(req) + "\n");
@@ -459,6 +556,7 @@ function loadConfig(): Config {
     python: s.python ?? "",
     memoryDbPath: s.memoryDbPath ?? path.join(DIR, "memory.db"),
     userId: s.userId ?? "pi",
+    cacheReadPriceRatio: Math.min(1, Math.max(0, s.cacheReadPriceRatio ?? 0.2)),
   };
 }
 
@@ -472,6 +570,34 @@ function resolvePython(command: string): string {
     }
   } catch {}
   return "python3";
+}
+
+// Memories are scoped by cwd (agent_id = project dir). Linked git worktrees
+// (.git is a file pointing at <main>/.git/worktrees/<name>) are resolved to
+// their MAIN worktree so facts saved in a worktree are visible in the canonical
+// repo and vice versa. Full clones of the same repo (separate .git dirs) are
+// NOT merged automatically — use `/headroom repath <clone> <canonical>` for those.
+const canonCache = new Map<string, string>();
+function canonicalProjectDir(cwd: string): string {
+  if (!cwd) return cwd;
+  const cached = canonCache.get(cwd);
+  if (cached) return cached;
+  let out = cwd;
+  try {
+    const rp = (flag: string) => spawnSync("git", ["-C", cwd, "rev-parse", "--path-format=absolute", flag], { encoding: "utf8" });
+    const gitDir = rp("--git-dir");
+    const commonDir = rp("--git-common-dir");
+    if (gitDir.status === 0 && commonDir.status === 0) {
+      const g = path.resolve(gitDir.stdout.trim());
+      const c = path.resolve(commonDir.stdout.trim());
+      if (g !== c && fs.existsSync(c)) {
+        const main = path.dirname(c);
+        if (main && main !== cwd && fs.existsSync(main)) out = main;
+      }
+    }
+  } catch {}
+  canonCache.set(cwd, out);
+  return out;
 }
 
 async function health(c: Config): Promise<boolean> {
@@ -551,14 +677,21 @@ function isAbortOrTimeoutError(e: unknown): boolean {
   return c.cause !== undefined && c.cause !== e && isAbortOrTimeoutError(c.cause);
 }
 function sleep(ms: number) { return new Promise((r) => setTimeout(r, ms)); }
+function fmtCompact(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${Math.round(n / 1_000)}k`;
+  return String(n);
+}
 function renderStatus(c: Config, enabled: boolean, online: boolean | null, s: Stats) {
+  const eff = Math.round(s.tokensSaved * c.cacheReadPriceRatio);
   const lines = [
     "Headroom",
     `  enabled: ${enabled}`,
     `  proxy: ${c.baseUrl} (${online ? "online" : online === false ? "offline" : "unknown"})`,
     `  memory: ${c.memory ? "on" : "off"}`,
     `  thresholds: context >= ${c.minContextTokens.toLocaleString()} tokens, toolResult >= ${c.minMessageChars.toLocaleString()} chars`,
-    `  compression: ${s.applied}/${s.attempts} applied, ${s.tokensSaved.toLocaleString()} tokens saved`,
+    `  compression: ${s.applied}/${s.attempts} applied · raw ${fmtCompact(s.tokensSaved)} tokens not sent (local-tokenizer estimate, summed per request)`,
+    `  est. effective: ~${fmtCompact(eff)} tokens at real value — compressed tokens are mostly stable history that would bill as cache reads (~${Math.round(c.cacheReadPriceRatio * 100)}% of input price; measured 19% on zai GLM. Tune via cacheReadPriceRatio in settings.json)`,
   ];
   if (s.last) {
     const pct = Math.round((1 - s.last.compressionRatio) * 100);
