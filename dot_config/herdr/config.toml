@@ -14,3 +14,6 @@ next_tab = ["ctrl+alt+right", "ctrl+alt+l"]
 
 [ui.toast]
 delivery = "system"
+
+[session]
+resume_agents_on_restore = true
