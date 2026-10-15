@@ -2,6 +2,8 @@
   "name": "pi-extensions",
   "private": true,
   "dependencies": {
-    "@ryan_nookpi/pi-extension-headroom": "^0.1.2"
+    "@piewf/cli": "^5.13.1",
+    "@ryan_nookpi/pi-extension-headroom": "^0.1.2",
+    "pi-extensible-workflows": "^5.13.1"
   }
 }
