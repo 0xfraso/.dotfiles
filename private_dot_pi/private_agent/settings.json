@@ -1,9 +1,9 @@
 {
-  "lastChangelogVersion": "0.80.6",
+  "lastChangelogVersion": "1.2.0",
   "theme": "gruber-darker",
   "defaultProvider": "zai",
-  "defaultModel": "glm-5.2",
-  "defaultThinkingLevel": "high",
+  "defaultModel": "glm-5.3",
+  "defaultThinkingLevel": "max",
   "hideThinkingBlock": false,
   "showHardwareCursor": true,
   "editorPaddingX": 1,
@@ -12,8 +12,10 @@
     "git:github.com/nicobailon/pi-subagents",
     "git:github.com/MasuRii/pi-rtk-optimizer",
     "git:github.com/nicobailon/pi-mcp-adapter",
-    "git:github.com/juhas96/graphify-pi",
-    "git:github.com/DietrichGebert/ponytail"
+    "git:github.com/juhas96/graphify-pi"
+  ],
+  "extensions": [
+    "-builtin:mcp"
   ],
   "quietStartup": true,
   "skills": [
