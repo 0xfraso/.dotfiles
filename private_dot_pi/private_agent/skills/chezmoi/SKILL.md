@@ -23,11 +23,11 @@ Three looks, in order. Done when every drift entry has a known direction.
 
 - **Live file is authoritative** (edited in place since the last sync): `chezmoi re-add <target>` copies it back into the source.
 - **Source is authoritative**: `chezmoi apply <target>` writes it to the home.
-- **Both sides changed**: merge by hand — edit the source file (`chezmoi source-path <target>`), mirror the live side's changes, then `re-add`. `chezmoi merge` is unusable here: it shells out to `vimdiff`, which is not installed.
+- **Both sides changed**: merge by hand — edit the source file (`chezmoi source-path <target>`), mirror the live side's changes, then `re-add`. `chezmoi merge` is unusable here: it shells out to `vimdiff`, which is not installed. `forget` and unforced `apply` demand a /dev/tty confirm; in non-interactive shells use `apply --force` and, for forget, `git rm -r` the source path.
 
 A blanket `chezmoi apply` is the failure mode: it clobbers the live side of every entry whose live file was authoritative — regularly including pi agent state under `.pi/`, herdr config, and `.zshrc`. Entry-by-entry with `chezmoi diff` checked first is the whole discipline.
 
-Phantom drift: symlinked skill checkouts under `.pi/agent/skills/` can report drift from symlink-target churn alone. Confirm real content drift with `chezmoi diff` before reconciling those.
+Phantom drift: entries can report drift with no real content change. Symlinked skill checkouts under `.pi/agent/skills/` churn from symlink targets alone; a stale state DB marks entries `MM` whose source, live, and HEAD copies are content-identical (the DB records the last-applied state and ages out of band). Confirm with `chezmoi diff`: if the source-side blob matches nothing on disk (`git hash-object` the source file), clear it with `chezmoi apply --force <target>` — content-identical, nothing clobbered.
 
 ## Commit
 
