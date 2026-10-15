@@ -19,12 +19,6 @@ function ff() {
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
-# find file
-function fl() {
-  IFS=$'\n' files=($(fd --hidden . -t f | fzf -m --prompt 'edit file > ' --reverse --preview "${BAT_PREVIEW_OPTS} {}"))
-  [[ -n "$files" ]] && echo "${files[@]}"
-}
-
 function fgg() {
   selection=($(rg . --line-number --hidden --no-heading --smart-case -g '!.git' -g '!node_modules' "$@" | fzf -d ':' -n 2.. --no-sort --preview "${BAT_PREVIEW_OPTS} --highlight-line {2} {1}"))
   if [[ -n "$selection" ]]; then
