@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  GruberDarker for bat/delta — token colors mirror the pi theme
+  (~/.pi/agent/themes/gruber-darker.json, syntax* vars).
+  bg #181818 fg #e4e4ef | comment #95a99f keyword #ffdd33 function/type #96a6c8
+  variable #f43841 string #73d936 number/operator #9e95c7 punctuation #e4e4ef
+-->
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>GruberDarker</string>
+  <key>colorSpaceName</key>
+  <string>sRGB</string>
+  <key>uuid</key>
+  <string>c4f7b292-9a3e-4b81-9f0c-7d6e1a8b3c50</string>
+  <key>settings</key>
+  <array>
+
+    <!-- global -->
+    <dict>
+      <key>settings</key>
+      <dict>
+        <key>background</key>
+        <string>#181818FF</string>
+        <key>caret</key>
+        <string>#e4e4efFF</string>
+        <key>foreground</key>
+        <string>#e4e4efFF</string>
+        <key>invisibles</key>
+        <string>#303030FF</string>
+        <key>lineHighlight</key>
+        <string>#202020FF</string>
+        <key>selection</key>
+        <string>#303030FF</string>
+      </dict>
+    </dict>
+
+    <!-- comment (quartz) -->
+    <dict>
+      <key>name</key>
+      <string>Comment</string>
+      <key>scope</key>
+      <string>comment, punctuation.definition.comment</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#95a99fFF</string></dict>
+    </dict>
+
+    <!-- string (green) -->
+    <dict>
+      <key>name</key>
+      <string>String</string>
+      <key>scope</key>
+      <string>string - punctuation.definition.string, string.quoted, constant.other.symbol, entity.other.inherited-class</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#73d936FF</string></dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>String punctuation</string>
+      <key>scope</key>
+      <string>punctuation.definition.string</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#73d936FF</string></dict>
+    </dict>
+
+    <!-- number / constant (wisteria) -->
+    <dict>
+      <key>name</key>
+      <string>Numbers &amp; constants</string>
+      <key>scope</key>
+      <string>constant.numeric, constant.language, constant.character, constant.other, keyword.other.unit</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#9e95c7FF</string></dict>
+    </dict>
+
+    <!-- keyword (yellow) -->
+    <dict>
+      <key>name</key>
+      <string>Keywords</string>
+      <key>scope</key>
+      <string>keyword, keyword.control, keyword.operator.logical, keyword.other, storage, storage.type, storage.modifier, variable.language</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#ffdd33FF</string></dict>
+    </dict>
+
+    <!-- operator (wisteria) -->
+    <dict>
+      <key>name</key>
+      <string>Operators</string>
+      <key>scope</key>
+      <string>keyword.operator</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#9e95c7FF</string></dict>
+    </dict>
+
+    <!-- function (niagara) -->
+    <dict>
+      <key>name</key>
+      <string>Functions</string>
+      <key>scope</key>
+      <string>entity.name.function, support.function, variable.function, meta.function-call</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#96a6c8FF</string></dict>
+    </dict>
+
+    <!-- type / class (niagara) -->
+    <dict>
+      <key>name</key>
+      <string>Types &amp; classes</string>
+      <key>scope</key>
+      <string>entity.name.class, entity.name.type, entity.name.struct, support.type, support.class</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#96a6c8FF</string></dict>
+    </dict>
+
+    <!-- variable (red) -->
+    <dict>
+      <key>name</key>
+      <string>Variables</string>
+      <key>scope</key>
+      <string>variable, variable.parameter, variable.other, entity.name.tag</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#f43841FF</string></dict>
+    </dict>
+
+    <!-- punctuation (fg) -->
+    <dict>
+      <key>name</key>
+      <string>Punctuation</string>
+      <key>scope</key>
+      <string>punctuation, meta.brace, punctuation.separator, punctuation.terminator</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#e4e4efFF</string></dict>
+    </dict>
+
+    <!-- diff markers (let delta own the bg; color the +/- sigils red/green) -->
+    <dict>
+      <key>name</key>
+      <string>Diff markers</string>
+      <key>scope</key>
+      <string>meta.diff, punctuation.definition.diff</string>
+      <key>settings</key>
+      <dict><key>foreground</key><string>#ffdd33FF</string></dict>
+    </dict>
+
+  </array>
+</dict>
+</plist>

@@ -1,0 +1,64 @@
+[alias]
+	ll = log --graph --format=\"%C(yellow)%h%C(red)%d%C(reset) - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)\"
+	follow = "!bash -c 'set -euo pipefail; mapfile -t files < <(git ls-files -z | fzf --read0 --prompt=\"edit file > \" --reverse --preview \"${BAT_PREVIEW_OPTS:-bat --color=always} {}\"); [ ${#files[@]} -eq 0 ] && exit 0; git log --follow -- \"${files[@]}\"'"
+  ms = !bash -c 'git merge --squash $1 && git commit' -
+	cpt = "!f() {\n  target=\"${1:-develop}\"\n  src=\"$(git branch --show-current)\"\n\n  [ -n \"$src\" ] || {\n    echo \"Error: detached HEAD.\" >&2\n    return 1\n  }\n\n  [ \"$src\" != \"$target\" ] || {\n    echo \"Error: source and target are both '$src'.\" >&2\n    return 1\n  }\n\n  case \"$src\" in\n    feature/*|fix/*)\n      issue=\"${src#*/}\"\n      issue=\"${issue%%/*}\"\n      ;;\n    *)\n      echo \"Error: branch must start with feature/ or fix/.\" >&2\n      return 1\n      ;;\n  esac\n\n  [ -n \"$issue\" ] || {\n    echo \"Error: empty issue identifier.\" >&2\n    return 1\n  }\n\n  git diff --cached --quiet && {\n    echo \"Error: no staged changes. Run: git add <files>\" >&2\n    return 1\n  }\n\n  git commit --edit --message \"Issue #$issue - \" || return $?\n  sha=\"$(git rev-parse HEAD)\" || return $?\n\n  echo \"Created $sha on $src\"\n  echo \"Cherry-picking onto $target...\"\n\n  git switch \"$target\" || return $?\n  git cherry-pick -x \"$sha\" || {\n    echo \"Cherry-pick did not complete. You are still on $target.\" >&2\n    echo \"Resolve conflicts, then run: git cherry-pick --continue\" >&2\n    return 1\n  }\n\n  echo \"Cherry-pick completed on $target.\"\n}; f"
+[user]
+	email = fraso.dev@protonmail.com
+	name = 0xfraso
+[credential]
+	helper = store
+[pull]
+	rebase = true
+[rebase]
+	autoStash = true
+[core]
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true  # use n and N to move between diff sections
+  dark = true      # or light = true, or omit for auto-detection
+  side-by-side = true
+  features = gruber-darker
+
+# Mirrors the pi gruber-darker theme (~/.pi/agent/themes/gruber-darker.json)
+# vars: bg #181818 fg #e4e4ef yellow #ffdd33 green #73d936 red #f43841 /
+# quartz #95a99f (muted) niagara #96a6c8 wisteria #9e95c7 panel #202020 /
+# border #303030 borderSubtle #282828 diffAdded #102010 diffRemoved #201010 /
+# diffHighlightAdded #234322 diffHighlightRemoved #432222
+[delta "gruber-darker"]
+  dark = true
+  line-numbers = true
+  syntax-theme = gruber-darker   # ~/.config/bat/themes/gruber-darker.tmTheme
+
+  # Diff chrome
+  commit-style                  = "#ffdd33" bold
+  file-style                    = "#96a6c8" bold ul
+  file-decoration-style         = "#282828" ul
+  hunk-header-style             = file line-number "#95a99f" "#202020"
+  hunk-header-decoration-style  = "#282828" ul
+
+  # Line-number gutter (muted=quartz, plus=green, minus=red)
+  line-numbers-left-style       = "#95a99f" "#181818"
+  line-numbers-right-style      = "#95a99f" "#181818"
+  line-numbers-zero-style       = "#95a99f" "#181818"
+  line-numbers-plus-style       = "#73d936" "#181818"
+  line-numbers-minus-style      = "#f43841" "#181818"
+
+  # Diff content (syntax-highlighted fg)
+  zero-style                    = "#e4e4ef" "#181818"
+  plus-style                    = "syntax #102010"
+  minus-style                   = "syntax #201010"
+  plus-emph-style               = "syntax #234322"
+  minus-emph-style              = "syntax #432222"
+  plus-empty-line-marker-style  = "#234322"
+  minus-empty-line-marker-style = "#432222"
+  whitespace-error-style        = "#f43841" reverse
+[merge]
+  conflictStyle = zdiff3
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
