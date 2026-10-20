@@ -56,12 +56,12 @@ function re() {
     yay -Qq | fzf -q "$1" -m --preview 'yay -Qi {1}' | xargs -ro yay -Rns
 }
 
-# kill process
+# kill process (sorted by memory usage, heaviest first)
 function fk() {
   local pid
-  pid=$((date; ps -ef) |
-    fzf --bind='ctrl-r:reload(date; ps -ef)' \
-        --header=$'Press CTRL-R to reload\n\n' --header-lines=2 \
+  pid=$(ps aux --sort=-rss |
+    fzf --bind='ctrl-r:reload(ps aux --sort=-rss)' \
+        --header=$'Press CTRL-R to reload\n\n' --header-lines=1 \
         --preview='echo {}' --preview-window=down,3,wrap \
         --layout=reverse --height=80% | awk '{print $2}')
   if [ "x$pid" != "x" ]
