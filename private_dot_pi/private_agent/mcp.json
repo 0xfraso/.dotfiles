@@ -1,21 +1,3 @@
 {
-  "mcpServers": {
-    "chrome-devtools": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "chrome-devtools-mcp@latest",
-        "--isolated"
-      ],
-      "exposure": "direct"
-    },
-    "ng-forge": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@ng-forge/dynamic-form-mcp"
-      ],
-      "exposure": "direct"
-    }
-  }
+  "mcpServers": { }
 }
