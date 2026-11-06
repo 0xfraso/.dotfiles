@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "1.2.0",
+  "lastChangelogVersion": "1.5.0",
   "theme": "gruber-darker",
   "defaultProvider": "zai",
   "defaultModel": "glm-5.3",
@@ -20,5 +20,11 @@
   "quietStartup": true,
   "skills": [
     "~/.pi/agent/extensions/headroom/skills"
-  ]
+  ],
+  "extensionChangelogVersions": {
+    "{\"source\":\"git:github.com/nicobailon/pi-web-access\",\"scope\":\"user\"}": "0.46.0",
+    "{\"source\":\"git:github.com/nicobailon/pi-subagents\",\"scope\":\"user\"}": "0.84.0",
+    "{\"source\":\"git:github.com/MasuRii/pi-rtk-optimizer\",\"scope\":\"user\"}": "0.9.0",
+    "{\"source\":\"git:github.com/nicobailon/pi-mcp-adapter\",\"scope\":\"user\"}": "7.0.1"
+  }
 }
