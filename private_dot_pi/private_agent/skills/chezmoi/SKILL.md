@@ -17,7 +17,7 @@ Three looks, in order. Done when every drift entry has a known direction.
 
 1. `git -C ~/.dotfiles status --short --branch` — uncommitted source edits, sync state with origin.
 2. `chezmoi status` — the drift list: one line per entry where source and live home disagree.
-3. `chezmoi diff` — per entry: `-` lines are the source side, `+` lines the live file.
+3. `chezmoi diff` — the diff runs target→source: `-` lines are the **live file** (what is on disk now), `+` lines are the **source** (what `apply` would write). Confirm on any entry with `git hash-object <target>` — it equals the `a/` blob in the header chezmoi prints.
 
 ## Reconcile: one direction per entry
 
@@ -27,7 +27,7 @@ Three looks, in order. Done when every drift entry has a known direction.
 
 A blanket `chezmoi apply` is the failure mode: it clobbers the live side of every entry whose live file was authoritative — regularly including pi agent state under `.pi/`, herdr config, and `.zshrc`. Entry-by-entry with `chezmoi diff` checked first is the whole discipline.
 
-Phantom drift: entries can report drift with no real content change. Symlinked skill checkouts under `.pi/agent/skills/` churn from symlink targets alone; a stale state DB marks entries `MM` whose source, live, and HEAD copies are content-identical (the DB records the last-applied state and ages out of band). Confirm with `chezmoi diff`: if the source-side blob matches nothing on disk (`git hash-object` the source file), clear it with `chezmoi apply --force <target>` — content-identical, nothing clobbered.
+Phantom drift: entries can report drift with no real content change. Symlinked skill checkouts under `.pi/agent/skills/` churn from symlink targets alone; a stale state DB marks entries `MM` whose source, live, and HEAD copies are content-identical (the DB records the last-applied state and ages out of band). Confirm by hashing both sides of the header `chezmoi diff` prints: `git hash-object <target>` must equal the `a/` blob and `git hash-object "$(chezmoi source-path <target>)"` the `b/` blob. When the two files genuinely match and only the DB disagrees, clear it with `chezmoi apply --force <target>` — content-identical, nothing clobbered.
 
 ## Commit
 
