@@ -72,12 +72,6 @@ autocmd("BufReadPost", {
 	end,
 })
 
--- open help in vertical split
-autocmd("FileType", {
-  pattern = "help",
-  command = "wincmd L",
-})
-
 -- auto resize splits when the terminal's window is resized
 autocmd("VimResized", {
   command = "wincmd =",

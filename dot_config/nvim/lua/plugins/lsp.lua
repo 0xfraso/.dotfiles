@@ -5,7 +5,9 @@ return {
   },
   {
     "nvim-java/nvim-java",
-    lazy = false,
+    -- Load only when actually opening a Java file: its startup-time JDK/jdtls
+    -- download + check blocks every nvim launch (and any nvim --embed child).
+    ft = "java",
     dependencies = {
       "nvim-java/lua-async-await",
     },
