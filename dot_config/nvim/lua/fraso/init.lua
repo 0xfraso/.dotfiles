@@ -1,6 +1,7 @@
 require('fraso.base')
 require('fraso.auto')
 require('fraso.maps')
+require('fraso.pum')
 require('fraso.lazy')
 
 local has = function(x)
