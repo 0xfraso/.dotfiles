@@ -27,30 +27,21 @@ return {
   },
   {
     'neovim/nvim-lspconfig',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       'williamboman/mason.nvim',
       'onsails/lspkind-nvim',
-      'saghen/blink.cmp',
       "neovim/nvim-lspconfig",
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       "MunifTanjim/nui.nvim",
       "mfussenegger/nvim-dap",
       { 'j-hui/fidget.nvim', opts = {} },
-      'saghen/blink.cmp',
     },
     config = function()
-      -- Temporary fix: suppress nvim-lspconfig deprecation warnings
-      local orig_deprecate = vim.deprecate
-      vim.deprecate = function(...)
-        local args = { ... }
-        if args[1] and args[1]:match("require%('lspconfig'%)") then
-          return
-        end
-        return orig_deprecate(...)
-      end
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
         callback = function(event)
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc, silent = true })
@@ -86,6 +77,20 @@ return {
             else
               return client.supports_method(method, { bufnr = bufnr })
             end
+          end
+
+          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_completion, event.buf) then
+            -- autotrigger fires only on the server's triggerCharacters (e.g. '.'), so extend to
+            -- every printable key: plain typing pops the menu (see :h lsp-attach)
+            local provider = client.server_capabilities.completionProvider
+            if provider then
+              local chars = {}
+              for i = 32, 126 do
+                chars[#chars + 1] = string.char(i)
+              end
+              provider.triggerCharacters = chars
+            end
+            vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
           end
 
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
@@ -125,7 +130,9 @@ return {
         },
       }
 
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
+      -- Plain capabilities: no snippet engine installed, so servers send plain text completions
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = false
 
       -- must `npm i @angular/language-service typescript` in this path
       local languageServerPath = vim.fn.stdpath("data") .. "/mason/packages/angular-language-server/"
@@ -159,8 +166,10 @@ return {
       }
 
       for key, value in pairs(original_servers_table) do
-        require('lspconfig')[key].setup(value)
+        value.capabilities = capabilities
+        vim.lsp.config(key, value)
       end
+      vim.lsp.enable(vim.tbl_keys(original_servers_table))
     end
   },
   {

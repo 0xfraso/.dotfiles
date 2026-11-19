@@ -2,7 +2,7 @@ vim.g.mapleader = " "
 vim.wo.number = true
 vim.wo.relativenumber = true
 
-vim.g.completeopt = "menu,menuone,noselect,noinsert"
+vim.opt.completeopt = "menu,menuone,noselect,noinsert"
 
 vim.o.clipboard = 'unnamedplus'
 
