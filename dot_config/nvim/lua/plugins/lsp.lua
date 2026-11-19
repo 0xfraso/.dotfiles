@@ -134,21 +134,14 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.completion.completionItem.snippetSupport = false
 
-      -- must `npm i @angular/language-service typescript` in this path
-      local languageServerPath = vim.fn.stdpath("data") .. "/mason/packages/angular-language-server/"
-      local cmd = { "ngserver", "--stdio", "--tsProbeLocations", languageServerPath, "--ngProbeLocations",
-        languageServerPath }
-
       local original_servers_table = {
         prismals = {},
         tailwindcss = {},
         lemminx = {},
-        angularls = {
-          cmd = cmd,
-          on_new_config = function(new_config)
-            new_config.cmd = cmd
-          end,
-        },
+        -- Use nvim-lspconfig's Angular command builder. It discovers the
+        -- project and Mason node_modules probe paths, including Angular's
+        -- language-server dependencies.
+        angularls = {},
         ts_ls = {},
         gopls = {},
         cssls = {},
