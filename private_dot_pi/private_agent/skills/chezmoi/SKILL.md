@@ -1,21 +1,21 @@
 ---
 name: chezmoi
-description: Manage the chezmoi-managed dotfiles on this machine (~/.dotfiles is the source of truth, ~ is the target). Use when the user mentions chezmoi, dotfiles, managed config, drift between source and home, or wants to apply, re-add, reconcile, or commit managed files.
+description: Manage the chezmoi-managed dotfiles on this machine (~/.local/share/chezmoi is the source of truth, ~ is the target). Use when the user mentions chezmoi, dotfiles, managed config, drift between source and home, or wants to apply, re-add, reconcile, or commit managed files.
 ---
 
 # Chezmoi
 
 ## Layout
 
-- Source of truth: `~/.dotfiles` (git repo, branch `main`, committed straight to origin, no PR flow). Target: `~`.
-- Never run `chezmoi init` on this machine: it regenerates the config from `.chezmoi.toml.tmpl` and silently drops the `sourceDir` override. `chezmoi apply` and `chezmoi update` are the only sync commands.
+- Source of truth: `~/.local/share/chezmoi` (chezmoi's default source dir; git branch `main`, committed straight to origin — repo `0xfraso/.dotfiles`, remote named `origin`, no PR flow). Target: `~`.
+- Never run `chezmoi init` on this machine: it regenerates the config from `.chezmoi.toml.tmpl` (silently dropping the `sourceDir` override) and finishes with a blanket `apply` — the failure mode below. `chezmoi apply` and `chezmoi update` are the only sync commands.
 - `chezmoi doctor` always reports a hardlink error against /tmp here — an artifact of the split /tmp mount, not a problem.
 
 ## Read the state
 
 Three looks, in order. Done when every drift entry has a known direction.
 
-1. `git -C ~/.dotfiles status --short --branch` — uncommitted source edits, sync state with origin.
+1. `git -C "$(chezmoi source-path)" status --short --branch` — uncommitted source edits, sync state with origin.
 2. `chezmoi status` — the drift list: one line per entry where source and live home disagree.
 3. `chezmoi diff` — the diff runs target→source: `-` lines are the **live file** (what is on disk now), `+` lines are the **source** (what `apply` would write). Confirm on any entry with `git hash-object <target>` — it equals the `a/` blob in the header chezmoi prints.
 
@@ -31,7 +31,7 @@ Phantom drift: entries can report drift with no real content change. Symlinked s
 
 ## Commit
 
-`git -C ~/.dotfiles add -A && git commit && git push`. Done when `git -C ~/.dotfiles status` is clean and `chezmoi status` is empty.
+`git -C "$(chezmoi source-path)" add -A && git commit && git push`. Done when `git -C "$(chezmoi source-path)" status` is clean and `chezmoi status` is empty.
 
 ## Scope questions
 
