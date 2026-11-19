@@ -15,6 +15,19 @@ README.md
 .pi/.pi
 .pi/agent/.pi
 .pi/web-search.json
+# pi runtime state / package-installed skills / herdr-managed extension — re-materialized or overwritten by their tools
+.pi/agent/extensions/herdr-agent-state.ts
+.pi/agent/skills/diagnose-crash
+.pi/agent/skills/omarchy
+.pi/agent/skills/omarchy-app
+.pi/agent/skills/superwhisper
+.pi/agent/skills/impeccable
+.pi/skills
+.pi/agent/pi-subagents
+.pi/agent/pi-web-access
+.pi/agent/missions
+.pi/agent/models-store.json
+.pi/agent/tmp
 # secrets
 .profile
 
